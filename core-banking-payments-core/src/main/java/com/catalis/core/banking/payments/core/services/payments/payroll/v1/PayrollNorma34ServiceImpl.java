@@ -1,10 +1,7 @@
 package com.catalis.core.banking.payments.core.services.payments.payroll.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.payments.common.v1.PaymentOperationResponseDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.payroll.v1.PayrollNorma34CancelDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.payroll.v1.PayrollNorma34ExecutionDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.payroll.v1.PayrollNorma34ScheduleDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.payroll.v1.PayrollNorma34SimulationDTO;
+import com.catalis.core.banking.payments.interfaces.dtos.payments.payroll.v1.*;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -16,22 +13,43 @@ public class PayrollNorma34ServiceImpl implements PayrollNorma34Service {
      */
 
     @Override
-    public Mono<PaymentOperationResponseDTO> simulatePayroll(Long accountId, PayrollNorma34SimulationDTO simulationDTO) {
+    public Mono<PaymentOperationResponseDTO> simulatePayroll(Long accountId, Norma34PaymentSimulationRequestDTO simulationDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> executePayroll(Long accountId, PayrollNorma34ExecutionDTO executionDTO) {
+    public Mono<PaymentOperationResponseDTO> executePayroll(Long accountId, Norma34PaymentExecutionRequestDTO executionDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> schedulePayroll(Long accountId, PayrollNorma34ScheduleDTO scheduleDTO) {
+    public Mono<PaymentOperationResponseDTO> simulateDeletion(Long accountId, Norma34PaymentSimulationRequestDTO deleteSimulationDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> cancelPayroll(Long accountId, PayrollNorma34CancelDTO cancelDTO) {
+    public Mono<PaymentOperationResponseDTO> executeDeletion(Long accountId, Norma34PaymentExecutionRequestDTO deleteExecutionDTO) {
         return null;
     }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> simulatePeriodicPayment(Long accountId, Norma34PeriodicPaymentSimulationRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> executePeriodicPayment(Long accountId, Norma34PeriodicPaymentExecutionRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> simulateCancelPeriodic(Long accountId, Norma34PeriodicPaymentCancelSimulationRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> executeCancelPeriodic(Long accountId, Norma34PeriodicPaymentCancelExecutionRequestDTO requestDTO) {
+        return null;
+    }
+
 }

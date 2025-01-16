@@ -1,10 +1,7 @@
 package com.catalis.core.banking.payments.core.services.payments.sepa.v1.sct;
 
 import com.catalis.core.banking.payments.interfaces.dtos.payments.common.v1.PaymentOperationResponseDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.sct.SepaSctCancelDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.sct.SepaSctExecutionDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.sct.SepaSctScheduleDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.sct.SepaSctSimulationDTO;
+import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.sct.*;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -16,22 +13,43 @@ public class SepaSctServiceImpl implements SepaSctService {
      */
 
     @Override
-    public Mono<PaymentOperationResponseDTO> simulatePayment(Long accountId, SepaSctSimulationDTO simulationDTO) {
+    public Mono<PaymentOperationResponseDTO> simulatePayment(Long accountId, SepaSctPaymentSimulationRequestDTO simulationDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> executePayment(Long accountId, SepaSctExecutionDTO executionDTO) {
+    public Mono<PaymentOperationResponseDTO> executePayment(Long accountId, SepaSctPaymentExecutionRequestDTO executionDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> schedulePayment(Long accountId, SepaSctScheduleDTO scheduleDTO) {
+    public Mono<PaymentOperationResponseDTO> simulateDeletion(Long accountId, SepaSctPaymentSimulationRequestDTO deleteSimulationDTO) {
         return null;
     }
 
     @Override
-    public Mono<PaymentOperationResponseDTO> cancelPayment(Long accountId, SepaSctCancelDTO cancelDTO) {
+    public Mono<PaymentOperationResponseDTO> executeDeletion(Long accountId, SepaSctPaymentExecutionRequestDTO deleteExecutionDTO) {
         return null;
     }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> simulatePeriodicPayment(Long accountId, SepaSctPeriodicPaymentSimulationRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> executePeriodicPayment(Long accountId, SepaSctPeriodicPaymentExecutionRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> simulateCancelPeriodic(Long accountId, SepaSctPeriodicPaymentCancelSimulationRequestDTO requestDTO) {
+        return null;
+    }
+
+    @Override
+    public Mono<PaymentOperationResponseDTO> executeCancelPeriodic(Long accountId, SepaSctPeriodicPaymentCancelExecutionRequestDTO requestDTO) {
+        return null;
+    }
+
 }

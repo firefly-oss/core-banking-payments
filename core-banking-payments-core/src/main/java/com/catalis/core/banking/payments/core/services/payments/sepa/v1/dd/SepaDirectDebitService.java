@@ -1,34 +1,88 @@
 package com.catalis.core.banking.payments.core.services.payments.sepa.v1.dd;
 
 import com.catalis.core.banking.payments.interfaces.dtos.payments.common.v1.PaymentOperationResponseDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.dd.SepaDirectDebitCancelDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.dd.SepaDirectDebitExecutionDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.dd.SepaDirectDebitScheduleDTO;
-import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.dd.SepaDirectDebitSimulationDTO;
+import com.catalis.core.banking.payments.interfaces.dtos.payments.sepa.v1.dd.*;
 import reactor.core.publisher.Mono;
 
+/**
+ * Service interface for handling SEPA Direct Debit operations:
+ * Simulation, Execution, Scheduling, and Deletion (simulate & execute).
+ */
 public interface SepaDirectDebitService {
 
     /**
-     * Simulates a SEPA Direct Debit payment to estimate fees,
-     * verify balances, or perform other checks.
+     * Simulates a SEPA Direct Debit payment.
+     * Typically triggers an OTP if SCA is required.
+     *
+     * @param accountId      The debtor's account ID.
+     * @param simulationDTO  The details of the payment (operationType, amount, etc.).
+     * @return A Mono with PaymentOperationResponseDTO (e.g. status = "PENDING_OTP").
      */
-    Mono<PaymentOperationResponseDTO> simulatePayment(Long accountId, SepaDirectDebitSimulationDTO simulationDTO);
+    Mono<PaymentOperationResponseDTO> simulatePayment(
+            Long accountId,
+            DirectDebitPaymentSimulationRequestDTO simulationDTO
+    );
 
     /**
      * Executes a SEPA Direct Debit payment.
-     * Typically involves final validations, possibly OTP checks.
+     * Consumes the OTP if required.
+     *
+     * @param accountId     The debtor's account ID.
+     * @param executionDTO  The details of the payment (including OTP if needed).
+     * @return A Mono with PaymentOperationResponseDTO (e.g. success/failure).
      */
-    Mono<PaymentOperationResponseDTO> executePayment(Long accountId, SepaDirectDebitExecutionDTO executionDTO);
+    Mono<PaymentOperationResponseDTO> executePayment(
+            Long accountId,
+            DirectDebitPaymentExecutionRequestDTO executionDTO
+    );
+
 
     /**
-     * Schedules recurring or deferred SEPA Direct Debit payments.
+     * Simulates the deletion (cancellation) of a SEPA Direct Debit.
+     * Typically triggers an OTP for confirmation.
+     *
+     * @param accountId           The debtor's account ID.
+     * @param deleteSimulationDTO The details of the payment to be deleted.
+     * @return A Mono with PaymentOperationResponseDTO (likely "PENDING_OTP").
      */
-    Mono<PaymentOperationResponseDTO> schedulePayment(Long accountId, SepaDirectDebitScheduleDTO scheduleDTO);
+    Mono<PaymentOperationResponseDTO> simulateDeletion(
+            Long accountId,
+            DirectDebitPaymentSimulationRequestDTO deleteSimulationDTO
+    );
 
     /**
-     * Cancels a scheduled or pending SEPA Direct Debit payment.
+     * Executes the deletion (cancellation) of a SEPA Direct Debit.
+     * Consumes the OTP if required.
+     *
+     * @param accountId          The debtor's account ID.
+     * @param deleteExecutionDTO The details (including OTP) to finalize deletion.
+     * @return A Mono with PaymentOperationResponseDTO (success/failure).
      */
-    Mono<PaymentOperationResponseDTO> cancelPayment(Long accountId, SepaDirectDebitCancelDTO cancelDTO);
+    Mono<PaymentOperationResponseDTO> executeDeletion(
+            Long accountId,
+            DirectDebitPaymentExecutionRequestDTO deleteExecutionDTO
+    );
+
+    // PERIODIC creation
+    Mono<PaymentOperationResponseDTO> simulatePeriodicPayment(
+            Long accountId,
+            DirectDebitPeriodicPaymentSimulationRequestDTO requestDTO
+    );
+
+    Mono<PaymentOperationResponseDTO> executePeriodicPayment(
+            Long accountId,
+            DirectDebitPeriodicPaymentExecutionRequestDTO requestDTO
+    );
+
+    // PERIODIC cancellation
+    Mono<PaymentOperationResponseDTO> simulateCancelPeriodic(
+            Long accountId,
+            DirectDebitPeriodicPaymentCancelSimulationRequestDTO requestDTO
+    );
+
+    Mono<PaymentOperationResponseDTO> executeCancelPeriodic(
+            Long accountId,
+            DirectDebitPeriodicPaymentCancelExecutionRequestDTO requestDTO
+    );
 }
 
