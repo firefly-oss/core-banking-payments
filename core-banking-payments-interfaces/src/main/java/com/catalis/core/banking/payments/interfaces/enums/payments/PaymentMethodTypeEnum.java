@@ -5,6 +5,6 @@ public enum PaymentMethodTypeEnum {
     SEPA_SCT,
     SEPA_ICT,
     SEPA_DIRECT_DEBIT,
-    SWIFT,
-    PAYROLL
+    NORMA_34,
+    SWIFT
 }

@@ -2,9 +2,6 @@ package com.catalis.core.banking.payments.interfaces.dtos.payments.common.v1;
 
 import lombok.*;
 
-/**
- * DTO representing the creditor (payee) in a payment transaction.
- */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,22 +10,57 @@ import lombok.*;
 public class CreditorDTO {
 
     /**
-     * The name of the creditor (individual or organization).
+     * Full name (person or entity).
      */
     private String name;
 
     /**
-     * The unique account ID (internal to your system) of the creditor.
+     * NIF/DNI/CIF for Spanish residents/entities.
      */
-    private String accountId;
+    private String nif;
 
     /**
-     * IBAN of the creditor's account, if applicable.
+     * Creditor’s IBAN (when dealing with SEPA or internal).
      */
     private String iban;
 
     /**
-     * Additional details about the creditor, if needed.
+     * BIC/SWIFT code if applicable (e.g., for cross-border).
      */
-    private String details;
+    private String bic;
+
+    /**
+     * Street address (for compliance, KYC, etc.).
+     */
+    private String addressLine;
+
+    /**
+     * City or locality.
+     */
+    private String city;
+
+    /**
+     * Province or region.
+     */
+    private String province;
+
+    /**
+     * Postal code.
+     */
+    private String postalCode;
+
+    /**
+     * Country code in ISO 3166-1 alpha-2 format (e.g. "ES").
+     */
+    private String country;
+
+    /**
+     * Contact phone number.
+     */
+    private String phoneNumber;
+
+    /**
+     * Contact email address.
+     */
+    private String email;
 }
