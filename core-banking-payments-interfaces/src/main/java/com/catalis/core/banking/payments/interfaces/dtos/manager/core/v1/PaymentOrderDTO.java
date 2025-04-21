@@ -1,9 +1,9 @@
 package com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1;
 
-import com.catalis.common.core.filters.FilterableId;
 import com.catalis.core.banking.payments.interfaces.dtos.BaseDTO;
 import com.catalis.core.banking.payments.interfaces.enums.manager.payment.v1.PaymentStatusEnum;
 import com.catalis.core.banking.payments.interfaces.enums.manager.payment.v1.PaymentTypeEnum;
+import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
