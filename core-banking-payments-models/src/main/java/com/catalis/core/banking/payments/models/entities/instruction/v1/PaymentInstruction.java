@@ -1,14 +1,15 @@
-package com.catalis.core.banking.payments.models.entities.manager.instruction.v1;
+package com.catalis.core.banking.payments.models.entities.instruction.v1;
 
-import com.catalis.core.banking.payments.interfaces.enums.manager.payment.v1.PaymentStatusEnum;
+import com.catalis.core.banking.payments.interfaces.enums.payment.v1.PaymentPriorityEnum;
+import com.catalis.core.banking.payments.interfaces.enums.payment.v1.PaymentStatusEnum;
 import com.catalis.core.banking.payments.models.entities.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 @Getter
 @Setter
@@ -35,4 +36,25 @@ public class PaymentInstruction extends BaseEntity {
 
     @Column("instruction_status")
     private PaymentStatusEnum instructionStatus;
+
+    @Column("external_reference")
+    private String externalReference;
+
+    @Column("instruction_priority")
+    private PaymentPriorityEnum instructionPriority;
+
+    @Column("instruction_notes")
+    private String instructionNotes;
+
+    @Column("retry_count")
+    private Integer retryCount;
+
+    @Column("last_retry_date")
+    private java.time.LocalDateTime lastRetryDate;
+
+    @Column("error_code")
+    private String errorCode;
+
+    @Column("error_description")
+    private String errorDescription;
 }

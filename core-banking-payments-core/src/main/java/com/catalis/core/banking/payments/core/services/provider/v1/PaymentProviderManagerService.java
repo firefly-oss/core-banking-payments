@@ -1,8 +1,8 @@
-package com.catalis.core.banking.payments.core.services.manager.provider.v1;
+package com.catalis.core.banking.payments.core.services.provider.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PaymentProviderDTO;
+import com.catalis.core.banking.payments.interfaces.dtos.provider.v1.PaymentProviderDTO;
 import reactor.core.publisher.Mono;
 
 public interface PaymentProviderManagerService {

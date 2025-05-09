@@ -3,7 +3,7 @@ package com.catalis.core.banking.payments.core.services.audit.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.audit.v1.PaymentAuditMapper;
+import com.catalis.core.banking.payments.core.mappers.audit.v1.PaymentAuditMapper;
 import com.catalis.core.banking.payments.interfaces.dtos.audit.v1.PaymentAuditDTO;
 import com.catalis.core.banking.payments.models.entities.audit.v1.PaymentAudit;
 import com.catalis.core.banking.payments.models.repositories.audit.v1.PaymentAuditRepository;

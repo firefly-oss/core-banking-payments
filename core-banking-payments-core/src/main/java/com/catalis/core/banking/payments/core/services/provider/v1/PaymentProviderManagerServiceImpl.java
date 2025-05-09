@@ -1,12 +1,12 @@
-package com.catalis.core.banking.payments.core.services.manager.provider.v1;
+package com.catalis.core.banking.payments.core.services.provider.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.provider.v1.PaymentProviderMapper;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PaymentProviderDTO;
-import com.catalis.core.banking.payments.models.entities.manager.provider.v1.PaymentProvider;
-import com.catalis.core.banking.payments.models.repositories.manager.provider.v1.PaymentProviderRepository;
+import com.catalis.core.banking.payments.core.mappers.provider.v1.PaymentProviderMapper;
+import com.catalis.core.banking.payments.interfaces.dtos.provider.v1.PaymentProviderDTO;
+import com.catalis.core.banking.payments.models.entities.provider.v1.PaymentProvider;
+import com.catalis.core.banking.payments.models.repositories.provider.v1.PaymentProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

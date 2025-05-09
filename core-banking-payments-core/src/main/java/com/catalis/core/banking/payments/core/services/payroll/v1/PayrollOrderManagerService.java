@@ -1,8 +1,8 @@
-package com.catalis.core.banking.payments.core.services.manager.payroll.v1;
+package com.catalis.core.banking.payments.core.services.payroll.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PayrollOrderDTO;
+import com.catalis.core.banking.payments.interfaces.dtos.payroll.v1.PayrollOrderDTO;
 import reactor.core.publisher.Mono;
 
 public interface PayrollOrderManagerService {

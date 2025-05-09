@@ -1,9 +1,9 @@
-package com.catalis.core.banking.payments.web.controllers.manager.provider.v1;
+package com.catalis.core.banking.payments.web.controllers.provider.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.services.manager.provider.v1.PaymentProviderManagerServiceImpl;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PaymentProviderDTO;
+import com.catalis.core.banking.payments.core.services.provider.v1.PaymentProviderManagerServiceImpl;
+import com.catalis.core.banking.payments.interfaces.dtos.provider.v1.PaymentProviderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,10 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@Tag(name = "Payment Providers (Manager)",
-        description = "APIs for managing payment providers in a manager context")
+@Tag(name = "Payment Providers",
+        description = "APIs for managing payment providers")
 @RestController
-@RequestMapping("/api/v1/manager/payment-orders/{paymentOrderId}/providers")
+@RequestMapping("/api/v1/payment-orders/{paymentOrderId}/providers")
 public class PaymentProviderManagerController {
 
     @Autowired

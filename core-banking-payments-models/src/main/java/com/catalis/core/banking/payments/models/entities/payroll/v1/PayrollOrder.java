@@ -1,14 +1,14 @@
-package com.catalis.core.banking.payments.models.entities.manager.payroll.v1;
+package com.catalis.core.banking.payments.models.entities.payroll.v1;
 
-import com.catalis.core.banking.payments.interfaces.enums.manager.payroll.v1.PayrollStatusEnum;
+import com.catalis.core.banking.payments.interfaces.enums.payroll.v1.PayrollStatusEnum;
 import com.catalis.core.banking.payments.models.entities.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

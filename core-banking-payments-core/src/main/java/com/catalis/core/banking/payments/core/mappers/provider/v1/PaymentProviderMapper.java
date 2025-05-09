@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.core.mappers.manager.provider.v1;
+package com.catalis.core.banking.payments.core.mappers.provider.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.provider.v1.PaymentProviderDTO;
 import com.catalis.core.banking.payments.models.entities.provider.v1.PaymentProvider;

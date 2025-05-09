@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.core.mappers.manager.payroll.v1;
+package com.catalis.core.banking.payments.core.mappers.payroll.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.payroll.v1.PayrollOrderDTO;
 import com.catalis.core.banking.payments.models.entities.payroll.v1.PayrollOrder;

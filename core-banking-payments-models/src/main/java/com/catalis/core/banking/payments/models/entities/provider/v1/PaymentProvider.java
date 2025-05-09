@@ -1,14 +1,16 @@
-package com.catalis.core.banking.payments.models.entities.manager.provider.v1;
+package com.catalis.core.banking.payments.models.entities.provider.v1;
 
-import com.catalis.core.banking.payments.interfaces.enums.manager.provider.v1.ProviderStatusEnum;
+import com.catalis.core.banking.payments.interfaces.enums.provider.v1.ProviderStatusEnum;
 import com.catalis.core.banking.payments.models.entities.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -32,4 +34,34 @@ public class PaymentProvider extends BaseEntity {
 
     @Column("status")
     private ProviderStatusEnum status;
+
+    @Column("provider_type")
+    private String providerType;
+
+    @Column("provider_url")
+    private String providerUrl;
+
+    @Column("provider_api_key")
+    private String providerApiKey;
+
+    @Column("provider_username")
+    private String providerUsername;
+
+    @Column("provider_account_id")
+    private String providerAccountId;
+
+    @Column("provider_fee")
+    private BigDecimal providerFee;
+
+    @Column("provider_fee_currency_code")
+    private String providerFeeCurrencyCode;
+
+    @Column("provider_response_code")
+    private String providerResponseCode;
+
+    @Column("provider_response_message")
+    private String providerResponseMessage;
+
+    @Column("provider_transaction_id")
+    private String providerTransactionId;
 }

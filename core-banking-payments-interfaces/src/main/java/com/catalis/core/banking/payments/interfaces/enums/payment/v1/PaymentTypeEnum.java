@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.interfaces.enums.manager.payment.v1;
+package com.catalis.core.banking.payments.interfaces.enums.payment.v1;
 
 public enum PaymentTypeEnum {
     SEPA_SCT,          // SEPA Credit Transfer

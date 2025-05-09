@@ -1,14 +1,12 @@
-package com.catalis.core.banking.payments.core.services.manager.instruction.v1;
+package com.catalis.core.banking.payments.core.services.instruction.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
-import com.catalis.common.core.filters.FilterUtils;
-import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.instruction.v1.PaymentInstructionMapper;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PaymentInstructionDTO;
-import com.catalis.core.banking.payments.interfaces.enums.manager.instruction.v1.InstructionTypeEnum;
-import com.catalis.core.banking.payments.interfaces.enums.manager.payment.v1.PaymentStatusEnum;
-import com.catalis.core.banking.payments.models.entities.manager.instruction.v1.PaymentInstruction;
-import com.catalis.core.banking.payments.models.repositories.manager.instruction.v1.PaymentInstructionRepository;
+import com.catalis.core.banking.payments.core.mappers.instruction.v1.PaymentInstructionMapper;
+import com.catalis.core.banking.payments.interfaces.dtos.instruction.v1.PaymentInstructionDTO;
+import com.catalis.core.banking.payments.interfaces.enums.instruction.v1.InstructionTypeEnum;
+import com.catalis.core.banking.payments.interfaces.enums.payment.v1.PaymentStatusEnum;
+import com.catalis.core.banking.payments.models.entities.instruction.v1.PaymentInstruction;
+import com.catalis.core.banking.payments.models.repositories.instruction.v1.PaymentInstructionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

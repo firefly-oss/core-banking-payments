@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.core.mappers.manager.exchange.v1;
+package com.catalis.core.banking.payments.core.mappers.exchange.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.exchange.v1.PaymentExchangeRateDTO;
 import com.catalis.core.banking.payments.models.entities.exchange.v1.PaymentExchangeRate;

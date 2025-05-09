@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.core.mappers.manager.audit.v1;
+package com.catalis.core.banking.payments.core.mappers.audit.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.audit.v1.PaymentAuditDTO;
 import com.catalis.core.banking.payments.models.entities.audit.v1.PaymentAudit;

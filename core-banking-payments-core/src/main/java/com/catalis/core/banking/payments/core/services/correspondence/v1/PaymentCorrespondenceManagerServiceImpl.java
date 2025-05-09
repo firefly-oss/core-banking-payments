@@ -3,7 +3,7 @@ package com.catalis.core.banking.payments.core.services.correspondence.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.correspondence.v1.PaymentCorrespondenceMapper;
+import com.catalis.core.banking.payments.core.mappers.correspondence.v1.PaymentCorrespondenceMapper;
 import com.catalis.core.banking.payments.interfaces.dtos.correspondence.v1.PaymentCorrespondenceDTO;
 import com.catalis.core.banking.payments.models.entities.correspondence.v1.PaymentCorrespondence;
 import com.catalis.core.banking.payments.models.repositories.correspondence.v1.PaymentCorrespondenceRepository;

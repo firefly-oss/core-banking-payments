@@ -1,7 +1,7 @@
-package com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1;
+package com.catalis.core.banking.payments.interfaces.dtos.provider.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.BaseDTO;
-import com.catalis.core.banking.payments.interfaces.enums.manager.provider.v1.ProviderStatusEnum;
+import com.catalis.core.banking.payments.interfaces.enums.provider.v1.ProviderStatusEnum;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -26,4 +26,15 @@ public class PaymentProviderDTO extends BaseDTO {
 
     // e.g. "ACTIVE", "INACTIVE", "PENDING", "SUSPENDED"
     private ProviderStatusEnum status;
+
+    private String providerType;
+    private String providerUrl;
+    private String providerApiKey;
+    private String providerUsername;
+    private String providerAccountId;
+    private java.math.BigDecimal providerFee;
+    private String providerFeeCurrencyCode;
+    private String providerResponseCode;
+    private String providerResponseMessage;
+    private String providerTransactionId;
 }

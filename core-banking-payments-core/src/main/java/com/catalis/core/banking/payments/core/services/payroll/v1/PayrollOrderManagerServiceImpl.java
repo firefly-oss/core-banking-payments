@@ -1,12 +1,12 @@
-package com.catalis.core.banking.payments.core.services.manager.payroll.v1;
+package com.catalis.core.banking.payments.core.services.payroll.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.payroll.v1.PayrollOrderMapper;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PayrollOrderDTO;
-import com.catalis.core.banking.payments.models.entities.manager.payroll.v1.PayrollOrder;
-import com.catalis.core.banking.payments.models.repositories.manager.payroll.v1.PayrollOrderRepository;
+import com.catalis.core.banking.payments.core.mappers.payroll.v1.PayrollOrderMapper;
+import com.catalis.core.banking.payments.interfaces.dtos.payroll.v1.PayrollOrderDTO;
+import com.catalis.core.banking.payments.models.entities.payroll.v1.PayrollOrder;
+import com.catalis.core.banking.payments.models.repositories.payroll.v1.PayrollOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

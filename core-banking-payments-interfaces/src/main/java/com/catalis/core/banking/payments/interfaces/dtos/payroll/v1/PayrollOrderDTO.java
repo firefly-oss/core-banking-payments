@@ -1,7 +1,7 @@
-package com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1;
+package com.catalis.core.banking.payments.interfaces.dtos.payroll.v1;
 
 import com.catalis.core.banking.payments.interfaces.dtos.BaseDTO;
-import com.catalis.core.banking.payments.interfaces.enums.manager.payroll.v1.PayrollStatusEnum;
+import com.catalis.core.banking.payments.interfaces.enums.payroll.v1.PayrollStatusEnum;
 import com.catalis.core.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

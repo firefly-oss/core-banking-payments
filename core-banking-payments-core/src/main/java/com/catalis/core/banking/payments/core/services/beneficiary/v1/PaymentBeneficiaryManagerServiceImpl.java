@@ -3,7 +3,7 @@ package com.catalis.core.banking.payments.core.services.beneficiary.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.beneficiary.v1.PaymentBeneficiaryMapper;
+import com.catalis.core.banking.payments.core.mappers.beneficiary.v1.PaymentBeneficiaryMapper;
 import com.catalis.core.banking.payments.interfaces.dtos.beneficiary.v1.PaymentBeneficiaryDTO;
 import com.catalis.core.banking.payments.models.entities.beneficiary.v1.PaymentBeneficiary;
 import com.catalis.core.banking.payments.models.repositories.beneficiary.v1.PaymentBeneficiaryRepository;

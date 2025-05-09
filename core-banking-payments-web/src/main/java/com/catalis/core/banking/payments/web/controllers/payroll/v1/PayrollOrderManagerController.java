@@ -1,9 +1,9 @@
-package com.catalis.core.banking.payments.web.controllers.manager.payroll.v1;
+package com.catalis.core.banking.payments.web.controllers.payroll.v1;
 
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.services.manager.payroll.v1.PayrollOrderManagerServiceImpl;
-import com.catalis.core.banking.payments.interfaces.dtos.manager.core.v1.PayrollOrderDTO;
+import com.catalis.core.banking.payments.core.services.payroll.v1.PayrollOrderManagerServiceImpl;
+import com.catalis.core.banking.payments.interfaces.dtos.payroll.v1.PayrollOrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,10 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@Tag(name = "Payroll Orders (Manager)",
-        description = "APIs for managing payroll orders within a payment order in a manager context")
+@Tag(name = "Payroll Orders",
+        description = "APIs for managing payroll orders within a payment order")
 @RestController
-@RequestMapping("/api/v1/manager/payment-orders/{paymentOrderId}/payroll-orders")
+@RequestMapping("/api/v1/payment-orders/{paymentOrderId}/payroll-orders")
 public class PayrollOrderManagerController {
 
     @Autowired

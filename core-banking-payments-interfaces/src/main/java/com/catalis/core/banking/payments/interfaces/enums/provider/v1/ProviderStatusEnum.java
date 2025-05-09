@@ -1,4 +1,4 @@
-package com.catalis.core.banking.payments.interfaces.enums.manager.provider.v1;
+package com.catalis.core.banking.payments.interfaces.enums.provider.v1;
 
 public enum ProviderStatusEnum {
     ACTIVE,

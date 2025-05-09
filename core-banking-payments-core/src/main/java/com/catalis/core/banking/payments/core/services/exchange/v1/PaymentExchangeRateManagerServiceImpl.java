@@ -3,7 +3,7 @@ package com.catalis.core.banking.payments.core.services.exchange.v1;
 import com.catalis.common.core.filters.FilterRequest;
 import com.catalis.common.core.filters.FilterUtils;
 import com.catalis.common.core.queries.PaginationResponse;
-import com.catalis.core.banking.payments.core.mappers.manager.exchange.v1.PaymentExchangeRateMapper;
+import com.catalis.core.banking.payments.core.mappers.exchange.v1.PaymentExchangeRateMapper;
 import com.catalis.core.banking.payments.interfaces.dtos.exchange.v1.PaymentExchangeRateDTO;
 import com.catalis.core.banking.payments.models.entities.exchange.v1.PaymentExchangeRate;
 import com.catalis.core.banking.payments.models.repositories.exchange.v1.PaymentExchangeRateRepository;
