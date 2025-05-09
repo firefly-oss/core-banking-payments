@@ -684,7 +684,15 @@ This section provides detailed examples of how to use the API for common payment
    {
      "methodName": "SEPA_SCT",
      "description": "SEPA Credit Transfer",
-     "activeFlag": true
+     "activeFlag": true,
+     "processingTimeHours": 24,
+     "minAmount": 0.01,
+     "maxAmount": 100000.00,
+     "supportedCurrencies": ["EUR"],
+     "requiresIntermediaryBank": false,
+     "requiresRegulatoryReporting": false,
+     "requiresPurposeCode": false,
+     "defaultPriority": "NORMAL"
    }
    ```
 
@@ -702,7 +710,14 @@ This section provides detailed examples of how to use the API for common payment
      "paymentType": "SEPA_SCT",
      "amount": 1000.00,
      "currencyCode": "EUR",
-     "remittanceInformation": "Invoice payment #INV-2023-001"
+     "remittanceInformation": "Invoice payment #INV-2023-001",
+     "priority": "NORMAL",
+     "purpose": "INVOICE_PAYMENT",
+     "channel": "ONLINE_BANKING",
+     "category": "DOMESTIC",
+     "referenceNumber": "REF-2023-001",
+     "endToEndId": "E2E-2023-001",
+     "valueDate": "2023-12-01"
    }
    ```
 
@@ -725,7 +740,14 @@ This section provides detailed examples of how to use the API for common payment
      "paymentType": "SEPA_SCT",
      "amount": 1500.00,
      "currencyCode": "EUR",
-     "remittanceInformation": "Updated invoice payment #INV-2023-001"
+     "remittanceInformation": "Updated invoice payment #INV-2023-001",
+     "priority": "HIGH",
+     "purpose": "INVOICE_PAYMENT",
+     "channel": "ONLINE_BANKING",
+     "category": "DOMESTIC",
+     "referenceNumber": "REF-2023-001-UPDATED",
+     "endToEndId": "E2E-2023-001",
+     "valueDate": "2023-12-01"
    }
    ```
 
@@ -743,7 +765,10 @@ This section provides detailed examples of how to use the API for common payment
 
    {
      "instructionType": "IMMEDIATE",
-     "instructionStatus": "PENDING"
+     "instructionStatus": "PENDING",
+     "instructionPriority": "NORMAL",
+     "externalReference": "EXT-REF-001",
+     "instructionNotes": "Process immediately"
    }
    ```
 
@@ -759,7 +784,10 @@ This section provides detailed examples of how to use the API for common payment
 
    {
      "instructionType": "IMMEDIATE",
-     "instructionStatus": "EXECUTED"
+     "instructionStatus": "EXECUTED",
+     "instructionPriority": "HIGH",
+     "externalReference": "EXT-REF-001-UPDATED",
+     "instructionNotes": "Processed successfully"
    }
    ```
 
@@ -774,7 +802,11 @@ This section provides detailed examples of how to use the API for common payment
      "scheduledDate": "2023-12-01T10:00:00",
      "amount": 1000.00,
      "frequency": "MONTHLY",
-     "scheduleStatus": "SCHEDULED"
+     "scheduleStatus": "SCHEDULED",
+     "endDate": "2024-12-01",
+     "maxExecutions": 12,
+     "dayOfMonth": 1,
+     "scheduleNotes": "Monthly payment for 1 year"
    }
    ```
 
@@ -792,7 +824,11 @@ This section provides detailed examples of how to use the API for common payment
      "scheduledDate": "2023-12-15T10:00:00",
      "amount": 1000.00,
      "frequency": "MONTHLY",
-     "scheduleStatus": "SCHEDULED"
+     "scheduleStatus": "SCHEDULED",
+     "endDate": "2024-12-15",
+     "maxExecutions": 12,
+     "dayOfMonth": 15,
+     "scheduleNotes": "Updated monthly payment for 1 year"
    }
    ```
 
@@ -809,7 +845,11 @@ This section provides detailed examples of how to use the API for common payment
      "status": "ACTIVE",
      "providerType": "BANK",
      "providerUrl": "https://api.bbva.com",
-     "providerAccountId": "BBVA-ACCOUNT-001"
+     "providerApiKey": "api-key-12345",
+     "providerUsername": "bbva-api-user",
+     "providerAccountId": "BBVA-ACCOUNT-001",
+     "providerFee": 1.50,
+     "providerFeeCurrencyCode": "EUR"
    }
    ```
 
@@ -827,7 +867,15 @@ This section provides detailed examples of how to use the API for common payment
      "providerName": "BBVA",
      "externalReference": "BBVA-REF-67890",
      "status": "ACTIVE",
+     "providerType": "BANK",
+     "providerUrl": "https://api.bbva.com",
+     "providerApiKey": "api-key-12345",
+     "providerUsername": "bbva-api-user",
+     "providerAccountId": "BBVA-ACCOUNT-001",
+     "providerFee": 1.50,
+     "providerFeeCurrencyCode": "EUR",
      "providerResponseCode": "SUCCESS",
+     "providerResponseMessage": "Payment processed successfully",
      "providerTransactionId": "BBVA-TX-12345"
    }
    ```
@@ -843,6 +891,7 @@ This section provides detailed examples of how to use the API for common payment
      "payerAccountId": 12345,
      "beneficiaryName": "John Doe Ltd",
      "beneficiaryType": "BUSINESS",
+     "beneficiaryAccountNumber": "12345678",
      "beneficiaryIban": "ES9121000418450200051332",
      "beneficiaryBic": "CAIXESBBXXX",
      "beneficiaryAddress": "123 Business St, Barcelona",
@@ -850,7 +899,11 @@ This section provides detailed examples of how to use the API for common payment
      "beneficiaryPostalCode": "08001",
      "beneficiaryCountryCode": "ES",
      "beneficiaryEmail": "accounts@johndoeltd.com",
+     "beneficiaryPhone": "+34612345678",
+     "beneficiaryTaxId": "B12345678",
      "beneficiaryBankName": "CaixaBank",
+     "beneficiaryBankAddress": "456 Bank St, Barcelona",
+     "beneficiaryBankCountryCode": "ES",
      "isFavorite": true,
      "nickname": "John's Company"
    }
@@ -873,7 +926,14 @@ This section provides detailed examples of how to use the API for common payment
      "paymentType": "SEPA_SCT",
      "amount": 1000.00,
      "currencyCode": "EUR",
-     "remittanceInformation": "Invoice payment #INV-2023-001"
+     "remittanceInformation": "Invoice payment #INV-2023-001",
+     "priority": "NORMAL",
+     "purpose": "INVOICE_PAYMENT",
+     "channel": "ONLINE_BANKING",
+     "category": "DOMESTIC",
+     "referenceNumber": "REF-2023-001",
+     "endToEndId": "E2E-2023-001",
+     "valueDate": "2023-12-01"
    }
    ```
 
@@ -890,10 +950,13 @@ This section provides detailed examples of how to use the API for common payment
    Content-Type: application/json
 
    {
+     "paymentOrderId": 1,
      "screeningStatus": "COMPLETED",
+     "screeningDate": "2023-12-01T10:00:00",
      "screeningReference": "SCR-2023-001",
      "riskScore": 25,
      "riskLevel": "LOW",
+     "complianceNotes": "All checks completed successfully",
      "amlCheckStatus": "PASSED",
      "sanctionsCheckStatus": "PASSED",
      "pepCheckStatus": "PASSED",
@@ -925,9 +988,11 @@ This section provides detailed examples of how to use the API for common payment
    Content-Type: application/json
 
    {
+     "paymentOrderId": 1,
      "sourceCurrency": "USD",
      "targetCurrency": "EUR",
      "rate": 0.92,
+     "rateDate": "2023-12-01T10:00:00",
      "rateProvider": "ECB",
      "rateType": "SPOT",
      "markupPercentage": 1.5,
