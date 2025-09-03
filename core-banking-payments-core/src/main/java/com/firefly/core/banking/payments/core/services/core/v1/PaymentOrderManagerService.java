@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.banking.payments.interfaces.dtos.core.v1.PaymentOrderDTO;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 public interface PaymentOrderManagerService {
 
     /**
@@ -20,15 +21,15 @@ public interface PaymentOrderManagerService {
     /**
      * Retrieves a specific payment order by its unique identifier.
      */
-    Mono<PaymentOrderDTO> getPaymentOrderById(Long paymentOrderId);
+    Mono<PaymentOrderDTO> getPaymentOrderById(UUID paymentOrderId);
 
     /**
      * Updates an existing payment order by its unique identifier.
      */
-    Mono<PaymentOrderDTO> updatePaymentOrder(Long paymentOrderId, PaymentOrderDTO paymentOrderDTO);
+    Mono<PaymentOrderDTO> updatePaymentOrder(UUID paymentOrderId, PaymentOrderDTO paymentOrderDTO);
 
     /**
      * Deletes a specific payment order by its unique identifier.
      */
-    Mono<Void> deletePaymentOrder(Long paymentOrderId);
+    Mono<Void> deletePaymentOrder(UUID paymentOrderId);
 }

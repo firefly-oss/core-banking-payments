@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentOrderManagerServiceImpl implements PaymentOrderManagerService {
@@ -41,14 +42,14 @@ public class PaymentOrderManagerServiceImpl implements PaymentOrderManagerServic
     }
 
     @Override
-    public Mono<PaymentOrderDTO> getPaymentOrderById(Long paymentOrderId) {
+    public Mono<PaymentOrderDTO> getPaymentOrderById(UUID paymentOrderId) {
         return repository.findById(paymentOrderId)
                 .map(mapper::toDTO)
                 .switchIfEmpty(Mono.error(new RuntimeException("Payment order not found.")));
     }
 
     @Override
-    public Mono<PaymentOrderDTO> updatePaymentOrder(Long paymentOrderId, PaymentOrderDTO paymentOrderDTO) {
+    public Mono<PaymentOrderDTO> updatePaymentOrder(UUID paymentOrderId, PaymentOrderDTO paymentOrderDTO) {
         return repository.findById(paymentOrderId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Payment order not found.")))
                 .flatMap(existingOrder -> {
@@ -61,7 +62,7 @@ public class PaymentOrderManagerServiceImpl implements PaymentOrderManagerServic
     }
 
     @Override
-    public Mono<Void> deletePaymentOrder(Long paymentOrderId) {
+    public Mono<Void> deletePaymentOrder(UUID paymentOrderId) {
         return repository.findById(paymentOrderId)
                 .switchIfEmpty(Mono.error(new RuntimeException("Payment order not found.")))
                 .flatMap(repository::delete)

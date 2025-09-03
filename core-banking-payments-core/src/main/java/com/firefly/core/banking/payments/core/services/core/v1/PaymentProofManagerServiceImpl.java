@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentProofManagerServiceImpl implements PaymentProofManagerService {
@@ -23,7 +24,7 @@ public class PaymentProofManagerServiceImpl implements PaymentProofManagerServic
     private PaymentProofMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentProofDTO>> getAllPaymentProofs(Long paymentOrderId, FilterRequest<PaymentProofDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentProofDTO>> getAllPaymentProofs(UUID paymentOrderId, FilterRequest<PaymentProofDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentProof.class,
@@ -33,7 +34,7 @@ public class PaymentProofManagerServiceImpl implements PaymentProofManagerServic
     }
 
     @Override
-    public Mono<PaymentProofDTO> createPaymentProof(Long paymentOrderId, PaymentProofDTO paymentProofDTO) {
+    public Mono<PaymentProofDTO> createPaymentProof(UUID paymentOrderId, PaymentProofDTO paymentProofDTO) {
         PaymentProof paymentProof = mapper.toEntity(paymentProofDTO);
         paymentProof.setPaymentOrderId(paymentOrderId);
         return Mono.just(paymentProof)
@@ -42,14 +43,14 @@ public class PaymentProofManagerServiceImpl implements PaymentProofManagerServic
     }
 
     @Override
-    public Mono<PaymentProofDTO> getPaymentProofById(Long paymentOrderId, Long paymentProofId) {
+    public Mono<PaymentProofDTO> getPaymentProofById(UUID paymentOrderId, UUID paymentProofId) {
         return repository.findById(paymentProofId)
                 .filter(entity -> entity.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentProofDTO> updatePaymentProof(Long paymentOrderId, Long paymentProofId, PaymentProofDTO paymentProofDTO) {
+    public Mono<PaymentProofDTO> updatePaymentProof(UUID paymentOrderId, UUID paymentProofId, PaymentProofDTO paymentProofDTO) {
         return repository.findById(paymentProofId)
                 .filter(entity -> entity.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existingProof -> {
@@ -62,7 +63,7 @@ public class PaymentProofManagerServiceImpl implements PaymentProofManagerServic
     }
 
     @Override
-    public Mono<Void> deletePaymentProof(Long paymentOrderId, Long paymentProofId) {
+    public Mono<Void> deletePaymentProof(UUID paymentOrderId, UUID paymentProofId) {
         return repository.findById(paymentProofId)
                 .filter(entity -> entity.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(repository::delete);

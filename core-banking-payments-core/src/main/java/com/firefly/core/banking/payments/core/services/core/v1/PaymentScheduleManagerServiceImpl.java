@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentScheduleManagerServiceImpl implements PaymentScheduleManagerService {
@@ -23,7 +24,7 @@ public class PaymentScheduleManagerServiceImpl implements PaymentScheduleManager
     private PaymentScheduleMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentScheduleDTO>> getAllPaymentSchedules(Long paymentOrderId, FilterRequest<PaymentScheduleDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentScheduleDTO>> getAllPaymentSchedules(UUID paymentOrderId, FilterRequest<PaymentScheduleDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentSchedule.class,
@@ -33,7 +34,7 @@ public class PaymentScheduleManagerServiceImpl implements PaymentScheduleManager
     }
 
     @Override
-    public Mono<PaymentScheduleDTO> createPaymentSchedule(Long paymentOrderId, PaymentScheduleDTO paymentScheduleDTO) {
+    public Mono<PaymentScheduleDTO> createPaymentSchedule(UUID paymentOrderId, PaymentScheduleDTO paymentScheduleDTO) {
         paymentScheduleDTO.setPaymentOrderId(paymentOrderId);
         PaymentSchedule entity = mapper.toEntity(paymentScheduleDTO);
         return Mono.just(entity)
@@ -42,14 +43,14 @@ public class PaymentScheduleManagerServiceImpl implements PaymentScheduleManager
     }
 
     @Override
-    public Mono<PaymentScheduleDTO> getPaymentScheduleById(Long paymentOrderId, Long paymentScheduleId) {
+    public Mono<PaymentScheduleDTO> getPaymentScheduleById(UUID paymentOrderId, UUID paymentScheduleId) {
         return repository.findById(paymentScheduleId)
                 .filter(paymentSchedule -> paymentSchedule.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentScheduleDTO> updatePaymentSchedule(Long paymentOrderId, Long paymentScheduleId, PaymentScheduleDTO paymentScheduleDTO) {
+    public Mono<PaymentScheduleDTO> updatePaymentSchedule(UUID paymentOrderId, UUID paymentScheduleId, PaymentScheduleDTO paymentScheduleDTO) {
         return repository.findById(paymentScheduleId)
                 .filter(paymentSchedule -> paymentSchedule.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existingEntity -> {
@@ -62,7 +63,7 @@ public class PaymentScheduleManagerServiceImpl implements PaymentScheduleManager
     }
 
     @Override
-    public Mono<Void> deletePaymentSchedule(Long paymentOrderId, Long paymentScheduleId) {
+    public Mono<Void> deletePaymentSchedule(UUID paymentOrderId, UUID paymentScheduleId) {
         return repository.findById(paymentScheduleId)
                 .filter(paymentSchedule -> paymentSchedule.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(repository::delete);

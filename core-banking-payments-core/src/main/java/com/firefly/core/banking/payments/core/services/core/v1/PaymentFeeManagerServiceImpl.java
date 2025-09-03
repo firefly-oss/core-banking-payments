@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
@@ -23,7 +24,7 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
     private PaymentFeeMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentFeeDTO>> getAllPaymentFees(Long paymentOrderId, FilterRequest<PaymentFeeDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentFeeDTO>> getAllPaymentFees(UUID paymentOrderId, FilterRequest<PaymentFeeDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentFee.class,
@@ -33,21 +34,21 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
     }
 
     @Override
-    public Mono<PaymentFeeDTO> createPaymentFee(Long paymentOrderId, PaymentFeeDTO paymentFeeDTO) {
+    public Mono<PaymentFeeDTO> createPaymentFee(UUID paymentOrderId, PaymentFeeDTO paymentFeeDTO) {
         paymentFeeDTO.setPaymentOrderId(paymentOrderId);
         PaymentFee entity = mapper.toEntity(paymentFeeDTO);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentFeeDTO> getPaymentFeeById(Long paymentOrderId, Long paymentFeeId) {
+    public Mono<PaymentFeeDTO> getPaymentFeeById(UUID paymentOrderId, UUID paymentFeeId) {
         return repository.findById(paymentFeeId)
                 .filter(paymentFee -> paymentFee.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentFeeDTO> updatePaymentFee(Long paymentOrderId, Long paymentFeeId, PaymentFeeDTO paymentFeeDTO) {
+    public Mono<PaymentFeeDTO> updatePaymentFee(UUID paymentOrderId, UUID paymentFeeId, PaymentFeeDTO paymentFeeDTO) {
         return repository.findById(paymentFeeId)
                 .filter(paymentFee -> paymentFee.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existingPaymentFee -> {
@@ -60,7 +61,7 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
     }
 
     @Override
-    public Mono<Void> deletePaymentFee(Long paymentOrderId, Long paymentFeeId) {
+    public Mono<Void> deletePaymentFee(UUID paymentOrderId, UUID paymentFeeId) {
         return repository.findById(paymentFeeId)
                 .filter(paymentFee -> paymentFee.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(repository::delete);

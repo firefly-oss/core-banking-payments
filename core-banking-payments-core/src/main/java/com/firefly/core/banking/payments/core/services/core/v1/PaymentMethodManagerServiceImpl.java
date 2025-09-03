@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentMethodManagerServiceImpl implements PaymentMethodManagerService {
@@ -41,13 +42,13 @@ public class PaymentMethodManagerServiceImpl implements PaymentMethodManagerServ
     }
 
     @Override
-    public Mono<PaymentMethodDTO> getPaymentMethodById(Long paymentMethodId) {
+    public Mono<PaymentMethodDTO> getPaymentMethodById(UUID paymentMethodId) {
         return repository.findById(paymentMethodId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentMethodDTO> updatePaymentMethod(Long paymentMethodId, PaymentMethodDTO paymentMethodDTO) {
+    public Mono<PaymentMethodDTO> updatePaymentMethod(UUID paymentMethodId, PaymentMethodDTO paymentMethodDTO) {
         return repository.findById(paymentMethodId)
                 .flatMap(existingEntity -> {
                     existingEntity.setMethodName(paymentMethodDTO.getMethodName());
@@ -59,7 +60,7 @@ public class PaymentMethodManagerServiceImpl implements PaymentMethodManagerServ
     }
 
     @Override
-    public Mono<Void> deletePaymentMethod(Long paymentMethodId) {
+    public Mono<Void> deletePaymentMethod(UUID paymentMethodId) {
         return repository.findById(paymentMethodId)
                 .flatMap(repository::delete);
     }
