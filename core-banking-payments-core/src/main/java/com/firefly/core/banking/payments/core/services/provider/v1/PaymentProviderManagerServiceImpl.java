@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentProviderManagerServiceImpl implements PaymentProviderManagerService {
@@ -23,7 +24,7 @@ public class PaymentProviderManagerServiceImpl implements PaymentProviderManager
     private PaymentProviderMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentProviderDTO>> getAllPaymentProviders(Long paymentOrderId, FilterRequest<PaymentProviderDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentProviderDTO>> getAllPaymentProviders(UUID paymentOrderId, FilterRequest<PaymentProviderDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentProvider.class,
@@ -33,7 +34,7 @@ public class PaymentProviderManagerServiceImpl implements PaymentProviderManager
     }
 
     @Override
-    public Mono<PaymentProviderDTO> createPaymentProvider(Long paymentOrderId, PaymentProviderDTO paymentProviderDTO) {
+    public Mono<PaymentProviderDTO> createPaymentProvider(UUID paymentOrderId, PaymentProviderDTO paymentProviderDTO) {
         PaymentProvider paymentProvider = mapper.toEntity(paymentProviderDTO);
         paymentProvider.setPaymentOrderId(paymentOrderId);
         return repository.save(paymentProvider)
@@ -41,7 +42,7 @@ public class PaymentProviderManagerServiceImpl implements PaymentProviderManager
     }
 
     @Override
-    public Mono<PaymentProviderDTO> getPaymentProviderById(Long paymentOrderId, Long paymentProviderId) {
+    public Mono<PaymentProviderDTO> getPaymentProviderById(UUID paymentOrderId, UUID paymentProviderId) {
         return repository.findById(paymentProviderId)
                 .filter(paymentProvider -> paymentProvider.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO)
@@ -49,7 +50,7 @@ public class PaymentProviderManagerServiceImpl implements PaymentProviderManager
     }
 
     @Override
-    public Mono<PaymentProviderDTO> updatePaymentProvider(Long paymentOrderId, Long paymentProviderId, PaymentProviderDTO paymentProviderDTO) {
+    public Mono<PaymentProviderDTO> updatePaymentProvider(UUID paymentOrderId, UUID paymentProviderId, PaymentProviderDTO paymentProviderDTO) {
         return repository.findById(paymentProviderId)
                 .filter(existing -> existing.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existing -> {
@@ -63,7 +64,7 @@ public class PaymentProviderManagerServiceImpl implements PaymentProviderManager
     }
 
     @Override
-    public Mono<Void> deletePaymentProvider(Long paymentOrderId, Long paymentProviderId) {
+    public Mono<Void> deletePaymentProvider(UUID paymentOrderId, UUID paymentProviderId) {
         return repository.findById(paymentProviderId)
                 .filter(paymentProvider -> paymentProvider.getPaymentOrderId().equals(paymentOrderId))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Payment provider not found for deletion.")))

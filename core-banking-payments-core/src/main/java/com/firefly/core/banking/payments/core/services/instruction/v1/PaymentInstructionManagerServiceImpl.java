@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentInstructionManagerServiceImpl implements PaymentInstructionManagerService {
@@ -23,7 +24,7 @@ public class PaymentInstructionManagerServiceImpl implements PaymentInstructionM
     private PaymentInstructionMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentInstructionDTO>> getAllPaymentInstructions(Long paymentOrderId, FilterRequest<PaymentInstructionDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentInstructionDTO>> getAllPaymentInstructions(UUID paymentOrderId, FilterRequest<PaymentInstructionDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentInstruction.class,
@@ -33,7 +34,7 @@ public class PaymentInstructionManagerServiceImpl implements PaymentInstructionM
     }
 
     @Override
-    public Mono<PaymentInstructionDTO> createPaymentInstruction(Long paymentOrderId, PaymentInstructionDTO paymentInstructionDTO) {
+    public Mono<PaymentInstructionDTO> createPaymentInstruction(UUID paymentOrderId, PaymentInstructionDTO paymentInstructionDTO) {
         PaymentInstruction paymentInstruction = mapper.toEntity(paymentInstructionDTO);
         paymentInstruction.setPaymentOrderId(paymentOrderId);
         return repository.save(paymentInstruction)
@@ -41,14 +42,14 @@ public class PaymentInstructionManagerServiceImpl implements PaymentInstructionM
     }
 
     @Override
-    public Mono<PaymentInstructionDTO> getPaymentInstructionById(Long paymentOrderId, Long paymentInstructionId) {
+    public Mono<PaymentInstructionDTO> getPaymentInstructionById(UUID paymentOrderId, UUID paymentInstructionId) {
         return repository.findById(paymentInstructionId)
                 .filter(paymentInstruction -> paymentInstruction.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentInstructionDTO> updatePaymentInstruction(Long paymentOrderId, Long paymentInstructionId, PaymentInstructionDTO paymentInstructionDTO) {
+    public Mono<PaymentInstructionDTO> updatePaymentInstruction(UUID paymentOrderId, UUID paymentInstructionId, PaymentInstructionDTO paymentInstructionDTO) {
         return repository.findById(paymentInstructionId)
                 .filter(paymentInstruction -> paymentInstruction.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existing -> {
@@ -62,7 +63,7 @@ public class PaymentInstructionManagerServiceImpl implements PaymentInstructionM
     }
 
     @Override
-    public Mono<Void> deletePaymentInstruction(Long paymentOrderId, Long paymentInstructionId) {
+    public Mono<Void> deletePaymentInstruction(UUID paymentOrderId, UUID paymentInstructionId) {
         return repository.findById(paymentInstructionId)
                 .filter(paymentInstruction -> paymentInstruction.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(repository::delete);
