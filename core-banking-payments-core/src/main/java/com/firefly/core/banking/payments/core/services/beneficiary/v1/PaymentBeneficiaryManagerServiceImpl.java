@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryManagerService {
@@ -33,7 +34,7 @@ public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryM
     }
 
     @Override
-    public Mono<PaginationResponse<PaymentBeneficiaryDTO>> getBeneficiariesByPayerAccountId(Long payerAccountId, FilterRequest<PaymentBeneficiaryDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentBeneficiaryDTO>> getBeneficiariesByPayerAccountId(UUID payerAccountId, FilterRequest<PaymentBeneficiaryDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentBeneficiary.class,
@@ -43,7 +44,7 @@ public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryM
     }
 
     @Override
-    public Mono<PaginationResponse<PaymentBeneficiaryDTO>> getFavoriteBeneficiariesByPayerAccountId(Long payerAccountId, FilterRequest<PaymentBeneficiaryDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentBeneficiaryDTO>> getFavoriteBeneficiariesByPayerAccountId(UUID payerAccountId, FilterRequest<PaymentBeneficiaryDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentBeneficiary.class,
@@ -59,13 +60,13 @@ public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryM
     }
 
     @Override
-    public Mono<PaymentBeneficiaryDTO> getBeneficiaryById(Long paymentBeneficiaryId) {
+    public Mono<PaymentBeneficiaryDTO> getBeneficiaryById(UUID paymentBeneficiaryId) {
         return repository.findById(paymentBeneficiaryId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentBeneficiaryDTO> updateBeneficiary(Long paymentBeneficiaryId, PaymentBeneficiaryDTO paymentBeneficiaryDTO) {
+    public Mono<PaymentBeneficiaryDTO> updateBeneficiary(UUID paymentBeneficiaryId, PaymentBeneficiaryDTO paymentBeneficiaryDTO) {
         return repository.findById(paymentBeneficiaryId)
                 .flatMap(existingEntity -> {
                     PaymentBeneficiary updatedEntity = mapper.toEntity(paymentBeneficiaryDTO);
@@ -77,7 +78,7 @@ public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryM
     }
 
     @Override
-    public Mono<PaymentBeneficiaryDTO> markAsFavorite(Long paymentBeneficiaryId, Boolean isFavorite) {
+    public Mono<PaymentBeneficiaryDTO> markAsFavorite(UUID paymentBeneficiaryId, Boolean isFavorite) {
         return repository.findById(paymentBeneficiaryId)
                 .flatMap(existingEntity -> {
                     existingEntity.setIsFavorite(isFavorite);
@@ -87,7 +88,7 @@ public class PaymentBeneficiaryManagerServiceImpl implements PaymentBeneficiaryM
     }
 
     @Override
-    public Mono<Void> deleteBeneficiary(Long paymentBeneficiaryId) {
+    public Mono<Void> deleteBeneficiary(UUID paymentBeneficiaryId) {
         return repository.deleteById(paymentBeneficiaryId);
     }
 }
