@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -37,8 +37,8 @@ public class PaymentScheduleManagerServiceImplTest {
 
     private PaymentScheduleDTO paymentScheduleDTO;
     private PaymentSchedule paymentSchedule;
-    private final Long paymentOrderId = 1L;
-    private final Long paymentScheduleId = 2L;
+    private final UUID paymentOrderId = UUID.randomUUID();
+    private final UUID paymentScheduleId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
@@ -111,7 +111,7 @@ public class PaymentScheduleManagerServiceImplTest {
     @Test
     void getPaymentScheduleById_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentScheduleId)).thenReturn(Mono.just(paymentSchedule));
 
         // Act & Assert
@@ -158,7 +158,7 @@ public class PaymentScheduleManagerServiceImplTest {
     @Test
     void updatePaymentSchedule_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentScheduleId)).thenReturn(Mono.just(paymentSchedule));
 
         // Act & Assert
@@ -200,7 +200,7 @@ public class PaymentScheduleManagerServiceImplTest {
     @Test
     void deletePaymentSchedule_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentScheduleId)).thenReturn(Mono.just(paymentSchedule));
 
         // Act & Assert
@@ -225,7 +225,7 @@ public class PaymentScheduleManagerServiceImplTest {
         PaymentScheduleManagerServiceImpl serviceSpy = spy(service);
 
         // Mock the behavior to avoid the actual call to FilterUtils.createFilter
-        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentSchedules(anyLong(), any(FilterRequest.class));
+        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentSchedules(any(UUID.class), any(FilterRequest.class));
 
         // Act
         serviceSpy.getAllPaymentSchedules(paymentOrderId, filterRequest);

@@ -14,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -31,7 +33,7 @@ public class PaymentMethodManagerServiceImplTest {
 
     private PaymentMethodDTO paymentMethodDTO;
     private PaymentMethod paymentMethod;
-    private final Long paymentMethodId = 1L;
+    private final UUID paymentMethodId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {

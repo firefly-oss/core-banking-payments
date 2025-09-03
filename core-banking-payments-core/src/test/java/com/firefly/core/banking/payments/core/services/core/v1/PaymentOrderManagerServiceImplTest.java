@@ -18,7 +18,7 @@ import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -36,15 +36,15 @@ public class PaymentOrderManagerServiceImplTest {
 
     private PaymentOrderDTO paymentOrderDTO;
     private PaymentOrder paymentOrder;
-    private final Long paymentOrderId = 1L;
+    private final UUID paymentOrderId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
         // Setup test data
         paymentOrderDTO = PaymentOrderDTO.builder()
                 .paymentOrderId(paymentOrderId)
-                .payerAccountId(100L)
-                .paymentMethodId(200L)
+                .payerAccountId(UUID.randomUUID())
+                .paymentMethodId(UUID.randomUUID())
                 .beneficiaryName("John Doe")
                 .beneficiaryAccountNumber("123456789")
                 .beneficiaryIban("ES9121000418450200051332")
@@ -61,8 +61,8 @@ public class PaymentOrderManagerServiceImplTest {
 
         paymentOrder = new PaymentOrder();
         paymentOrder.setPaymentOrderId(paymentOrderId);
-        paymentOrder.setPayerAccountId(100L);
-        paymentOrder.setPaymentMethodId(200L);
+        paymentOrder.setPayerAccountId(UUID.randomUUID());
+        paymentOrder.setPaymentMethodId(UUID.randomUUID());
         paymentOrder.setBeneficiaryName("John Doe");
         paymentOrder.setBeneficiaryAccountNumber("123456789");
         paymentOrder.setBeneficiaryIban("ES9121000418450200051332");

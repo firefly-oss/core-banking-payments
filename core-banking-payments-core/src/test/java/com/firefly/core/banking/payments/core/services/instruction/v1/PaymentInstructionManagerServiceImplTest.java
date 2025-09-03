@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -35,8 +35,8 @@ public class PaymentInstructionManagerServiceImplTest {
 
     private PaymentInstructionDTO paymentInstructionDTO;
     private PaymentInstruction paymentInstruction;
-    private final Long paymentOrderId = 1L;
-    private final Long paymentInstructionId = 2L;
+    private final UUID paymentOrderId = UUID.randomUUID();
+    private final UUID paymentInstructionId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
@@ -107,7 +107,7 @@ public class PaymentInstructionManagerServiceImplTest {
     @Test
     void getPaymentInstructionById_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentInstructionId)).thenReturn(Mono.just(paymentInstruction));
 
         // Act & Assert
@@ -151,7 +151,7 @@ public class PaymentInstructionManagerServiceImplTest {
     @Test
     void updatePaymentInstruction_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentInstructionId)).thenReturn(Mono.just(paymentInstruction));
 
         // Act & Assert
@@ -192,7 +192,7 @@ public class PaymentInstructionManagerServiceImplTest {
     @Test
     void deletePaymentInstruction_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentInstructionId)).thenReturn(Mono.just(paymentInstruction));
 
         // Act & Assert
@@ -217,7 +217,7 @@ public class PaymentInstructionManagerServiceImplTest {
         PaymentInstructionManagerServiceImpl serviceSpy = spy(service);
 
         // Mock the behavior to avoid the actual call to FilterUtils.createFilter
-        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentInstructions(anyLong(), any(FilterRequest.class));
+        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentInstructions(any(UUID.class), any(FilterRequest.class));
 
         // Act
         serviceSpy.getAllPaymentInstructions(paymentOrderId, filterRequest);

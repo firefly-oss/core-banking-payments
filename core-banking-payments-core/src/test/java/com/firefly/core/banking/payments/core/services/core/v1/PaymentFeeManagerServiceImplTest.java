@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,8 +34,8 @@ public class PaymentFeeManagerServiceImplTest {
 
     private PaymentFeeDTO paymentFeeDTO;
     private PaymentFee paymentFee;
-    private final Long paymentOrderId = 1L;
-    private final Long paymentFeeId = 2L;
+    private final UUID paymentOrderId = UUID.randomUUID();
+    private final UUID paymentFeeId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
@@ -103,7 +104,7 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void getPaymentFeeById_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
 
         // Act & Assert
@@ -150,7 +151,7 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void updatePaymentFee_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
 
         // Act & Assert
@@ -192,7 +193,7 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void deletePaymentFee_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
 
         // Act & Assert
@@ -217,7 +218,7 @@ public class PaymentFeeManagerServiceImplTest {
         PaymentFeeManagerServiceImpl serviceSpy = spy(service);
 
         // Mock the behavior to avoid the actual call to FilterUtils.createFilter
-        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentFees(anyLong(), any(FilterRequest.class));
+        doReturn(Mono.empty()).when(serviceSpy).getAllPaymentFees(any(UUID.class), any(FilterRequest.class));
 
         // Act
         serviceSpy.getAllPaymentFees(paymentOrderId, filterRequest);

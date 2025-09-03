@@ -17,7 +17,7 @@ import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -35,8 +35,8 @@ public class PayrollOrderManagerServiceImplTest {
 
     private PayrollOrderDTO payrollOrderDTO;
     private PayrollOrder payrollOrder;
-    private final Long paymentOrderId = 1L;
-    private final Long payrollOrderId = 2L;
+    private final UUID paymentOrderId = UUID.randomUUID();
+    private final UUID payrollOrderId = UUID.randomUUID();
 
     @BeforeEach
     void setUp() {
@@ -107,7 +107,7 @@ public class PayrollOrderManagerServiceImplTest {
     @Test
     void getPayrollOrderById_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(payrollOrderId)).thenReturn(Mono.just(payrollOrder));
 
         // Act & Assert
@@ -154,7 +154,7 @@ public class PayrollOrderManagerServiceImplTest {
     @Test
     void updatePayrollOrder_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(payrollOrderId)).thenReturn(Mono.just(payrollOrder));
 
         // Act & Assert
@@ -196,7 +196,7 @@ public class PayrollOrderManagerServiceImplTest {
     @Test
     void deletePayrollOrder_WrongPaymentOrderId() {
         // Arrange
-        Long wrongPaymentOrderId = 999L;
+        UUID wrongPaymentOrderId = UUID.randomUUID();
         when(repository.findById(payrollOrderId)).thenReturn(Mono.just(payrollOrder));
 
         // Act & Assert
@@ -221,7 +221,7 @@ public class PayrollOrderManagerServiceImplTest {
         PayrollOrderManagerServiceImpl serviceSpy = spy(service);
 
         // Mock the behavior to avoid the actual call to FilterUtils.createFilter
-        doReturn(Mono.empty()).when(serviceSpy).getAllPayrollOrders(anyLong(), any(FilterRequest.class));
+        doReturn(Mono.empty()).when(serviceSpy).getAllPayrollOrders(any(UUID.class), any(FilterRequest.class));
 
         // Act
         serviceSpy.getAllPayrollOrders(paymentOrderId, filterRequest);
