@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PayrollOrderManagerServiceImpl implements PayrollOrderManagerService {
@@ -23,7 +24,7 @@ public class PayrollOrderManagerServiceImpl implements PayrollOrderManagerServic
     private PayrollOrderMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PayrollOrderDTO>> getAllPayrollOrders(Long paymentOrderId, FilterRequest<PayrollOrderDTO> filterRequest) {
+    public Mono<PaginationResponse<PayrollOrderDTO>> getAllPayrollOrders(UUID paymentOrderId, FilterRequest<PayrollOrderDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PayrollOrder.class,
@@ -33,7 +34,7 @@ public class PayrollOrderManagerServiceImpl implements PayrollOrderManagerServic
     }
 
     @Override
-    public Mono<PayrollOrderDTO> createPayrollOrder(Long paymentOrderId, PayrollOrderDTO payrollOrderDTO) {
+    public Mono<PayrollOrderDTO> createPayrollOrder(UUID paymentOrderId, PayrollOrderDTO payrollOrderDTO) {
         payrollOrderDTO.setPaymentOrderId(paymentOrderId);
         PayrollOrder payrollOrder = mapper.toEntity(payrollOrderDTO);
         return Mono.just(payrollOrder)
@@ -42,14 +43,14 @@ public class PayrollOrderManagerServiceImpl implements PayrollOrderManagerServic
     }
 
     @Override
-    public Mono<PayrollOrderDTO> getPayrollOrderById(Long paymentOrderId, Long payrollOrderId) {
+    public Mono<PayrollOrderDTO> getPayrollOrderById(UUID paymentOrderId, UUID payrollOrderId) {
         return repository.findById(payrollOrderId)
                 .filter(order -> order.getPaymentOrderId().equals(paymentOrderId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PayrollOrderDTO> updatePayrollOrder(Long paymentOrderId, Long payrollOrderId, PayrollOrderDTO payrollOrderDTO) {
+    public Mono<PayrollOrderDTO> updatePayrollOrder(UUID paymentOrderId, UUID payrollOrderId, PayrollOrderDTO payrollOrderDTO) {
         return repository.findById(payrollOrderId)
                 .filter(order -> order.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(existingOrder -> {
@@ -62,7 +63,7 @@ public class PayrollOrderManagerServiceImpl implements PayrollOrderManagerServic
     }
 
     @Override
-    public Mono<Void> deletePayrollOrder(Long paymentOrderId, Long payrollOrderId) {
+    public Mono<Void> deletePayrollOrder(UUID paymentOrderId, UUID payrollOrderId) {
         return repository.findById(payrollOrderId)
                 .filter(order -> order.getPaymentOrderId().equals(paymentOrderId))
                 .flatMap(repository::delete);
