@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Correspondence", description = "APIs for managing payment correspondence")
 @RestController
 @RequestMapping("/api/v1/payment-orders/{paymentOrderId}/correspondence")
@@ -40,7 +41,7 @@ public class PaymentCorrespondenceManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentCorrespondenceDTO>>> getCorrespondenceByPaymentOrderId(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentCorrespondenceDTO> filterRequest
     ) {
@@ -62,7 +63,7 @@ public class PaymentCorrespondenceManagerController {
     @GetMapping(value = "/type/{correspondenceType}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentCorrespondenceDTO>>> getCorrespondenceByPaymentOrderIdAndType(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Correspondence Type", required = true)
             @PathVariable String correspondenceType,
             @ParameterObject
@@ -86,7 +87,7 @@ public class PaymentCorrespondenceManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentCorrespondenceDTO>> createCorrespondence(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @RequestBody PaymentCorrespondenceDTO paymentCorrespondenceDTO
     ) {
         return service.createCorrespondence(paymentOrderId, paymentCorrespondenceDTO)
@@ -106,9 +107,9 @@ public class PaymentCorrespondenceManagerController {
     @GetMapping(value = "/{paymentCorrespondenceId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentCorrespondenceDTO>> getCorrespondenceById(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Correspondence ID", required = true)
-            @PathVariable Long paymentCorrespondenceId
+            @PathVariable UUID paymentCorrespondenceId
     ) {
         return service.getCorrespondenceById(paymentCorrespondenceId)
                 .map(ResponseEntity::ok)
@@ -128,9 +129,9 @@ public class PaymentCorrespondenceManagerController {
     @PutMapping(value = "/{paymentCorrespondenceId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentCorrespondenceDTO>> updateCorrespondence(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Correspondence ID", required = true)
-            @PathVariable Long paymentCorrespondenceId,
+            @PathVariable UUID paymentCorrespondenceId,
             @RequestBody PaymentCorrespondenceDTO paymentCorrespondenceDTO
     ) {
         return service.updateCorrespondence(paymentOrderId, paymentCorrespondenceId, paymentCorrespondenceDTO)
@@ -149,9 +150,9 @@ public class PaymentCorrespondenceManagerController {
     @DeleteMapping(value = "/{paymentCorrespondenceId}")
     public Mono<ResponseEntity<Void>> deleteCorrespondence(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Correspondence ID", required = true)
-            @PathVariable Long paymentCorrespondenceId
+            @PathVariable UUID paymentCorrespondenceId
     ) {
         return service.deleteCorrespondence(paymentCorrespondenceId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

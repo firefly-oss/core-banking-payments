@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Fees",
         description = "APIs for managing payment fees")
 @RestController
@@ -41,7 +42,7 @@ public class PaymentFeeManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentFeeDTO>>> getAllPaymentFees(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentFeeDTO> filterRequest
@@ -64,7 +65,7 @@ public class PaymentFeeManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentFeeDTO>> createPaymentFee(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Payment fee data to be created", required = true,
                     schema = @Schema(implementation = PaymentFeeDTO.class))
@@ -88,10 +89,10 @@ public class PaymentFeeManagerController {
     @GetMapping(value = "/{paymentFeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentFeeDTO>> getPaymentFeeById(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment fee", required = true)
-            @PathVariable Long paymentFeeId
+            @PathVariable UUID paymentFeeId
     ) {
         return service.getPaymentFeeById(paymentOrderId, paymentFeeId)
                 .map(ResponseEntity::ok)
@@ -111,10 +112,10 @@ public class PaymentFeeManagerController {
     @PutMapping(value = "/{paymentFeeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentFeeDTO>> updatePaymentFee(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment fee to update", required = true)
-            @PathVariable Long paymentFeeId,
+            @PathVariable UUID paymentFeeId,
 
             @Parameter(description = "Updated payment fee data", required = true,
                     schema = @Schema(implementation = PaymentFeeDTO.class))
@@ -136,10 +137,10 @@ public class PaymentFeeManagerController {
     @DeleteMapping("/{paymentFeeId}")
     public Mono<ResponseEntity<Void>> deletePaymentFee(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment fee to delete", required = true)
-            @PathVariable Long paymentFeeId
+            @PathVariable UUID paymentFeeId
     ) {
         return service.deletePaymentFee(paymentOrderId, paymentFeeId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

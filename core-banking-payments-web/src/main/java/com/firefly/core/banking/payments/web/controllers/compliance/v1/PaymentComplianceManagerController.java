@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Compliance", description = "APIs for managing payment compliance information")
 @RestController
 @RequestMapping("/api/v1/payment-orders/{paymentOrderId}/compliance")
@@ -40,7 +41,7 @@ public class PaymentComplianceManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentComplianceDTO>>> getComplianceByPaymentOrderId(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentComplianceDTO> filterRequest
     ) {
@@ -62,7 +63,7 @@ public class PaymentComplianceManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentComplianceDTO>> createCompliance(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @RequestBody PaymentComplianceDTO paymentComplianceDTO
     ) {
         return service.createCompliance(paymentOrderId, paymentComplianceDTO)
@@ -82,9 +83,9 @@ public class PaymentComplianceManagerController {
     @PutMapping(value = "/{paymentComplianceId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentComplianceDTO>> updateCompliance(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Compliance ID", required = true)
-            @PathVariable Long paymentComplianceId,
+            @PathVariable UUID paymentComplianceId,
             @RequestBody PaymentComplianceDTO paymentComplianceDTO
     ) {
         return service.updateCompliance(paymentOrderId, paymentComplianceId, paymentComplianceDTO)
@@ -105,7 +106,7 @@ public class PaymentComplianceManagerController {
     @PutMapping(value = "/approve", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentComplianceDTO>> approveCompliance(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @RequestParam String approvedBy,
             @RequestParam(required = false) String complianceNotes
     ) {
@@ -127,7 +128,7 @@ public class PaymentComplianceManagerController {
     @PutMapping(value = "/reject", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentComplianceDTO>> rejectCompliance(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @RequestParam String rejectionReason
     ) {
         return service.rejectCompliance(paymentOrderId, rejectionReason)
@@ -146,9 +147,9 @@ public class PaymentComplianceManagerController {
     @DeleteMapping(value = "/{paymentComplianceId}")
     public Mono<ResponseEntity<Void>> deleteCompliance(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Compliance ID", required = true)
-            @PathVariable Long paymentComplianceId
+            @PathVariable UUID paymentComplianceId
     ) {
         return service.deleteCompliance(paymentComplianceId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

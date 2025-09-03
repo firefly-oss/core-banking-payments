@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Schedules",
         description = "APIs for managing payment schedules")
 @RestController
@@ -41,7 +42,7 @@ public class PaymentScheduleManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentScheduleDTO>>> getAllPaymentSchedules(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentScheduleDTO> filterRequest
@@ -64,7 +65,7 @@ public class PaymentScheduleManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentScheduleDTO>> createPaymentSchedule(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Payment schedule data to be created", required = true,
                     schema = @Schema(implementation = PaymentScheduleDTO.class))
@@ -88,10 +89,10 @@ public class PaymentScheduleManagerController {
     @GetMapping(value = "/{paymentScheduleId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentScheduleDTO>> getPaymentScheduleById(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment schedule", required = true)
-            @PathVariable Long paymentScheduleId
+            @PathVariable UUID paymentScheduleId
     ) {
         return service.getPaymentScheduleById(paymentOrderId, paymentScheduleId)
                 .map(ResponseEntity::ok)
@@ -111,10 +112,10 @@ public class PaymentScheduleManagerController {
     @PutMapping(value = "/{paymentScheduleId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentScheduleDTO>> updatePaymentSchedule(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment schedule to update", required = true)
-            @PathVariable Long paymentScheduleId,
+            @PathVariable UUID paymentScheduleId,
 
             @Parameter(description = "Updated payment schedule data", required = true,
                     schema = @Schema(implementation = PaymentScheduleDTO.class))
@@ -137,10 +138,10 @@ public class PaymentScheduleManagerController {
     @DeleteMapping("/{paymentScheduleId}")
     public Mono<ResponseEntity<Void>> deletePaymentSchedule(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment schedule to delete", required = true)
-            @PathVariable Long paymentScheduleId
+            @PathVariable UUID paymentScheduleId
     ) {
         return service.deletePaymentSchedule(paymentOrderId, paymentScheduleId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

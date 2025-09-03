@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Exchange Rates", description = "APIs for managing payment exchange rates")
 @RestController
 public class PaymentExchangeRateManagerController {
@@ -39,7 +40,7 @@ public class PaymentExchangeRateManagerController {
     @GetMapping(value = "/api/v1/payment-orders/{paymentOrderId}/exchange-rates", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentExchangeRateDTO>>> getExchangeRatesByPaymentOrderId(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentExchangeRateDTO> filterRequest
     ) {
@@ -61,7 +62,7 @@ public class PaymentExchangeRateManagerController {
     @PostMapping(value = "/api/v1/payment-orders/{paymentOrderId}/exchange-rates", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentExchangeRateDTO>> createExchangeRate(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @RequestBody PaymentExchangeRateDTO paymentExchangeRateDTO
     ) {
         return service.createExchangeRate(paymentOrderId, paymentExchangeRateDTO)
@@ -81,9 +82,9 @@ public class PaymentExchangeRateManagerController {
     @GetMapping(value = "/api/v1/payment-orders/{paymentOrderId}/exchange-rates/{paymentExchangeRateId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentExchangeRateDTO>> getExchangeRateById(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Exchange Rate ID", required = true)
-            @PathVariable Long paymentExchangeRateId
+            @PathVariable UUID paymentExchangeRateId
     ) {
         return service.getExchangeRateById(paymentExchangeRateId)
                 .map(ResponseEntity::ok)
@@ -103,9 +104,9 @@ public class PaymentExchangeRateManagerController {
     @PutMapping(value = "/api/v1/payment-orders/{paymentOrderId}/exchange-rates/{paymentExchangeRateId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentExchangeRateDTO>> updateExchangeRate(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Exchange Rate ID", required = true)
-            @PathVariable Long paymentExchangeRateId,
+            @PathVariable UUID paymentExchangeRateId,
             @RequestBody PaymentExchangeRateDTO paymentExchangeRateDTO
     ) {
         return service.updateExchangeRate(paymentOrderId, paymentExchangeRateId, paymentExchangeRateDTO)
@@ -124,9 +125,9 @@ public class PaymentExchangeRateManagerController {
     @DeleteMapping(value = "/api/v1/payment-orders/{paymentOrderId}/exchange-rates/{paymentExchangeRateId}")
     public Mono<ResponseEntity<Void>> deleteExchangeRate(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Exchange Rate ID", required = true)
-            @PathVariable Long paymentExchangeRateId
+            @PathVariable UUID paymentExchangeRateId
     ) {
         return service.deleteExchangeRate(paymentExchangeRateId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

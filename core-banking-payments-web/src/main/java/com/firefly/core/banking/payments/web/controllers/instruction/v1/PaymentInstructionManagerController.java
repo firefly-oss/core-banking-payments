@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Instructions",
         description = "APIs for managing payment instructions")
 @RestController
@@ -41,7 +42,7 @@ public class PaymentInstructionManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentInstructionDTO>>> getAllPaymentInstructions(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentInstructionDTO> filterRequest
@@ -64,7 +65,7 @@ public class PaymentInstructionManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentInstructionDTO>> createPaymentInstruction(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Payment instruction data to be created", required = true,
                     schema = @Schema(implementation = PaymentInstructionDTO.class))
@@ -88,10 +89,10 @@ public class PaymentInstructionManagerController {
     @GetMapping(value = "/{paymentInstructionId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentInstructionDTO>> getPaymentInstructionById(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment instruction", required = true)
-            @PathVariable Long paymentInstructionId
+            @PathVariable UUID paymentInstructionId
     ) {
         return service.getPaymentInstructionById(paymentOrderId, paymentInstructionId)
                 .map(ResponseEntity::ok)
@@ -111,10 +112,10 @@ public class PaymentInstructionManagerController {
     @PutMapping(value = "/{paymentInstructionId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentInstructionDTO>> updatePaymentInstruction(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment instruction to update", required = true)
-            @PathVariable Long paymentInstructionId,
+            @PathVariable UUID paymentInstructionId,
 
             @Parameter(description = "Updated payment instruction data", required = true,
                     schema = @Schema(implementation = PaymentInstructionDTO.class))
@@ -137,10 +138,10 @@ public class PaymentInstructionManagerController {
     @DeleteMapping("/{paymentInstructionId}")
     public Mono<ResponseEntity<Void>> deletePaymentInstruction(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payment instruction to delete", required = true)
-            @PathVariable Long paymentInstructionId
+            @PathVariable UUID paymentInstructionId
     ) {
         return service.deletePaymentInstruction(paymentOrderId, paymentInstructionId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Methods", description = "APIs for managing payment methods")
 @RestController
 @RequestMapping("/api/v1/payment-methods")
@@ -81,7 +82,7 @@ public class PaymentMethodManagerController {
     @GetMapping(value = "/{paymentMethodId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentMethodDTO>> getPaymentMethodById(
             @Parameter(description = "Unique identifier of the payment method", required = true)
-            @PathVariable Long paymentMethodId
+            @PathVariable UUID paymentMethodId
     ) {
         return service.getPaymentMethodById(paymentMethodId)
                 .map(ResponseEntity::ok)
@@ -101,7 +102,7 @@ public class PaymentMethodManagerController {
     @PutMapping(value = "/{paymentMethodId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentMethodDTO>> updatePaymentMethod(
             @Parameter(description = "Unique identifier of the payment method to update", required = true)
-            @PathVariable Long paymentMethodId,
+            @PathVariable UUID paymentMethodId,
 
             @Parameter(description = "Updated payment method data", required = true,
                     schema = @Schema(implementation = PaymentMethodDTO.class))
@@ -123,7 +124,7 @@ public class PaymentMethodManagerController {
     @DeleteMapping("/{paymentMethodId}")
     public Mono<ResponseEntity<Void>> deletePaymentMethod(
             @Parameter(description = "Unique identifier of the payment method to delete", required = true)
-            @PathVariable Long paymentMethodId
+            @PathVariable UUID paymentMethodId
     ) {
         return service.deletePaymentMethod(paymentMethodId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

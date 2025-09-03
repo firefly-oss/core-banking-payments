@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Audit", description = "APIs for accessing payment audit records")
 @RestController
 public class PaymentAuditManagerController {
@@ -41,7 +42,7 @@ public class PaymentAuditManagerController {
     @GetMapping(value = "/api/v1/payment-orders/{paymentOrderId}/audit", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentAuditDTO>>> getAuditsByPaymentOrderId(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentAuditDTO> filterRequest
     ) {
@@ -63,9 +64,9 @@ public class PaymentAuditManagerController {
     @GetMapping(value = "/api/v1/payment-orders/{paymentOrderId}/instructions/{paymentInstructionId}/audit", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentAuditDTO>>> getAuditsByPaymentInstructionId(
             @Parameter(description = "Payment Order ID", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
             @Parameter(description = "Payment Instruction ID", required = true)
-            @PathVariable Long paymentInstructionId,
+            @PathVariable UUID paymentInstructionId,
             @ParameterObject
             @ModelAttribute FilterRequest<PaymentAuditDTO> filterRequest
     ) {
@@ -87,7 +88,7 @@ public class PaymentAuditManagerController {
     @GetMapping(value = "/api/v1/audit/{paymentAuditId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentAuditDTO>> getAuditById(
             @Parameter(description = "Payment Audit ID", required = true)
-            @PathVariable Long paymentAuditId
+            @PathVariable UUID paymentAuditId
     ) {
         return service.getAuditById(paymentAuditId)
                 .map(ResponseEntity::ok)

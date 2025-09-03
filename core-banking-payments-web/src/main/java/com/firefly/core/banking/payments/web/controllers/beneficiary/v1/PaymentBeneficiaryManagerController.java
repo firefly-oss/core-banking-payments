@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Beneficiaries", description = "APIs for managing payment beneficiaries")
 @RestController
 @RequestMapping("/api/v1/payment-beneficiaries")
@@ -40,7 +41,7 @@ public class PaymentBeneficiaryManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PaymentBeneficiaryDTO>>> getAllBeneficiaries(
             @Parameter(description = "Payer Account ID")
-            @RequestParam(required = false) Long payerAccountId,
+            @RequestParam(required = false) UUID payerAccountId,
             @Parameter(description = "Is Favorite")
             @RequestParam(required = false) Boolean isFavorite,
             @ParameterObject
@@ -94,7 +95,7 @@ public class PaymentBeneficiaryManagerController {
     @GetMapping(value = "/{paymentBeneficiaryId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentBeneficiaryDTO>> getBeneficiaryById(
             @Parameter(description = "Payment Beneficiary ID", required = true)
-            @PathVariable Long paymentBeneficiaryId
+            @PathVariable UUID paymentBeneficiaryId
     ) {
         return service.getBeneficiaryById(paymentBeneficiaryId)
                 .map(ResponseEntity::ok)
@@ -114,7 +115,7 @@ public class PaymentBeneficiaryManagerController {
     @PutMapping(value = "/{paymentBeneficiaryId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentBeneficiaryDTO>> updateBeneficiary(
             @Parameter(description = "Payment Beneficiary ID", required = true)
-            @PathVariable Long paymentBeneficiaryId,
+            @PathVariable UUID paymentBeneficiaryId,
             @RequestBody PaymentBeneficiaryDTO paymentBeneficiaryDTO
     ) {
         return service.updateBeneficiary(paymentBeneficiaryId, paymentBeneficiaryDTO)
@@ -135,7 +136,7 @@ public class PaymentBeneficiaryManagerController {
     @PutMapping(value = "/{paymentBeneficiaryId}/favorite", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentBeneficiaryDTO>> markAsFavorite(
             @Parameter(description = "Payment Beneficiary ID", required = true)
-            @PathVariable Long paymentBeneficiaryId,
+            @PathVariable UUID paymentBeneficiaryId,
             @Parameter(description = "Is Favorite", required = true)
             @RequestParam Boolean isFavorite
     ) {
@@ -155,7 +156,7 @@ public class PaymentBeneficiaryManagerController {
     @DeleteMapping(value = "/{paymentBeneficiaryId}")
     public Mono<ResponseEntity<Void>> deleteBeneficiary(
             @Parameter(description = "Payment Beneficiary ID", required = true)
-            @PathVariable Long paymentBeneficiaryId
+            @PathVariable UUID paymentBeneficiaryId
     ) {
         return service.deleteBeneficiary(paymentBeneficiaryId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

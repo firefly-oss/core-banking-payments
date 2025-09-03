@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payment Orders", description = "APIs for managing payment orders")
 @RestController
 @RequestMapping("/api/v1/payment-orders")
@@ -80,7 +81,7 @@ public class PaymentOrderManagerController {
     @GetMapping(value = "/{paymentOrderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentOrderDTO>> getPaymentOrderById(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId
+            @PathVariable UUID paymentOrderId
     ) {
         return service.getPaymentOrderById(paymentOrderId)
                 .map(ResponseEntity::ok)
@@ -100,7 +101,7 @@ public class PaymentOrderManagerController {
     @PutMapping(value = "/{paymentOrderId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaymentOrderDTO>> updatePaymentOrder(
             @Parameter(description = "Unique identifier of the payment order to update", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Updated payment order data", required = true,
                     schema = @Schema(implementation = PaymentOrderDTO.class))
@@ -122,7 +123,7 @@ public class PaymentOrderManagerController {
     @DeleteMapping("/{paymentOrderId}")
     public Mono<ResponseEntity<Void>> deletePaymentOrder(
             @Parameter(description = "Unique identifier of the payment order to delete", required = true)
-            @PathVariable Long paymentOrderId
+            @PathVariable UUID paymentOrderId
     ) {
         return service.deletePaymentOrder(paymentOrderId)
                 .then(Mono.just(ResponseEntity.noContent().build()));

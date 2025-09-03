@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Tag(name = "Payroll Orders",
         description = "APIs for managing payroll orders within a payment order")
 @RestController
@@ -41,7 +42,7 @@ public class PayrollOrderManagerController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PaginationResponse<PayrollOrderDTO>>> getAllPayrollOrders(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @ParameterObject
             @ModelAttribute FilterRequest<PayrollOrderDTO> filterRequest
@@ -64,7 +65,7 @@ public class PayrollOrderManagerController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PayrollOrderDTO>> createPayrollOrder(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Payroll order data to be created", required = true,
                     schema = @Schema(implementation = PayrollOrderDTO.class))
@@ -88,10 +89,10 @@ public class PayrollOrderManagerController {
     @GetMapping(value = "/{payrollOrderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PayrollOrderDTO>> getPayrollOrderById(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payroll order", required = true)
-            @PathVariable Long payrollOrderId
+            @PathVariable UUID payrollOrderId
     ) {
         return service.getPayrollOrderById(paymentOrderId, payrollOrderId)
                 .map(ResponseEntity::ok)
@@ -111,10 +112,10 @@ public class PayrollOrderManagerController {
     @PutMapping(value = "/{payrollOrderId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseEntity<PayrollOrderDTO>> updatePayrollOrder(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payroll order to update", required = true)
-            @PathVariable Long payrollOrderId,
+            @PathVariable UUID payrollOrderId,
 
             @Parameter(description = "Updated payroll order data", required = true,
                     schema = @Schema(implementation = PayrollOrderDTO.class))
@@ -136,10 +137,10 @@ public class PayrollOrderManagerController {
     @DeleteMapping("/{payrollOrderId}")
     public Mono<ResponseEntity<Void>> deletePayrollOrder(
             @Parameter(description = "Unique identifier of the payment order", required = true)
-            @PathVariable Long paymentOrderId,
+            @PathVariable UUID paymentOrderId,
 
             @Parameter(description = "Unique identifier of the payroll order to delete", required = true)
-            @PathVariable Long payrollOrderId
+            @PathVariable UUID payrollOrderId
     ) {
         return service.deletePayrollOrder(paymentOrderId, payrollOrderId)
                 .then(Mono.just(ResponseEntity.noContent().build()));
