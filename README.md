@@ -1,116 +1,107 @@
 # Firefly Core Banking Payments Service
 
+A comprehensive payment repository management microservice that serves as the central data hub for all payment-related operations within the Firefly OpenCore Banking Platform.
+
 ## Table of Contents
 - [Overview](#overview)
 - [Key Features](#key-features)
 - [Architecture](#architecture)
   - [Service Architecture](#service-architecture)
   - [Platform Integration](#platform-integration)
-- [Technical Stack](#technical-stack)
+  - [Technical Stack](#technical-stack)
 - [Data Model](#data-model)
   - [Entity Relationship Diagram](#entity-relationship-diagram)
-  - [Payment Order](#payment-order)
-  - [Payment Instruction](#payment-instruction)
-  - [Payment Schedule](#payment-schedule)
-  - [Payment Fee](#payment-fee)
-  - [Payment Method](#payment-method)
-  - [Payment Provider](#payment-provider)
-  - [Payment Proof](#payment-proof)
-  - [Payroll Order](#payroll-order)
-  - [Payment Beneficiary](#payment-beneficiary)
-  - [Payment Audit](#payment-audit)
-  - [Payment Compliance](#payment-compliance)
-  - [Payment Correspondence](#payment-correspondence)
-  - [Payment Exchange Rate](#payment-exchange-rate)
-- [API Reference](#api-reference)
-  - [Payment Orders](#payment-orders)
-  - [Payment Instructions](#payment-instructions)
-  - [Payment Schedules](#payment-schedules)
-  - [Payment Fees](#payment-fees)
-  - [Payment Methods](#payment-methods)
-  - [Payment Providers](#payment-providers)
-  - [Payment Proofs](#payment-proofs)
-  - [Payroll Orders](#payroll-orders)
-  - [Payment Beneficiaries](#payment-beneficiaries)
-  - [Payment Audit](#payment-audit)
-  - [Payment Compliance](#payment-compliance)
-  - [Payment Correspondence](#payment-correspondence)
-  - [Payment Exchange Rates](#payment-exchange-rates)
-- [Step-by-Step API Usage](#step-by-step-api-usage)
-  - [Creating and Managing a Payment Order](#creating-and-managing-a-payment-order)
-  - [Working with Payment Instructions](#working-with-payment-instructions)
-  - [Setting Up Payment Schedules](#setting-up-payment-schedules)
-  - [Managing Payment Providers](#managing-payment-providers)
-  - [Managing Beneficiaries](#managing-beneficiaries)
-  - [Working with Compliance](#working-with-compliance)
-  - [Managing Exchange Rates](#managing-exchange-rates)
-- [Getting Started](#getting-started)
+  - [Core Entities](#core-entities)
+- [Installation](#installation)
   - [Prerequisites](#prerequisites)
   - [Building the Service](#building-the-service)
   - [Running Locally](#running-locally)
-  - [Running with Docker](#running-with-docker)
-  - [Running with the Platform](#running-with-the-platform)
-- [Environment Configuration](#environment-configuration)
-  - [Database Configuration](#database-configuration)
-  - [Platform Integration](#platform-integration-1)
-  - [Application Configuration](#application-configuration)
-- [Development Guidelines](#development-guidelines)
-  - [Code Structure](#code-structure)
-  - [Coding Standards](#coding-standards)
-  - [Platform Integration](#platform-integration-2)
-- [Testing](#testing)
-  - [Running Tests](#running-tests)
-  - [Testing with Platform](#testing-with-platform)
-- [Deployment](#deployment)
-  - [Standalone Deployment](#standalone-deployment)
-  - [Platform Deployment](#platform-deployment)
+  - [Docker Deployment](#docker-deployment)
+- [API Documentation](#api-documentation)
+  - [Payment Orders API](#payment-orders-api)
+  - [Payment Methods API](#payment-methods-api)
+  - [Payment Schedules API](#payment-schedules-api)
+  - [Payment Fees API](#payment-fees-api)
+  - [Other APIs](#other-apis)
+- [Usage Examples](#usage-examples)
 - [Contributing](#contributing)
 - [License](#license)
 - [Support](#support)
 
 ## Overview
 
-The Firefly Core Banking Payments Service is a key microservice component of the Firefly Core Banking Platform that serves as a comprehensive repository manager for payment-related entities. It provides a robust API for creating, retrieving, updating, and deleting payment orders, instructions, schedules, fees, and other related entities in a banking environment.
+The **Firefly Core Banking Payments Service** is a critical microservice component of the Firefly OpenCore Banking Platform, developed by **Firefly Software Solutions Inc**. This service serves as the central repository manager for all payment-related entities, providing a robust and scalable API for managing payment orders, instructions, schedules, fees, and associated data in modern banking environments.
 
-As part of the Firefly Core Banking Platform, this service integrates seamlessly with other platform components such as accounts, customers, and general ledger services to provide a complete banking solution. Unlike previous versions that included simulation and execution functionality, this service now focuses exclusively on managing the repository of payment data, with payment operations handled by the Core Banking Payment Hub microservice. This separation of concerns improves maintainability and scalability of the overall platform.
+### Purpose
+
+This microservice focuses exclusively on **data management and repository operations** for payment entities, following a clear separation of concerns architecture. While payment processing and execution are handled by the Core Banking Payment Hub microservice, this service ensures reliable storage, retrieval, and management of payment data with comprehensive audit trails and compliance tracking.
+
+### Supported Payment Types
+
+The service supports a wide range of payment operations including:
+
+- **SEPA Credit Transfers (SCT)** - Standard European payments
+- **SEPA Instant Credit Transfers (ICT)** - Real-time European payments
+- **SEPA Direct Debits (DD)** - Automated debit collections
+- **SWIFT International Transfers** - Global wire transfers
+- **Internal Transfers** - Domestic account-to-account transfers
+- **Payroll Payments** - Bulk salary and wage distributions
+
+### Platform Integration
+
+As part of the Firefly OpenCore Banking Platform, this service integrates seamlessly with other platform components including accounts management, customer services, and general ledger systems to provide a complete banking solution. The service is designed for high availability, scalability, and regulatory compliance in production banking environments.
 
 ## Key Features
 
-- **Payment Order Management**: Create, retrieve, update, and delete payment orders that serve as the central entity for all payment operations
-- **Payment Instruction Management**: Manage instructions that define how and when payments should be processed
-- **Payment Schedule Management**: Configure one-time or recurring payment schedules
-- **Payment Fee Management**: Define and manage fees associated with payment orders
-- **Payment Method Management**: Configure and manage different payment methods supported by the system
-- **Payment Provider Management**: Manage information about payment providers associated with payment orders
-- **Payment Proof Management**: Store and retrieve proof of payment documentation
-- **Payroll Order Management**: Manage payroll-specific payment orders
-- **Comprehensive Filtering and Pagination**: All list endpoints support filtering and pagination for efficient data retrieval
-- **Hierarchical Data Structure**: Entities are organized in a logical hierarchy with payment orders at the top level
+- **Comprehensive Payment Order Management** - Full CRUD operations for payment orders with support for multiple payment types
+- **Advanced Payment Scheduling** - Flexible recurring payment schedules with frequency controls and execution limits
+- **Multi-Currency Support** - Handle payments in multiple currencies with exchange rate management
+- **Fee Management System** - Configurable fee structures with tax calculations and waiver capabilities
+- **Payment Method Configuration** - Support for various payment methods with validation rules and processing parameters
+- **Beneficiary Management** - Centralized beneficiary registry with favorites and detailed banking information
+- **Audit Trail & Compliance** - Complete audit logging and compliance validation for regulatory requirements
+- **Provider Integration** - Manage multiple payment providers with external reference tracking
+- **Proof of Payment** - Document management for payment confirmations and receipts
+- **Reactive Architecture** - Built with Spring WebFlux for high-performance, non-blocking operations
+- **Advanced Filtering & Pagination** - Sophisticated query capabilities across all entities
+- **OpenAPI Documentation** - Complete API documentation with Swagger UI integration
 
 ## Architecture
 
 ### Service Architecture
 
-The service follows a modular architecture with the following components:
+The service follows a clean, modular architecture with clear separation of concerns across multiple Maven modules:
 
-1. **core-banking-payments-interfaces**: Contains DTOs (Data Transfer Objects), interfaces, and enums that define the API contract
-2. **core-banking-payments-models**: Contains database entities and repositories for data persistence
-3. **core-banking-payments-core**: Contains the business logic and service implementations
-4. **core-banking-payments-web**: Contains REST controllers and web-related configurations
+1. **core-banking-payments-interfaces** - API contracts, DTOs, and enums
+2. **core-banking-payments-models** - Database entities, repositories, and data access layer
+3. **core-banking-payments-core** - Business logic, service implementations, and mappers
+4. **core-banking-payments-web** - REST controllers, configuration, and web layer
+5. **core-banking-payments-sdk** - Client SDK for external integrations
 
-This architecture promotes separation of concerns, making the codebase more maintainable and testable.
+This modular approach ensures maintainability, testability, and enables independent deployment of components.
+
+### Technical Stack
+
+- **Java 21** - Latest LTS version with virtual threads support
+- **Spring Boot 3.x** - Modern Spring framework with reactive programming
+- **Spring WebFlux** - Reactive web framework for high-performance APIs
+- **Spring Data R2DBC** - Reactive database access with PostgreSQL
+- **PostgreSQL** - Primary database with advanced JSON and UUID support
+- **Flyway** - Database migration and version control
+- **Maven** - Build automation and dependency management
+- **OpenAPI 3** - API documentation with Swagger UI
+- **Docker** - Containerization for deployment
 
 ### Platform Integration
 
-As part of the Firefly Core Banking Platform, this service integrates with other platform components:
+As a core component of the Firefly OpenCore Banking Platform, this service integrates with:
 
-- **Core Banking Accounts**: For account validation and balance checks
-- **Core Banking Customers**: For customer information and KYC verification
-- **Core Banking General Ledger**: For accounting entries related to payments
-- **Core Banking Payment Hub**: For payment execution and processing
-- **Core Banking Security**: For authentication, authorization, and audit
-
-The service communicates with these components through well-defined APIs, ensuring loose coupling and high cohesion within the platform.
+- **Core Banking Accounts** - Account validation and balance verification
+- **Core Banking Customers** - Customer data and KYC information
+- **Core Banking General Ledger** - Accounting entries and financial reporting
+- **Core Banking Payment Hub** - Payment processing and execution
+- **Core Banking Security** - Authentication, authorization, and audit trails
+- **Document Management** - Payment receipts and compliance documentation
 
 ## Technical Stack
 
@@ -132,21 +123,20 @@ The service communicates with these components through well-defined APIs, ensuri
 ```mermaid
 erDiagram
     PaymentMethod ||--o{ PaymentOrder : "supports"
+    PaymentBeneficiary ||--o{ PaymentOrder : "receives"
     PaymentOrder ||--o{ PaymentInstruction : "has"
-    PaymentOrder ||--o{ PaymentSchedule : "has"
-    PaymentOrder ||--o{ PaymentFee : "has"
-    PaymentOrder ||--o{ PaymentProvider : "has"
-    PaymentOrder ||--o| PaymentProof : "has"
-    PaymentOrder ||--o{ PayrollOrder : "has"
-    PaymentOrder ||--o{ PaymentAudit : "logs"
+    PaymentOrder ||--o{ PaymentSchedule : "schedules"
+    PaymentOrder ||--o{ PaymentFee : "charges"
+    PaymentOrder ||--o{ PaymentProvider : "processes"
+    PaymentOrder ||--o| PaymentProof : "proves"
+    PaymentOrder ||--o{ PayrollOrder : "includes"
+    PaymentOrder ||--o{ PaymentAudit : "audits"
     PaymentOrder ||--o| PaymentCompliance : "validates"
     PaymentOrder ||--o{ PaymentCorrespondence : "communicates"
     PaymentOrder ||--o| PaymentExchangeRate : "converts"
-    PaymentBeneficiary ||--o{ PaymentOrder : "receives"
-    PaymentInstruction ||--o{ PaymentAudit : "logs"
 
     PaymentMethod {
-        Long paymentMethodId PK
+        UUID paymentMethodId PK
         String methodName
         String description
         Boolean activeFlag
@@ -162,218 +152,9 @@ erDiagram
         LocalDateTime dateUpdated
     }
 
-    PaymentOrder {
-        Long paymentOrderId PK
-        Long payerAccountId
-        Long paymentMethodId FK
-        Long paymentBeneficiaryId FK
-        String beneficiaryName
-        String beneficiaryAccountNumber
-        String beneficiaryIban
-        String beneficiaryBic
-        String beneficiaryAddress
-        String beneficiaryCountryCode
-        String abaRoutingNumber
-        PaymentTypeEnum paymentType
-        LocalDateTime orderDate
-        PaymentStatusEnum status
-        BigDecimal amount
-        String currencyCode
-        String swiftBicCode
-        String remittanceInformation
-        Long documentId
-        String referenceNumber
-        String endToEndId
-        PaymentPriorityEnum priority
-        PaymentPurposeEnum purpose
-        String purposeCode
-        PaymentChannelEnum channel
-        PaymentCategoryEnum category
-        BigDecimal exchangeRate
-        String chargeBearer
-        BeneficiaryTypeEnum beneficiaryType
-        String beneficiaryBankName
-        String beneficiaryBankAddress
-        String beneficiaryBankCountryCode
-        String intermediaryBankName
-        String intermediaryBankBic
-        String intermediaryBankAccount
-        String regulatoryReporting
-        String taxInformation
-        String batchId
-        LocalDate valueDate
-        LocalDate requestedExecutionDate
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentInstruction {
-        Long paymentInstructionId PK
-        Long paymentOrderId FK
-        String instructionId
-        InstructionTypeEnum instructionType
-        LocalDateTime instructionDate
-        InstructionStatusEnum instructionStatus
-        String externalReference
-        PaymentPriorityEnum instructionPriority
-        String instructionNotes
-        Integer retryCount
-        LocalDateTime lastRetryDate
-        String errorCode
-        String errorDescription
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentSchedule {
-        Long paymentScheduleId PK
-        Long paymentOrderId FK
-        LocalDateTime scheduledDate
-        BigDecimal amount
-        PaymentFrequencyEnum frequency
-        PaymentScheduleStatusEnum scheduleStatus
-        LocalDate endDate
-        Integer maxExecutions
-        Integer currentExecutionCount
-        LocalDate nextExecutionDate
-        Integer dayOfMonth
-        Integer dayOfWeek
-        Integer weekOfMonth
-        Integer monthOfYear
-        String scheduleNotes
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentFee {
-        Long paymentFeeId PK
-        Long paymentOrderId FK
-        String feeType
-        FeeTypeEnum feeTypeEnum
-        BigDecimal feeAmount
-        String feeCurrencyCode
-        String feeDescription
-        String feeCalculationMethod
-        BigDecimal feeRate
-        BigDecimal feeTaxAmount
-        BigDecimal feeTaxRate
-        String feeTaxType
-        Boolean feeWaived
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentProvider {
-        Long paymentProviderId PK
-        Long paymentOrderId FK
-        String providerName
-        String externalReference
-        ProviderStatusEnum status
-        String providerType
-        String providerUrl
-        String providerApiKey
-        String providerUsername
-        String providerAccountId
-        BigDecimal providerFee
-        String providerFeeCurrencyCode
-        String providerResponseCode
-        String providerResponseMessage
-        String providerTransactionId
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentProof {
-        Long paymentProofId PK
-        Long paymentOrderId FK
-        Long documentId
-        String proofType
-        LocalDateTime proofDate
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PayrollOrder {
-        Long payrollOrderId PK
-        Long paymentOrderId FK
-        String payrollReference
-        LocalDateTime payrollDate
-        BigDecimal totalAmount
-        PayrollStatusEnum payrollStatus
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentAudit {
-        Long paymentAuditId PK
-        Long paymentOrderId FK
-        Long paymentInstructionId FK
-        String action
-        LocalDateTime actionDate
-        String actionBy
-        String previousStatus
-        String newStatus
-        String ipAddress
-        String userAgent
-        String additionalInfo
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentCompliance {
-        Long paymentComplianceId PK
-        Long paymentOrderId FK
-        String screeningStatus
-        LocalDateTime screeningDate
-        String screeningReference
-        Integer riskScore
-        String riskLevel
-        String complianceNotes
-        String amlCheckStatus
-        String sanctionsCheckStatus
-        String pepCheckStatus
-        String kycCheckStatus
-        String approvedBy
-        LocalDateTime approvalDate
-        String rejectionReason
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentCorrespondence {
-        Long paymentCorrespondenceId PK
-        Long paymentOrderId FK
-        String correspondenceType
-        LocalDateTime correspondenceDate
-        String correspondenceChannel
-        String correspondenceDirection
-        String correspondentBank
-        String correspondentReference
-        String messageContent
-        Long attachmentId
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
-    PaymentExchangeRate {
-        Long paymentExchangeRateId PK
-        Long paymentOrderId FK
-        String sourceCurrency
-        String targetCurrency
-        BigDecimal rate
-        LocalDateTime rateDate
-        String rateProvider
-        String rateType
-        BigDecimal markupPercentage
-        BigDecimal originalAmount
-        BigDecimal convertedAmount
-        LocalDateTime dateCreated
-        LocalDateTime dateUpdated
-    }
-
     PaymentBeneficiary {
-        Long paymentBeneficiaryId PK
-        Long payerAccountId
+        UUID paymentBeneficiaryId PK
+        UUID payerAccountId
         String beneficiaryName
         BeneficiaryTypeEnum beneficiaryType
         String beneficiaryAccountNumber
@@ -394,31 +175,347 @@ erDiagram
         LocalDateTime dateCreated
         LocalDateTime dateUpdated
     }
+
+    PaymentOrder {
+        UUID paymentOrderId PK
+        UUID payerAccountId
+        UUID paymentMethodId FK
+        UUID paymentBeneficiaryId FK
+        String beneficiaryName
+        String beneficiaryAccountNumber
+        String beneficiaryIban
+        String beneficiaryBic
+        String beneficiaryAddress
+        String beneficiaryCountryCode
+        String abaRoutingNumber
+        PaymentTypeEnum paymentType
+        LocalDateTime orderDate
+        PaymentStatusEnum status
+        BigDecimal amount
+        String currencyCode
+        String swiftBicCode
+        String remittanceInformation
+        UUID documentId
+        String referenceNumber
+        String endToEndId
+        PaymentPriorityEnum priority
+        PaymentPurposeEnum purpose
+        String purposeCode
+        PaymentChannelEnum channel
+        PaymentCategoryEnum category
+        BigDecimal exchangeRate
+        String chargeBearer
+        String intermediaryBankName
+        String intermediaryBankBic
+        String intermediaryBankAccount
+        String regulatoryReporting
+        String taxInformation
+        String batchId
+        LocalDate valueDate
+        LocalDate requestedExecutionDate
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentInstruction {
+        UUID paymentInstructionId PK
+        UUID paymentOrderId FK
+        String instructionId
+        InstructionTypeEnum instructionType
+        LocalDateTime instructionDate
+        PaymentStatusEnum instructionStatus
+        String externalReference
+        PaymentPriorityEnum instructionPriority
+        String instructionNotes
+        Integer retryCount
+        LocalDateTime lastRetryDate
+        String errorCode
+        String errorDescription
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentSchedule {
+        UUID paymentScheduleId PK
+        UUID paymentOrderId FK
+        LocalDateTime scheduledDate
+        BigDecimal amount
+        PaymentFrequencyEnum frequency
+        PaymentScheduleStatusEnum scheduleStatus
+        LocalDate endDate
+        Integer maxExecutions
+        Integer currentExecutionCount
+        LocalDate nextExecutionDate
+        Integer dayOfMonth
+        Integer dayOfWeek
+        Integer weekOfMonth
+        Integer monthOfYear
+        String scheduleNotes
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentFee {
+        UUID paymentFeeId PK
+        UUID paymentOrderId FK
+        String feeType
+        FeeTypeEnum feeTypeEnum
+        BigDecimal feeAmount
+        String feeCurrencyCode
+        String feeDescription
+        String feeCalculationMethod
+        BigDecimal feeRate
+        BigDecimal feeTaxAmount
+        BigDecimal feeTaxRate
+        String feeTaxType
+        Boolean feeWaived
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentProvider {
+        UUID paymentProviderId PK
+        UUID paymentOrderId FK
+        String providerName
+        String externalReference
+        ProviderStatusEnum status
+        String providerType
+        String providerUrl
+        String providerApiKey
+        String providerUsername
+        String providerAccountId
+        BigDecimal providerFee
+        String providerFeeCurrencyCode
+        String providerResponseCode
+        String providerResponseMessage
+        String providerTransactionId
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentProof {
+        UUID paymentProofId PK
+        UUID paymentOrderId FK
+        UUID documentId
+        String proofType
+        LocalDateTime proofDate
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PayrollOrder {
+        UUID payrollOrderId PK
+        UUID paymentOrderId FK
+        String payrollReference
+        LocalDateTime payrollDate
+        BigDecimal totalAmount
+        PayrollStatusEnum payrollStatus
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentAudit {
+        UUID paymentAuditId PK
+        UUID paymentOrderId FK
+        UUID paymentInstructionId FK
+        String action
+        LocalDateTime actionDate
+        String actionBy
+        String previousStatus
+        String newStatus
+        String ipAddress
+        String userAgent
+        String additionalInfo
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentCompliance {
+        UUID paymentComplianceId PK
+        UUID paymentOrderId FK
+        String screeningStatus
+        LocalDateTime screeningDate
+        String screeningReference
+        Integer riskScore
+        String riskLevel
+        String complianceNotes
+        String amlCheckStatus
+        String sanctionsCheckStatus
+        String pepCheckStatus
+        String kycCheckStatus
+        String approvedBy
+        LocalDateTime approvalDate
+        String rejectionReason
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentCorrespondence {
+        UUID paymentCorrespondenceId PK
+        UUID paymentOrderId FK
+        String correspondenceType
+        LocalDateTime correspondenceDate
+        String correspondenceChannel
+        String correspondenceDirection
+        String correspondentBank
+        String correspondentReference
+        String messageContent
+        UUID attachmentId
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
+
+    PaymentExchangeRate {
+        UUID paymentExchangeRateId PK
+        UUID paymentOrderId FK
+        String sourceCurrency
+        String targetCurrency
+        BigDecimal rate
+        LocalDateTime rateDate
+        String rateProvider
+        String rateType
+        BigDecimal markupPercentage
+        BigDecimal originalAmount
+        BigDecimal convertedAmount
+        LocalDateTime dateCreated
+        LocalDateTime dateUpdated
+    }
 ```
+### Core Entities
 
 The service manages several interconnected entities that form a comprehensive payment data model:
 
-### Payment Order
+#### PaymentOrder
+The central entity representing a payment instruction from a payer to a beneficiary. Contains all essential payment details including amounts, currencies, beneficiary information, and processing metadata.
 
-The central entity that represents a payment instruction from a payer to a beneficiary.
+**Key Attributes:**
+- `paymentOrderId` - Unique identifier (UUID)
+- `payerAccountId` - Account from which the payment is made
+- `paymentMethodId` - Method used for the payment
+- `beneficiaryName` - Name of the payment recipient
+- `amount` - Payment amount
+- `currencyCode` - Currency of the payment
+- `paymentType` - Type of payment (SEPA_SCT, SWIFT, etc.)
+- `status` - Current status of the payment order
 
-Key attributes:
-- `paymentOrderId`: Unique identifier
-- `payerAccountId`: Account from which the payment is made
-- `paymentMethodId`: Method used for the payment
-- `beneficiaryName`: Name of the payment recipient
-- `beneficiaryAccountNumber`: Account number of the recipient
-- `beneficiaryIban`: IBAN of the recipient
-- `amount`: Payment amount
-- `currencyCode`: Currency of the payment
-- `paymentType`: Type of payment (SEPA_SCT, SWIFT, etc.)
-- `status`: Current status of the payment order
+#### PaymentMethod
+Defines the available payment methods (SEPA SCT, SWIFT, etc.) with their processing characteristics, limits, and requirements.
 
-### Payment Instruction
+**Key Attributes:**
+- `paymentMethodId` - Unique identifier (UUID)
+- `methodName` - Name of the payment method
+- `description` - Description of the payment method
+- `activeFlag` - Whether the method is active
+- `processingTimeHours` - Expected processing time
+- `minAmount` / `maxAmount` - Transaction limits
+- `supportedCurrencies` - Array of supported currencies
 
-Represents a specific instruction for processing a payment order.
+#### PaymentBeneficiary
+Centralized registry of payment recipients with detailed banking information, contact details, and user preferences like favorites and nicknames.
 
-Key attributes:
+**Key Attributes:**
+- `paymentBeneficiaryId` - Unique identifier (UUID)
+- `payerAccountId` - Account that owns this beneficiary
+- `beneficiaryName` - Name of the beneficiary
+- `beneficiaryType` - Type (INDIVIDUAL, BUSINESS, GOVERNMENT)
+- `beneficiaryIban` - IBAN of the beneficiary
+- `beneficiaryBic` - BIC/SWIFT code
+- `isFavorite` - Whether this is a favorite beneficiary
+- `nickname` - User-friendly name
+
+#### PaymentInstruction
+Specific processing instructions for payment orders, including retry logic, error handling, and external system references.
+
+**Key Attributes:**
+- `paymentInstructionId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order
+- `instructionType` - Type of instruction
+- `instructionStatus` - Current status
+- `retryCount` - Number of retry attempts
+- `errorCode` / `errorDescription` - Error handling information
+
+#### PaymentSchedule
+Manages recurring payment schedules with flexible frequency options, execution limits, and automated processing controls.
+
+**Key Attributes:**
+- `paymentScheduleId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order
+- `scheduledDate` - Date when the payment is scheduled
+- `frequency` - Frequency of recurring payments (DAILY, WEEKLY, MONTHLY, etc.)
+- `scheduleStatus` - Current status of the schedule
+- `maxExecutions` - Maximum number of executions
+- `endDate` - End date for the schedule
+
+#### PaymentFee
+Comprehensive fee management with support for different fee types, tax calculations, and waiver capabilities.
+
+**Key Attributes:**
+- `paymentFeeId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order
+- `feeType` - Type of fee
+- `feeAmount` - Amount of the fee
+- `feeCurrencyCode` - Currency of the fee
+- `feeWaived` - Whether the fee is waived
+- `feeTaxAmount` - Tax amount on the fee
+
+#### PaymentProvider
+Integration details for external payment processors, including credentials, transaction tracking, and response handling.
+
+**Key Attributes:**
+- `paymentProviderId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order
+- `providerName` - Name of the provider
+- `externalReference` - External reference for the provider
+- `status` - Current status of the provider
+- `providerTransactionId` - Provider's transaction identifier
+
+#### PaymentProof
+Document management for payment confirmations, receipts, and regulatory compliance documentation.
+
+**Key Attributes:**
+- `paymentProofId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order (one-to-one relationship)
+- `documentId` - Reference to a document
+- `proofType` - Type of proof
+- `proofDate` - Date when the proof was created
+
+#### PayrollOrder
+Specialized entity for payroll payments with batch processing capabilities and regulatory compliance features.
+
+**Key Attributes:**
+- `payrollOrderId` - Unique identifier (UUID)
+- `paymentOrderId` - Associated payment order
+- `payrollReference` - Reference for the payroll
+- `totalAmount` - Total amount of the payroll
+- `payrollStatus` - Current status of the payroll
+
+## Installation
+
+### Prerequisites
+
+Before installing and running the Firefly Core Banking Payments Service, ensure you have the following prerequisites:
+
+- **Java Development Kit (JDK) 21** or later
+- **Apache Maven 3.8+** for build automation
+- **PostgreSQL 13+** for data persistence
+- **Docker** (optional, for containerized deployment)
+- **Git** for source code management
+
+### Building the Service
+
+Clone the repository and build the service using Maven:
+
+```bash
+# Clone the repository
+git clone https://github.com/firefly-oss/core-banking-payments.git
+cd core-banking-payments
+
+# Build the entire project
+mvn clean install
+
+# Build without running tests (faster)
+mvn clean install -DskipTests
+```
 - `paymentInstructionId`: Unique identifier
 - `paymentOrderId`: Associated payment order
 - `instructionType`: Type of instruction (IMMEDIATE, SCHEDULED)
@@ -566,41 +663,120 @@ Key attributes:
 - `originalAmount`: Original amount in source currency
 - `convertedAmount`: Converted amount in target currency
 
-## API Reference
+### Running Locally
 
-The service exposes a RESTful API with the following endpoints:
+To run the service locally for development:
 
-### Payment Orders
+```bash
+# Set up environment variables
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=payments_db
+export DB_USERNAME=payments_user
+export DB_PASSWORD=payments_password
+export DB_SSL_MODE=disable
 
-- `GET /api/v1/payment-orders`: List payment orders with filtering and pagination
-- `POST /api/v1/payment-orders`: Create a new payment order
-- `GET /api/v1/payment-orders/{paymentOrderId}`: Get a specific payment order
-- `PUT /api/v1/payment-orders/{paymentOrderId}`: Update a payment order
-- `DELETE /api/v1/payment-orders/{paymentOrderId}`: Delete a payment order
+# Run the web module
+mvn spring-boot:run -pl core-banking-payments-web
+```
 
-### Payment Instructions
+The service will start on `http://localhost:8080` with the following endpoints available:
+- **API Documentation**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI Specification**: `http://localhost:8080/v3/api-docs`
+- **Health Check**: `http://localhost:8080/actuator/health`
 
-- `GET /api/v1/payment-orders/{paymentOrderId}/instructions`: List instructions for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/instructions`: Create a new instruction
-- `GET /api/v1/payment-orders/{paymentOrderId}/instructions/{paymentInstructionId}`: Get a specific instruction
-- `PUT /api/v1/payment-orders/{paymentOrderId}/instructions/{paymentInstructionId}`: Update an instruction
-- `DELETE /api/v1/payment-orders/{paymentOrderId}/instructions/{paymentInstructionId}`: Delete an instruction
+### Docker Deployment
 
-### Payment Schedules
+Build and run the service using Docker:
 
-- `GET /api/v1/payment-orders/{paymentOrderId}/schedules`: List schedules for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/schedules`: Create a new schedule
-- `GET /api/v1/payment-orders/{paymentOrderId}/schedules/{paymentScheduleId}`: Get a specific schedule
-- `PUT /api/v1/payment-orders/{paymentOrderId}/schedules/{paymentScheduleId}`: Update a schedule
-- `DELETE /api/v1/payment-orders/{paymentOrderId}/schedules/{paymentScheduleId}`: Delete a schedule
+```bash
+# Build the Docker image
+docker build -t firefly/core-banking-payments:latest .
 
-### Payment Fees
+# Run with Docker Compose (recommended)
+docker-compose up -d
 
-- `GET /api/v1/payment-orders/{paymentOrderId}/fees`: List fees for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/fees`: Create a new fee
-- `GET /api/v1/payment-orders/{paymentOrderId}/fees/{paymentFeeId}`: Get a specific fee
-- `PUT /api/v1/payment-orders/{paymentOrderId}/fees/{paymentFeeId}`: Update a fee
-- `DELETE /api/v1/payment-orders/{paymentOrderId}/fees/{paymentFeeId}`: Delete a fee
+# Or run standalone container
+docker run -d \
+  --name core-banking-payments \
+  -p 8080:8080 \
+  -e DB_HOST=your-db-host \
+  -e DB_PORT=5432 \
+  -e DB_NAME=payments_db \
+  -e DB_USERNAME=payments_user \
+  -e DB_PASSWORD=payments_password \
+  firefly/core-banking-payments:latest
+```
+
+## API Documentation
+
+The service provides a comprehensive REST API for managing payment-related entities. All endpoints support reactive programming with Spring WebFlux and include comprehensive validation, error handling, and documentation.
+
+### Base URL Structure
+
+```
+http://localhost:8080/api/v1/
+```
+
+### Authentication
+
+The service integrates with the Firefly platform's security framework. Include the following headers in your requests:
+
+```http
+Authorization: Bearer <your-jwt-token>
+Content-Type: application/json
+```
+
+### Payment Orders API
+
+The core API for managing payment orders:
+
+**List Payment Orders**
+```http
+GET /api/v1/payment-orders?page=0&size=10&sort=orderDate,desc
+```
+
+**Create Payment Order**
+```http
+POST /api/v1/payment-orders
+Content-Type: application/json
+
+{
+  "payerAccountId": "123e4567-e89b-12d3-a456-426614174000",
+  "paymentMethodId": "123e4567-e89b-12d3-a456-426614174001",
+  "paymentBeneficiaryId": "123e4567-e89b-12d3-a456-426614174002",
+  "beneficiaryName": "John Doe",
+  "beneficiaryIban": "ES9121000418450200051332",
+  "beneficiaryBic": "CAIXESBBXXX",
+  "paymentType": "SEPA_SCT",
+  "orderDate": "2023-12-01T10:00:00Z",
+  "status": "INITIATED",
+  "amount": 1000.00,
+  "currencyCode": "EUR",
+  "remittanceInformation": "Invoice payment #INV-2023-001",
+  "referenceNumber": "REF-2023-001",
+  "endToEndId": "E2E-2023-001",
+  "priority": "NORMAL",
+  "purpose": "INVOICE_PAYMENT",
+  "channel": "ONLINE_BANKING",
+  "category": "DOMESTIC"
+}
+```
+
+**Get Payment Order**
+```http
+GET /api/v1/payment-orders/{paymentOrderId}
+```
+
+**Update Payment Order**
+```http
+PUT /api/v1/payment-orders/{paymentOrderId}
+```
+
+**Delete Payment Order**
+```http
+DELETE /api/v1/payment-orders/{paymentOrderId}
+```
 
 ### Payment Methods
 
@@ -643,509 +819,243 @@ The service exposes a RESTful API with the following endpoints:
 - `GET /api/v1/payment-beneficiaries/{paymentBeneficiaryId}`: Get a specific beneficiary
 - `PUT /api/v1/payment-beneficiaries/{paymentBeneficiaryId}`: Update a beneficiary
 - `DELETE /api/v1/payment-beneficiaries/{paymentBeneficiaryId}`: Delete a beneficiary
-- `PUT /api/v1/payment-beneficiaries/{paymentBeneficiaryId}/favorite`: Mark a beneficiary as favorite
-
 ### Payment Audit
 
 - `GET /api/v1/payment-orders/{paymentOrderId}/audit`: List audit records for a payment order
 - `GET /api/v1/payment-orders/{paymentOrderId}/instructions/{paymentInstructionId}/audit`: List audit records for a payment instruction
 
-### Payment Compliance
+## Usage Examples
 
-- `GET /api/v1/payment-orders/{paymentOrderId}/compliance`: Get compliance information for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/compliance`: Create or update compliance information
-- `PUT /api/v1/payment-orders/{paymentOrderId}/compliance/approve`: Approve a payment from compliance perspective
-- `PUT /api/v1/payment-orders/{paymentOrderId}/compliance/reject`: Reject a payment from compliance perspective
+This section provides practical examples of how to use the API for common payment management scenarios.
 
-### Payment Correspondence
-
-- `GET /api/v1/payment-orders/{paymentOrderId}/correspondence`: List correspondence for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/correspondence`: Add new correspondence
-- `GET /api/v1/payment-orders/{paymentOrderId}/correspondence/{paymentCorrespondenceId}`: Get specific correspondence
-
-### Payment Exchange Rates
-
-- `GET /api/v1/payment-orders/{paymentOrderId}/exchange-rates`: Get exchange rate information for a payment order
-- `POST /api/v1/payment-orders/{paymentOrderId}/exchange-rates`: Add exchange rate information
-- `GET /api/v1/exchange-rates`: Get current exchange rates
-- `GET /api/v1/exchange-rates?sourceCurrency={sourceCurrency}&targetCurrency={targetCurrency}`: Get specific exchange rate
-
-## Step-by-Step API Usage
-
-This section provides detailed examples of how to use the API for common payment management scenarios.
-
-### Creating and Managing a Payment Order
+### Creating a Complete Payment Order
 
 1. **Create a Payment Method** (if not already available):
-   ```http
-   POST /api/v1/payment-methods
-   Content-Type: application/json
+```http
+POST /api/v1/payment-methods
+Content-Type: application/json
 
-   {
-     "methodName": "SEPA_SCT",
-     "description": "SEPA Credit Transfer",
-     "activeFlag": true,
-     "processingTimeHours": 24,
-     "minAmount": 0.01,
-     "maxAmount": 100000.00,
-     "supportedCurrencies": ["EUR"],
-     "requiresIntermediaryBank": false,
-     "requiresRegulatoryReporting": false,
-     "requiresPurposeCode": false,
-     "defaultPriority": "NORMAL"
-   }
-   ```
-
-2. **Create a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders
-   Content-Type: application/json
-
-   {
-     "payerAccountId": 12345,
-     "paymentMethodId": 1,
-     "beneficiaryName": "John Doe",
-     "beneficiaryIban": "ES9121000418450200051332",
-     "beneficiaryBic": "CAIXESBBXXX",
-     "paymentType": "SEPA_SCT",
-     "amount": 1000.00,
-     "currencyCode": "EUR",
-     "remittanceInformation": "Invoice payment #INV-2023-001",
-     "priority": "NORMAL",
-     "purpose": "INVOICE_PAYMENT",
-     "channel": "ONLINE_BANKING",
-     "category": "DOMESTIC",
-     "referenceNumber": "REF-2023-001",
-     "endToEndId": "E2E-2023-001",
-     "valueDate": "2023-12-01"
-   }
-   ```
-
-3. **Retrieve the Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1
-   ```
-
-4. **Update the Payment Order**:
-   ```http
-   PUT /api/v1/payment-orders/1
-   Content-Type: application/json
-
-   {
-     "payerAccountId": 12345,
-     "paymentMethodId": 1,
-     "beneficiaryName": "John Doe",
-     "beneficiaryIban": "ES9121000418450200051332",
-     "beneficiaryBic": "CAIXESBBXXX",
-     "paymentType": "SEPA_SCT",
-     "amount": 1500.00,
-     "currencyCode": "EUR",
-     "remittanceInformation": "Updated invoice payment #INV-2023-001",
-     "priority": "HIGH",
-     "purpose": "INVOICE_PAYMENT",
-     "channel": "ONLINE_BANKING",
-     "category": "DOMESTIC",
-     "referenceNumber": "REF-2023-001-UPDATED",
-     "endToEndId": "E2E-2023-001",
-     "valueDate": "2023-12-01"
-   }
-   ```
-
-5. **List Payment Orders with Filtering**:
-   ```http
-   GET /api/v1/payment-orders?page=0&size=10&sort=orderDate,desc&payerAccountId=12345
-   ```
-
-### Working with Payment Instructions
-
-1. **Create a Payment Instruction for a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders/1/instructions
-   Content-Type: application/json
-
-   {
-     "instructionType": "IMMEDIATE",
-     "instructionStatus": "PENDING",
-     "instructionPriority": "NORMAL",
-     "externalReference": "EXT-REF-001",
-     "instructionNotes": "Process immediately"
-   }
-   ```
-
-2. **Retrieve Payment Instructions for a Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1/instructions
-   ```
-
-3. **Update a Payment Instruction**:
-   ```http
-   PUT /api/v1/payment-orders/1/instructions/1
-   Content-Type: application/json
-
-   {
-     "instructionType": "IMMEDIATE",
-     "instructionStatus": "EXECUTED",
-     "instructionPriority": "HIGH",
-     "externalReference": "EXT-REF-001-UPDATED",
-     "instructionNotes": "Processed successfully"
-   }
-   ```
-
-### Setting Up Payment Schedules
-
-1. **Create a Payment Schedule for a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders/1/schedules
-   Content-Type: application/json
-
-   {
-     "scheduledDate": "2023-12-01T10:00:00",
-     "amount": 1000.00,
-     "frequency": "MONTHLY",
-     "scheduleStatus": "SCHEDULED",
-     "endDate": "2024-12-01",
-     "maxExecutions": 12,
-     "dayOfMonth": 1,
-     "scheduleNotes": "Monthly payment for 1 year"
-   }
-   ```
-
-2. **Retrieve Payment Schedules for a Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1/schedules
-   ```
-
-3. **Update a Payment Schedule**:
-   ```http
-   PUT /api/v1/payment-orders/1/schedules/1
-   Content-Type: application/json
-
-   {
-     "scheduledDate": "2023-12-15T10:00:00",
-     "amount": 1000.00,
-     "frequency": "MONTHLY",
-     "scheduleStatus": "SCHEDULED",
-     "endDate": "2024-12-15",
-     "maxExecutions": 12,
-     "dayOfMonth": 15,
-     "scheduleNotes": "Updated monthly payment for 1 year"
-   }
-   ```
-
-### Managing Payment Providers
-
-1. **Add a Payment Provider to a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders/1/providers
-   Content-Type: application/json
-
-   {
-     "providerName": "BBVA",
-     "externalReference": "BBVA-REF-12345",
-     "status": "ACTIVE",
-     "providerType": "BANK",
-     "providerUrl": "https://api.bbva.com",
-     "providerApiKey": "api-key-12345",
-     "providerUsername": "bbva-api-user",
-     "providerAccountId": "BBVA-ACCOUNT-001",
-     "providerFee": 1.50,
-     "providerFeeCurrencyCode": "EUR"
-   }
-   ```
-
-2. **Retrieve Payment Providers for a Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1/providers
-   ```
-
-3. **Update a Payment Provider**:
-   ```http
-   PUT /api/v1/payment-orders/1/providers/1
-   Content-Type: application/json
-
-   {
-     "providerName": "BBVA",
-     "externalReference": "BBVA-REF-67890",
-     "status": "ACTIVE",
-     "providerType": "BANK",
-     "providerUrl": "https://api.bbva.com",
-     "providerApiKey": "api-key-12345",
-     "providerUsername": "bbva-api-user",
-     "providerAccountId": "BBVA-ACCOUNT-001",
-     "providerFee": 1.50,
-     "providerFeeCurrencyCode": "EUR",
-     "providerResponseCode": "SUCCESS",
-     "providerResponseMessage": "Payment processed successfully",
-     "providerTransactionId": "BBVA-TX-12345"
-   }
-   ```
-
-### Managing Beneficiaries
-
-1. **Create a New Beneficiary**:
-   ```http
-   POST /api/v1/payment-beneficiaries
-   Content-Type: application/json
-
-   {
-     "payerAccountId": 12345,
-     "beneficiaryName": "John Doe Ltd",
-     "beneficiaryType": "BUSINESS",
-     "beneficiaryAccountNumber": "12345678",
-     "beneficiaryIban": "ES9121000418450200051332",
-     "beneficiaryBic": "CAIXESBBXXX",
-     "beneficiaryAddress": "123 Business St, Barcelona",
-     "beneficiaryCity": "Barcelona",
-     "beneficiaryPostalCode": "08001",
-     "beneficiaryCountryCode": "ES",
-     "beneficiaryEmail": "accounts@johndoeltd.com",
-     "beneficiaryPhone": "+34612345678",
-     "beneficiaryTaxId": "B12345678",
-     "beneficiaryBankName": "CaixaBank",
-     "beneficiaryBankAddress": "456 Bank St, Barcelona",
-     "beneficiaryBankCountryCode": "ES",
-     "isFavorite": true,
-     "nickname": "John's Company"
-   }
-   ```
-
-2. **List Favorite Beneficiaries**:
-   ```http
-   GET /api/v1/payment-beneficiaries?payerAccountId=12345&isFavorite=true
-   ```
-
-3. **Use a Beneficiary in a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders
-   Content-Type: application/json
-
-   {
-     "payerAccountId": 12345,
-     "paymentMethodId": 1,
-     "paymentBeneficiaryId": 1,
-     "paymentType": "SEPA_SCT",
-     "amount": 1000.00,
-     "currencyCode": "EUR",
-     "remittanceInformation": "Invoice payment #INV-2023-001",
-     "priority": "NORMAL",
-     "purpose": "INVOICE_PAYMENT",
-     "channel": "ONLINE_BANKING",
-     "category": "DOMESTIC",
-     "referenceNumber": "REF-2023-001",
-     "endToEndId": "E2E-2023-001",
-     "valueDate": "2023-12-01"
-   }
-   ```
-
-### Working with Compliance
-
-1. **Check Compliance Status for a Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1/compliance
-   ```
-
-2. **Update Compliance Information**:
-   ```http
-   POST /api/v1/payment-orders/1/compliance
-   Content-Type: application/json
-
-   {
-     "paymentOrderId": 1,
-     "screeningStatus": "COMPLETED",
-     "screeningDate": "2023-12-01T10:00:00",
-     "screeningReference": "SCR-2023-001",
-     "riskScore": 25,
-     "riskLevel": "LOW",
-     "complianceNotes": "All checks completed successfully",
-     "amlCheckStatus": "PASSED",
-     "sanctionsCheckStatus": "PASSED",
-     "pepCheckStatus": "PASSED",
-     "kycCheckStatus": "PASSED"
-   }
-   ```
-
-3. **Approve a Payment from Compliance Perspective**:
-   ```http
-   PUT /api/v1/payment-orders/1/compliance/approve
-   Content-Type: application/json
-
-   {
-     "approvedBy": "compliance.officer",
-     "complianceNotes": "All checks passed. Payment approved."
-   }
-   ```
-
-### Managing Exchange Rates
-
-1. **Get Current Exchange Rate**:
-   ```http
-   GET /api/v1/exchange-rates?sourceCurrency=USD&targetCurrency=EUR
-   ```
-
-2. **Add Exchange Rate Information to a Payment Order**:
-   ```http
-   POST /api/v1/payment-orders/1/exchange-rates
-   Content-Type: application/json
-
-   {
-     "paymentOrderId": 1,
-     "sourceCurrency": "USD",
-     "targetCurrency": "EUR",
-     "rate": 0.92,
-     "rateDate": "2023-12-01T10:00:00",
-     "rateProvider": "ECB",
-     "rateType": "SPOT",
-     "markupPercentage": 1.5,
-     "originalAmount": 1000.00,
-     "convertedAmount": 920.00
-   }
-   ```
-
-3. **View Exchange Rate Information for a Payment Order**:
-   ```http
-   GET /api/v1/payment-orders/1/exchange-rates
-   ```
-
-## Getting Started
-
-### Prerequisites
-
-- Java Development Kit (JDK) 21
-- Maven 3.8+
-- Docker (for containerized deployment)
-- PostgreSQL database
-- Access to other Firefly Core Banking Platform services (for full functionality)
-
-### Building the Service
-
-```bash
-mvn clean install
+{
+  "methodName": "SEPA_SCT",
+  "description": "SEPA Credit Transfer",
+  "activeFlag": true,
+  "processingTimeHours": 24,
+  "minAmount": 0.01,
+  "maxAmount": 100000.00,
+  "supportedCurrencies": ["EUR"],
+  "requiresIntermediaryBank": false,
+  "requiresRegulatoryReporting": false,
+  "requiresPurposeCode": false,
+  "defaultPriority": "NORMAL"
+}
 ```
 
-### Running Locally
+2. **Create a Payment Beneficiary**:
+```http
+POST /api/v1/payment-beneficiaries
+Content-Type: application/json
 
-```bash
-mvn spring-boot:run -pl core-banking-payments-web
+{
+  "payerAccountId": "123e4567-e89b-12d3-a456-426614174000",
+  "beneficiaryName": "John Doe",
+  "beneficiaryType": "INDIVIDUAL",
+  "beneficiaryAccountNumber": "1234567890",
+  "beneficiaryIban": "ES9121000418450200051332",
+  "beneficiaryBic": "CAIXESBBXXX",
+  "beneficiaryAddress": "123 Main St, Madrid, Spain",
+  "beneficiaryCity": "Madrid",
+  "beneficiaryPostalCode": "28001",
+  "beneficiaryCountryCode": "ES",
+  "beneficiaryEmail": "john.doe@example.com",
+  "beneficiaryPhone": "+34612345678",
+  "beneficiaryBankName": "CaixaBank",
+  "beneficiaryBankAddress": "456 Bank St, Madrid, Spain",
+  "beneficiaryBankCountryCode": "ES",
+  "isFavorite": true,
+  "nickname": "John - Supplier"
+}
 ```
 
-### Running with Docker
+3. **Create a Payment Order**:
+```http
+POST /api/v1/payment-orders
+Content-Type: application/json
 
-```bash
-# Build the Docker image
-docker build -t firefly/core-banking-payments .
-
-# Run the container
-docker run -p 8080:8080 firefly/core-banking-payments
+{
+  "payerAccountId": "123e4567-e89b-12d3-a456-426614174000",
+  "paymentMethodId": "123e4567-e89b-12d3-a456-426614174001",
+  "paymentBeneficiaryId": "123e4567-e89b-12d3-a456-426614174002",
+  "beneficiaryName": "John Doe",
+  "beneficiaryIban": "ES9121000418450200051332",
+  "beneficiaryBic": "CAIXESBBXXX",
+  "beneficiaryAddress": "123 Main St, Madrid, Spain",
+  "beneficiaryCountryCode": "ES",
+  "paymentType": "SEPA_SCT",
+  "orderDate": "2023-12-01T10:00:00Z",
+  "status": "INITIATED",
+  "amount": 1000.00,
+  "currencyCode": "EUR",
+  "remittanceInformation": "Invoice payment #INV-2023-001",
+  "referenceNumber": "REF-2023-001",
+  "endToEndId": "E2E-2023-001",
+  "priority": "NORMAL",
+  "purpose": "INVOICE_PAYMENT",
+  "channel": "ONLINE_BANKING",
+  "category": "DOMESTIC",
+  "valueDate": "2023-12-01",
+  "requestedExecutionDate": "2023-12-01"
+}
 ```
 
-### Running with the Platform
+### Setting Up Recurring Payments
 
-For full functionality, this service should be run as part of the complete Firefly Core Banking Platform. Refer to the platform documentation for instructions on deploying the entire platform using Docker Compose or Kubernetes.
+4. **Create a Payment Schedule**:
+```http
+POST /api/v1/payment-orders/{paymentOrderId}/schedules
+Content-Type: application/json
 
-## Environment Configuration
-
-The following environment variables can be configured:
-
-### Database Configuration
-- `SPRING_PROFILES_ACTIVE`: Active Spring profile (dev, test, prod)
-- `SPRING_R2DBC_URL`: Database connection URL
-- `SPRING_R2DBC_USERNAME`: Database username
-- `SPRING_R2DBC_PASSWORD`: Database password
-
-### Platform Integration
-- `FIREFLY_ACCOUNTS_SERVICE_URL`: URL of the Firefly Core Banking Accounts service
-- `FIREFLY_CUSTOMERS_SERVICE_URL`: URL of the Firefly Core Banking Customers service
-- `FIREFLY_GL_SERVICE_URL`: URL of the Firefly Core Banking General Ledger service
-- `FIREFLY_PAYMENT_HUB_SERVICE_URL`: URL of the Firefly Core Banking Payment Hub service
-- `FIREFLY_SECURITY_SERVICE_URL`: URL of the Firefly Core Banking Security service
-
-### Application Configuration
-- `SERVER_PORT`: Port on which the service runs (default: 8080)
-- `LOGGING_LEVEL_ROOT`: Root logging level
-- `LOGGING_LEVEL_COM_CATALIS`: Application-specific logging level
-
-## Development Guidelines
-
-### Code Structure
-
-- Follow the package structure based on domain concepts
-- Use DTOs for API request/response objects
-- Implement business logic in service classes
-- Use repositories for data access
-- Follow the Firefly Core Banking Platform architectural guidelines
-
-### Coding Standards
-
-- Follow Java coding conventions
-- Use meaningful variable and method names
-- Write comprehensive JavaDoc comments
-- Include unit tests for all new functionality
-- Adhere to the Firefly Core Banking Platform coding standards
-
-### Platform Integration
-
-- Use the standard Firefly Core Banking Platform integration patterns
-- Implement proper error handling for cross-service communication
-- Use circuit breakers for resilience in service-to-service communication
-- Follow the platform's event-driven architecture guidelines when applicable
-
-## Testing
-
-### Running Tests
-
-```bash
-# Run all tests
-mvn test
-
-# Run specific test class
-mvn test -Dtest=PaymentOrderServiceTest
-
-# Run integration tests
-mvn verify -P integration-test
+{
+  "paymentOrderId": "123e4567-e89b-12d3-a456-426614174003",
+  "scheduledDate": "2023-12-01T09:00:00Z",
+  "amount": 1000.00,
+  "frequency": "MONTHLY",
+  "scheduleStatus": "SCHEDULED",
+  "endDate": "2024-12-01",
+  "maxExecutions": 12,
+  "currentExecutionCount": 0,
+  "nextExecutionDate": "2023-12-01",
+  "dayOfMonth": 1,
+  "scheduleNotes": "Monthly supplier payment"
+}
 ```
 
-### Testing with Platform
+### Managing Payment Fees
 
-For comprehensive testing with other Firefly Core Banking Platform components:
+5. **Add Payment Fees**:
+```http
+POST /api/v1/payment-orders/{paymentOrderId}/fees
+Content-Type: application/json
 
-```bash
-# Run platform integration tests
-mvn verify -P platform-integration-test
+{
+  "paymentOrderId": "123e4567-e89b-12d3-a456-426614174003",
+  "feeType": "Processing Fee",
+  "feeTypeEnum": "PROCESSING_FEE",
+  "feeAmount": 2.50,
+  "feeCurrencyCode": "EUR",
+  "feeDescription": "Standard processing fee",
+  "feeCalculationMethod": "FIXED",
+  "feeRate": 0.0,
+  "feeTaxAmount": 0.53,
+  "feeTaxRate": 21.0,
+  "feeTaxType": "VAT",
+  "feeWaived": false
+}
 ```
 
-This requires access to the Firefly Core Banking Platform test environment.
+### Compliance and Audit
 
-## Deployment
+6. **Create Payment Instruction**:
+```http
+POST /api/v1/payment-orders/{paymentOrderId}/instructions
+Content-Type: application/json
 
-### Standalone Deployment
+{
+  "paymentOrderId": "123e4567-e89b-12d3-a456-426614174003",
+  "instructionId": "INST-2023-001",
+  "instructionType": "IMMEDIATE",
+  "instructionDate": "2023-12-01T10:00:00Z",
+  "instructionStatus": "PENDING",
+  "externalReference": "EXT-REF-001",
+  "instructionPriority": "NORMAL",
+  "instructionNotes": "Process immediately",
+  "retryCount": 0
+}
+```
 
-The service can be deployed as a standalone Spring Boot application or as a Docker container. It exposes port 8080 for HTTP traffic.
-
-### Platform Deployment
-
-For production use, deploy this service as part of the complete Firefly Core Banking Platform using the platform's deployment tools:
-
-- **Docker Compose**: For development and testing environments
-- **Kubernetes**: For production environments using the provided Helm charts
-- **Firefly Platform Manager**: For managed deployments
+7. **View Audit Trail**:
+```http
+GET /api/v1/payment-orders/{paymentOrderId}/audit
+```
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Create a new Pull Request
+We welcome contributions to the Firefly Core Banking Payments Service! Please follow these guidelines:
+
+### Development Setup
+
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
+   ```bash
+   git clone https://github.com/your-username/core-banking-payments.git
+   cd core-banking-payments
+   ```
+3. **Create a feature branch**:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+4. **Set up the development environment** following the installation instructions above
+
+### Code Standards
+
+- Follow Java coding conventions and best practices
+- Write comprehensive unit tests for new functionality
+- Ensure all tests pass before submitting
+- Use meaningful commit messages
+- Update documentation for any API changes
+
+### Submitting Changes
+
+1. **Commit your changes**:
+   ```bash
+   git commit -m "Add feature: your feature description"
+   ```
+2. **Push to your fork**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+3. **Create a Pull Request** on GitHub with a clear description of your changes
 
 ## License
 
-This project is under the Apache 2.0 - LICENSE.
+This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
+
+```
+Copyright 2023 Firefly Software Solutions Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 
 ## Support
 
-For support with this service or the Firefly Core Banking Platform:
+For support with the Firefly Core Banking Payments Service:
 
-- **Documentation**: Refer to the complete Firefly Core Banking Platform documentation
-- **Support Portal**: Submit tickets through the Firefly support portal
-- **Community Forum**: Participate in the Firefly Core Banking Platform community forum
-- **Training**: Access training materials through the Firefly Learning Center
+### Documentation
+- **API Documentation**: Available at `/swagger-ui.html` when running the service
+- **Platform Documentation**: [Firefly OpenCore Banking Platform Docs](https://docs.getfirefly.io)
+- **Developer Portal**: [Firefly Developer Portal](https://developers.getfirefly.io)
+
+### Community & Support
+- **Website**: [getfirefly.io](https://getfirefly.io)
+- **GitHub Issues**: Report bugs and request features
+- **Support Email**: [support@getfirefly.io](mailto:support@getfirefly.io)
+
+### Professional Services
+- **Implementation Support**: Professional implementation and integration services
+- **Training**: Comprehensive training programs for developers and administrators
+- **Custom Development**: Tailored solutions and custom feature development
+
+---
+
+**Firefly Software Solutions Inc** | Building the future of banking technology
+- Website: [getfirefly.io](https://getfirefly.io)
+- GitHub: [github.com/firefly-oss](https://github.com/firefly-oss)
