@@ -11,6 +11,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,13 +22,13 @@ public class PaymentOrder extends BaseEntity {
 
     @Id
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("payer_account_id")
-    private Long payerAccountId;
+    private UUID payerAccountId;
 
     @Column("payment_method_id")
-    private Long paymentMethodId;
+    private UUID paymentMethodId;
 
     @Column("beneficiary_name")
     private String beneficiaryName;
@@ -71,10 +73,10 @@ public class PaymentOrder extends BaseEntity {
     private String remittanceInformation;
 
     @Column("document_id")
-    private Long documentId;
+    private UUID documentId;
 
     @Column("payment_beneficiary_id")
-    private Long paymentBeneficiaryId;
+    private UUID paymentBeneficiaryId;
 
     @Column("reference_number")
     private String referenceNumber;

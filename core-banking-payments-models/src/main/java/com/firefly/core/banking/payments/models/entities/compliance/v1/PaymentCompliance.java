@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,10 +21,10 @@ public class PaymentCompliance extends BaseEntity {
 
     @Id
     @Column("payment_compliance_id")
-    private Long paymentComplianceId;
+    private UUID paymentComplianceId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("screening_status")
     private String screeningStatus;

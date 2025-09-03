@@ -1,12 +1,14 @@
 package com.firefly.core.banking.payments.models.repositories.correspondence.v1;
 
 import com.firefly.core.banking.payments.models.entities.correspondence.v1.PaymentCorrespondence;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import com.firefly.core.banking.payments.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
+import java.util.UUID;
+
 @Repository
-public interface PaymentCorrespondenceRepository extends R2dbcRepository<PaymentCorrespondence, Long> {
-    Flux<PaymentCorrespondence> findByPaymentOrderId(Long paymentOrderId);
-    Flux<PaymentCorrespondence> findByPaymentOrderIdAndCorrespondenceType(Long paymentOrderId, String correspondenceType);
+public interface PaymentCorrespondenceRepository extends BaseRepository<PaymentCorrespondence, UUID> {
+    Flux<PaymentCorrespondence> findByPaymentOrderId(UUID paymentOrderId);
+    Flux<PaymentCorrespondence> findByPaymentOrderIdAndCorrespondenceType(UUID paymentOrderId, String correspondenceType);
 }

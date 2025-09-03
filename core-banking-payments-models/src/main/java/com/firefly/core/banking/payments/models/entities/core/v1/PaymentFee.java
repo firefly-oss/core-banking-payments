@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 
 @Getter
@@ -20,10 +21,10 @@ import java.math.BigDecimal;
 public class PaymentFee extends BaseEntity {
     @Id
     @Column("payment_fee_id")
-    private Long paymentFeeId;
+    private UUID paymentFeeId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("fee_type")
     private String feeType;

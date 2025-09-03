@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,10 +25,10 @@ public class PaymentSchedule extends BaseEntity {
 
     @Id
     @Column("payment_schedule_id")
-    private Long paymentScheduleId;
+    private UUID paymentScheduleId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("scheduled_date")
     private LocalDateTime scheduledDate;

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,10 +21,10 @@ public class PaymentCorrespondence extends BaseEntity {
 
     @Id
     @Column("payment_correspondence_id")
-    private Long paymentCorrespondenceId;
+    private UUID paymentCorrespondenceId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("correspondence_type")
     private String correspondenceType;
@@ -47,5 +48,5 @@ public class PaymentCorrespondence extends BaseEntity {
     private String messageContent;
 
     @Column("attachment_id")
-    private Long attachmentId;
+    private UUID attachmentId;
 }

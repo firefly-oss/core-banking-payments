@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,13 +21,13 @@ public class PaymentProof extends BaseEntity {
 
     @Id
     @Column("payment_proof_id")
-    private Long paymentProofId;
+    private UUID paymentProofId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("document_id")
-    private Long documentId;
+    private UUID documentId;
 
     @Column("proof_type")
     private String proofType;

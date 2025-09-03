@@ -11,6 +11,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,10 +21,10 @@ public class PaymentInstruction extends BaseEntity {
 
     @Id
     @Column("payment_instruction_id")
-    private Long paymentInstructionId;
+    private UUID paymentInstructionId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("instruction_id")
     private String instructionId;

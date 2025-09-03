@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -21,10 +22,10 @@ public class PaymentExchangeRate extends BaseEntity {
 
     @Id
     @Column("payment_exchange_rate_id")
-    private Long paymentExchangeRateId;
+    private UUID paymentExchangeRateId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("source_currency")
     private String sourceCurrency;

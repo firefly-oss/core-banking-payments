@@ -10,6 +10,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,13 +21,13 @@ public class PaymentAudit extends BaseEntity {
 
     @Id
     @Column("payment_audit_id")
-    private Long paymentAuditId;
+    private UUID paymentAuditId;
 
     @Column("payment_order_id")
-    private Long paymentOrderId;
+    private UUID paymentOrderId;
 
     @Column("payment_instruction_id")
-    private Long paymentInstructionId;
+    private UUID paymentInstructionId;
 
     @Column("action")
     private String action;

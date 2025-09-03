@@ -1,12 +1,14 @@
 package com.firefly.core.banking.payments.models.repositories.audit.v1;
 
 import com.firefly.core.banking.payments.models.entities.audit.v1.PaymentAudit;
-import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import com.firefly.core.banking.payments.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 
+import java.util.UUID;
+
 @Repository
-public interface PaymentAuditRepository extends R2dbcRepository<PaymentAudit, Long> {
-    Flux<PaymentAudit> findByPaymentOrderId(Long paymentOrderId);
-    Flux<PaymentAudit> findByPaymentInstructionId(Long paymentInstructionId);
+public interface PaymentAuditRepository extends BaseRepository<PaymentAudit, UUID> {
+    Flux<PaymentAudit> findByPaymentOrderId(UUID paymentOrderId);
+    Flux<PaymentAudit> findByPaymentInstructionId(UUID paymentInstructionId);
 }
