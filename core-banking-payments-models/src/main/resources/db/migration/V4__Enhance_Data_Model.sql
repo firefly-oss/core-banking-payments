@@ -173,9 +173,9 @@ ALTER TABLE payment_provider
 -- Create payment_audit table
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS payment_audit (
-    payment_audit_id        BIGSERIAL PRIMARY KEY,
-    payment_order_id        BIGINT REFERENCES payment_order(payment_order_id),
-    payment_instruction_id  BIGINT REFERENCES payment_instruction(payment_instruction_id),
+    payment_audit_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID REFERENCES payment_order(payment_order_id),
+    payment_instruction_id UUID REFERENCES payment_instruction(payment_instruction_id),
     action                  VARCHAR(50) NOT NULL,
     action_date             TIMESTAMP NOT NULL DEFAULT NOW(),
     action_by               VARCHAR(100),
@@ -192,8 +192,8 @@ CREATE TABLE IF NOT EXISTS payment_audit (
 -- Create payment_compliance table
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS payment_compliance (
-    payment_compliance_id   BIGSERIAL PRIMARY KEY,
-    payment_order_id        BIGINT NOT NULL REFERENCES payment_order(payment_order_id),
+    payment_compliance_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID NOT NULL REFERENCES payment_order(payment_order_id),
     screening_status        VARCHAR(50) NOT NULL,
     screening_date          TIMESTAMP,
     screening_reference     VARCHAR(100),
@@ -215,8 +215,8 @@ CREATE TABLE IF NOT EXISTS payment_compliance (
 -- Create payment_correspondence table
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS payment_correspondence (
-    payment_correspondence_id BIGSERIAL PRIMARY KEY,
-    payment_order_id        BIGINT NOT NULL REFERENCES payment_order(payment_order_id),
+    payment_correspondence_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID NOT NULL REFERENCES payment_order(payment_order_id),
     correspondence_type     VARCHAR(50) NOT NULL,
     correspondence_date     TIMESTAMP NOT NULL,
     correspondence_channel  VARCHAR(50),
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS payment_correspondence (
     correspondent_bank      VARCHAR(140),
     correspondent_reference VARCHAR(100),
     message_content         TEXT,
-    attachment_id           BIGINT,
+    attachment_id UUID,
     date_created            TIMESTAMP NOT NULL DEFAULT NOW(),
     date_updated            TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -233,8 +233,8 @@ CREATE TABLE IF NOT EXISTS payment_correspondence (
 -- Create payment_exchange_rate table
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS payment_exchange_rate (
-    payment_exchange_rate_id BIGSERIAL PRIMARY KEY,
-    payment_order_id        BIGINT NOT NULL REFERENCES payment_order(payment_order_id),
+    payment_exchange_rate_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payment_order_id UUID NOT NULL REFERENCES payment_order(payment_order_id),
     source_currency         CHAR(3) NOT NULL,
     target_currency         CHAR(3) NOT NULL,
     rate                    NUMERIC(18, 6) NOT NULL,
@@ -252,8 +252,8 @@ CREATE TABLE IF NOT EXISTS payment_exchange_rate (
 -- Create payment_beneficiary table
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS payment_beneficiary (
-    payment_beneficiary_id  BIGSERIAL PRIMARY KEY,
-    payer_account_id        BIGINT NOT NULL,
+    payment_beneficiary_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    payer_account_id UUID NOT NULL,
     beneficiary_name        VARCHAR(140) NOT NULL,
     beneficiary_type        beneficiary_type_enum,
     beneficiary_account_number VARCHAR(50),
@@ -277,4 +277,4 @@ CREATE TABLE IF NOT EXISTS payment_beneficiary (
 
 -- Add relationship between payment_order and payment_beneficiary
 ALTER TABLE payment_order
-    ADD COLUMN IF NOT EXISTS payment_beneficiary_id BIGINT REFERENCES payment_beneficiary(payment_beneficiary_id);
+    ADD COLUMN IF NOT EXISTS payment_beneficiary_id UUID REFERENCES payment_beneficiary(payment_beneficiary_id);
