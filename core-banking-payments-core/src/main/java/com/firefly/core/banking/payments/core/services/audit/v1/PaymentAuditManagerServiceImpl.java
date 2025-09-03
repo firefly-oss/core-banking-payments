@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentAuditManagerServiceImpl implements PaymentAuditManagerService {
@@ -23,7 +24,7 @@ public class PaymentAuditManagerServiceImpl implements PaymentAuditManagerServic
     private PaymentAuditMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentAuditDTO>> getAuditsByPaymentOrderId(Long paymentOrderId, FilterRequest<PaymentAuditDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentAuditDTO>> getAuditsByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentAuditDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentAudit.class,
@@ -33,7 +34,7 @@ public class PaymentAuditManagerServiceImpl implements PaymentAuditManagerServic
     }
 
     @Override
-    public Mono<PaginationResponse<PaymentAuditDTO>> getAuditsByPaymentInstructionId(Long paymentInstructionId, FilterRequest<PaymentAuditDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentAuditDTO>> getAuditsByPaymentInstructionId(UUID paymentInstructionId, FilterRequest<PaymentAuditDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentAudit.class,
@@ -49,7 +50,7 @@ public class PaymentAuditManagerServiceImpl implements PaymentAuditManagerServic
     }
 
     @Override
-    public Mono<PaymentAuditDTO> getAuditById(Long paymentAuditId) {
+    public Mono<PaymentAuditDTO> getAuditById(UUID paymentAuditId) {
         return repository.findById(paymentAuditId)
                 .map(mapper::toDTO);
     }

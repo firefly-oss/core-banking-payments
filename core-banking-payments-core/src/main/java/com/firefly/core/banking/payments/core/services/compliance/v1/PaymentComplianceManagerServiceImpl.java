@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 import java.time.LocalDateTime;
 
 @Service
@@ -25,7 +26,7 @@ public class PaymentComplianceManagerServiceImpl implements PaymentComplianceMan
     private PaymentComplianceMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentComplianceDTO>> getComplianceByPaymentOrderId(Long paymentOrderId, FilterRequest<PaymentComplianceDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentComplianceDTO>> getComplianceByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentComplianceDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentCompliance.class,
@@ -35,20 +36,20 @@ public class PaymentComplianceManagerServiceImpl implements PaymentComplianceMan
     }
 
     @Override
-    public Mono<PaymentComplianceDTO> createCompliance(Long paymentOrderId, PaymentComplianceDTO paymentComplianceDTO) {
+    public Mono<PaymentComplianceDTO> createCompliance(UUID paymentOrderId, PaymentComplianceDTO paymentComplianceDTO) {
         paymentComplianceDTO.setPaymentOrderId(paymentOrderId);
         PaymentCompliance entity = mapper.toEntity(paymentComplianceDTO);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentComplianceDTO> getComplianceById(Long paymentComplianceId) {
+    public Mono<PaymentComplianceDTO> getComplianceById(UUID paymentComplianceId) {
         return repository.findById(paymentComplianceId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentComplianceDTO> updateCompliance(Long paymentOrderId, Long paymentComplianceId, PaymentComplianceDTO paymentComplianceDTO) {
+    public Mono<PaymentComplianceDTO> updateCompliance(UUID paymentOrderId, UUID paymentComplianceId, PaymentComplianceDTO paymentComplianceDTO) {
         return repository.findById(paymentComplianceId)
                 .flatMap(existingEntity -> {
                     PaymentCompliance updatedEntity = mapper.toEntity(paymentComplianceDTO);
@@ -61,7 +62,7 @@ public class PaymentComplianceManagerServiceImpl implements PaymentComplianceMan
     }
 
     @Override
-    public Mono<PaymentComplianceDTO> approveCompliance(Long paymentOrderId, String approvedBy, String complianceNotes) {
+    public Mono<PaymentComplianceDTO> approveCompliance(UUID paymentOrderId, String approvedBy, String complianceNotes) {
         return repository.findFirstByPaymentOrderIdOrderByDateCreatedDesc(paymentOrderId)
                 .flatMap(existingEntity -> {
                     existingEntity.setApprovedBy(approvedBy);
@@ -73,7 +74,7 @@ public class PaymentComplianceManagerServiceImpl implements PaymentComplianceMan
     }
 
     @Override
-    public Mono<PaymentComplianceDTO> rejectCompliance(Long paymentOrderId, String rejectionReason) {
+    public Mono<PaymentComplianceDTO> rejectCompliance(UUID paymentOrderId, String rejectionReason) {
         return repository.findFirstByPaymentOrderIdOrderByDateCreatedDesc(paymentOrderId)
                 .flatMap(existingEntity -> {
                     existingEntity.setRejectionReason(rejectionReason);
@@ -83,7 +84,7 @@ public class PaymentComplianceManagerServiceImpl implements PaymentComplianceMan
     }
 
     @Override
-    public Mono<Void> deleteCompliance(Long paymentComplianceId) {
+    public Mono<Void> deleteCompliance(UUID paymentComplianceId) {
         return repository.deleteById(paymentComplianceId);
     }
 }
