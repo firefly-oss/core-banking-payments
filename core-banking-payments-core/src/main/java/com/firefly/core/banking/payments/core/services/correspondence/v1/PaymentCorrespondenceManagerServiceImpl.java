@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 @Service
 @Transactional
 public class PaymentCorrespondenceManagerServiceImpl implements PaymentCorrespondenceManagerService {
@@ -23,7 +24,7 @@ public class PaymentCorrespondenceManagerServiceImpl implements PaymentCorrespon
     private PaymentCorrespondenceMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderId(Long paymentOrderId, FilterRequest<PaymentCorrespondenceDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentCorrespondenceDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentCorrespondence.class,
@@ -33,7 +34,7 @@ public class PaymentCorrespondenceManagerServiceImpl implements PaymentCorrespon
     }
 
     @Override
-    public Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderIdAndType(Long paymentOrderId, String correspondenceType, FilterRequest<PaymentCorrespondenceDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderIdAndType(UUID paymentOrderId, String correspondenceType, FilterRequest<PaymentCorrespondenceDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentCorrespondence.class,
@@ -43,20 +44,20 @@ public class PaymentCorrespondenceManagerServiceImpl implements PaymentCorrespon
     }
 
     @Override
-    public Mono<PaymentCorrespondenceDTO> createCorrespondence(Long paymentOrderId, PaymentCorrespondenceDTO paymentCorrespondenceDTO) {
+    public Mono<PaymentCorrespondenceDTO> createCorrespondence(UUID paymentOrderId, PaymentCorrespondenceDTO paymentCorrespondenceDTO) {
         paymentCorrespondenceDTO.setPaymentOrderId(paymentOrderId);
         PaymentCorrespondence entity = mapper.toEntity(paymentCorrespondenceDTO);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentCorrespondenceDTO> getCorrespondenceById(Long paymentCorrespondenceId) {
+    public Mono<PaymentCorrespondenceDTO> getCorrespondenceById(UUID paymentCorrespondenceId) {
         return repository.findById(paymentCorrespondenceId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentCorrespondenceDTO> updateCorrespondence(Long paymentOrderId, Long paymentCorrespondenceId, PaymentCorrespondenceDTO paymentCorrespondenceDTO) {
+    public Mono<PaymentCorrespondenceDTO> updateCorrespondence(UUID paymentOrderId, UUID paymentCorrespondenceId, PaymentCorrespondenceDTO paymentCorrespondenceDTO) {
         return repository.findById(paymentCorrespondenceId)
                 .flatMap(existingEntity -> {
                     PaymentCorrespondence updatedEntity = mapper.toEntity(paymentCorrespondenceDTO);
@@ -69,7 +70,7 @@ public class PaymentCorrespondenceManagerServiceImpl implements PaymentCorrespon
     }
 
     @Override
-    public Mono<Void> deleteCorrespondence(Long paymentCorrespondenceId) {
+    public Mono<Void> deleteCorrespondence(UUID paymentCorrespondenceId) {
         return repository.deleteById(paymentCorrespondenceId);
     }
 }

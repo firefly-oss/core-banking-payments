@@ -5,17 +5,18 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.banking.payments.interfaces.dtos.correspondence.v1.PaymentCorrespondenceDTO;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 public interface PaymentCorrespondenceManagerService {
     
-    Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderId(Long paymentOrderId, FilterRequest<PaymentCorrespondenceDTO> filterRequest);
+    Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentCorrespondenceDTO> filterRequest);
     
-    Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderIdAndType(Long paymentOrderId, String correspondenceType, FilterRequest<PaymentCorrespondenceDTO> filterRequest);
+    Mono<PaginationResponse<PaymentCorrespondenceDTO>> getCorrespondenceByPaymentOrderIdAndType(UUID paymentOrderId, String correspondenceType, FilterRequest<PaymentCorrespondenceDTO> filterRequest);
     
-    Mono<PaymentCorrespondenceDTO> createCorrespondence(Long paymentOrderId, PaymentCorrespondenceDTO paymentCorrespondenceDTO);
+    Mono<PaymentCorrespondenceDTO> createCorrespondence(UUID paymentOrderId, PaymentCorrespondenceDTO paymentCorrespondenceDTO);
     
-    Mono<PaymentCorrespondenceDTO> getCorrespondenceById(Long paymentCorrespondenceId);
+    Mono<PaymentCorrespondenceDTO> getCorrespondenceById(UUID paymentCorrespondenceId);
     
-    Mono<PaymentCorrespondenceDTO> updateCorrespondence(Long paymentOrderId, Long paymentCorrespondenceId, PaymentCorrespondenceDTO paymentCorrespondenceDTO);
+    Mono<PaymentCorrespondenceDTO> updateCorrespondence(UUID paymentOrderId, UUID paymentCorrespondenceId, PaymentCorrespondenceDTO paymentCorrespondenceDTO);
     
-    Mono<Void> deleteCorrespondence(Long paymentCorrespondenceId);
+    Mono<Void> deleteCorrespondence(UUID paymentCorrespondenceId);
 }

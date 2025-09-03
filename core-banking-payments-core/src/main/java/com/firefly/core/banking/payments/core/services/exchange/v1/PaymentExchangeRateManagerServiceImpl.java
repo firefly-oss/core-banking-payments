@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -26,7 +27,7 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
     private PaymentExchangeRateMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<PaymentExchangeRateDTO>> getExchangeRatesByPaymentOrderId(Long paymentOrderId, FilterRequest<PaymentExchangeRateDTO> filterRequest) {
+    public Mono<PaginationResponse<PaymentExchangeRateDTO>> getExchangeRatesByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentExchangeRateDTO> filterRequest) {
         return FilterUtils
                 .createFilter(
                         PaymentExchangeRate.class,
@@ -36,20 +37,20 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
     }
 
     @Override
-    public Mono<PaymentExchangeRateDTO> createExchangeRate(Long paymentOrderId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
+    public Mono<PaymentExchangeRateDTO> createExchangeRate(UUID paymentOrderId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
         paymentExchangeRateDTO.setPaymentOrderId(paymentOrderId);
         PaymentExchangeRate entity = mapper.toEntity(paymentExchangeRateDTO);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentExchangeRateDTO> getExchangeRateById(Long paymentExchangeRateId) {
+    public Mono<PaymentExchangeRateDTO> getExchangeRateById(UUID paymentExchangeRateId) {
         return repository.findById(paymentExchangeRateId)
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentExchangeRateDTO> updateExchangeRate(Long paymentOrderId, Long paymentExchangeRateId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
+    public Mono<PaymentExchangeRateDTO> updateExchangeRate(UUID paymentOrderId, UUID paymentExchangeRateId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
         return repository.findById(paymentExchangeRateId)
                 .flatMap(existingEntity -> {
                     PaymentExchangeRate updatedEntity = mapper.toEntity(paymentExchangeRateDTO);
@@ -62,7 +63,7 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
     }
 
     @Override
-    public Mono<Void> deleteExchangeRate(Long paymentExchangeRateId) {
+    public Mono<Void> deleteExchangeRate(UUID paymentExchangeRateId) {
         return repository.deleteById(paymentExchangeRateId);
     }
 
