@@ -9,6 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import jakarta.validation.constraints.*;
+import java.math.BigDecimal;
+import java.util.UUID;
+
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -16,25 +20,53 @@ import lombok.experimental.SuperBuilder;
 public class PaymentProviderDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long paymentProviderId;
+    private UUID paymentProviderId;
 
     @FilterableId
-    private Long paymentOrderId;
+    @NotNull(message = "Payment order ID is required")
+    private UUID paymentOrderId;
 
+    @NotBlank(message = "Provider name is required")
+    @Size(max = 255, message = "Provider name must not exceed 255 characters")
     private String providerName;
+
+    @Size(max = 100, message = "External reference must not exceed 100 characters")
     private String externalReference;
 
     // e.g. "ACTIVE", "INACTIVE", "PENDING", "SUSPENDED"
+    @NotNull(message = "Provider status is required")
     private ProviderStatusEnum status;
 
+    @NotBlank(message = "Provider type is required")
+    @Size(max = 50, message = "Provider type must not exceed 50 characters")
     private String providerType;
+
+    @Pattern(regexp = "^https?://.*", message = "Provider URL must be a valid HTTP/HTTPS URL")
+    @Size(max = 500, message = "Provider URL must not exceed 500 characters")
     private String providerUrl;
+
+    @Size(max = 255, message = "Provider API key must not exceed 255 characters")
     private String providerApiKey;
+
+    @Size(max = 100, message = "Provider username must not exceed 100 characters")
     private String providerUsername;
+
+    @Size(max = 100, message = "Provider account ID must not exceed 100 characters")
     private String providerAccountId;
-    private java.math.BigDecimal providerFee;
+
+    @DecimalMin(value = "0.00", message = "Provider fee must be non-negative")
+    @Digits(integer = 16, fraction = 2, message = "Provider fee must have at most 16 integer digits and 2 decimal places")
+    private BigDecimal providerFee;
+
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Provider fee currency code must be a valid 3-letter ISO code")
     private String providerFeeCurrencyCode;
+
+    @Size(max = 20, message = "Provider response code must not exceed 20 characters")
     private String providerResponseCode;
+
+    @Size(max = 500, message = "Provider response message must not exceed 500 characters")
     private String providerResponseMessage;
+
+    @Size(max = 100, message = "Provider transaction ID must not exceed 100 characters")
     private String providerTransactionId;
 }

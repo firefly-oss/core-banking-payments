@@ -8,9 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -18,18 +19,49 @@ import java.time.LocalDateTime;
 public class PaymentExchangeRateDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long paymentExchangeRateId;
+    private UUID paymentExchangeRateId;
 
     @FilterableId
-    private Long paymentOrderId;
+    @NotNull(message = "Payment order ID is required")
+    private UUID paymentOrderId;
 
+    @NotBlank(message = "Source currency is required")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Source currency must be a valid 3-letter ISO code")
     private String sourceCurrency;
+
+    @NotBlank(message = "Target currency is required")
+    @Pattern(regexp = "^[A-Z]{3}$", message = "Target currency must be a valid 3-letter ISO code")
     private String targetCurrency;
+
+    @NotNull(message = "Exchange rate is required")
+    @DecimalMin(value = "0.0001", message = "Exchange rate must be positive")
+    @Digits(integer = 10, fraction = 6, message = "Exchange rate must have at most 10 integer digits and 6 decimal places")
     private BigDecimal rate;
+
+    @NotNull(message = "Rate date is required")
     private LocalDateTime rateDate;
+
+    @NotBlank(message = "Rate provider is required")
+    @Size(max = 100, message = "Rate provider must not exceed 100 characters")
     private String rateProvider;
+
+    @NotBlank(message = "Rate type is required")
+    @Pattern(regexp = "^(SPOT|FORWARD|FIXED)$",
+             message = "Rate type must be SPOT, FORWARD, or FIXED")
     private String rateType; // 'SPOT', 'FORWARD', 'FIXED'
+
+    @DecimalMin(value = "0.00", message = "Markup percentage must be non-negative")
+    @DecimalMax(value = "100.00", message = "Markup percentage must not exceed 100%")
+    @Digits(integer = 3, fraction = 4, message = "Markup percentage must have at most 3 integer digits and 4 decimal places")
     private BigDecimal markupPercentage;
+
+    @NotNull(message = "Original amount is required")
+    @DecimalMin(value = "0.01", message = "Original amount must be positive")
+    @Digits(integer = 16, fraction = 2, message = "Original amount must have at most 16 integer digits and 2 decimal places")
     private BigDecimal originalAmount;
+
+    @NotNull(message = "Converted amount is required")
+    @DecimalMin(value = "0.01", message = "Converted amount must be positive")
+    @Digits(integer = 16, fraction = 2, message = "Converted amount must have at most 16 integer digits and 2 decimal places")
     private BigDecimal convertedAmount;
 }

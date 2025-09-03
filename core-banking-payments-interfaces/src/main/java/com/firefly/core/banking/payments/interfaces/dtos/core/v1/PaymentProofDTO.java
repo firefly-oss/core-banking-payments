@@ -8,8 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -17,16 +18,21 @@ import java.time.LocalDateTime;
 public class PaymentProofDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long paymentProofId;
+    private UUID paymentProofId;
 
     @FilterableId
-    private Long paymentOrderId;
+    @NotNull(message = "Payment order ID is required")
+    private UUID paymentOrderId;
 
     @FilterableId
-    private Long documentId;
+    @NotNull(message = "Document ID is required")
+    private UUID documentId;
 
     // e.g. "Audit Trail", "Certificate"
+    @NotBlank(message = "Proof type is required")
+    @Size(max = 50, message = "Proof type must not exceed 50 characters")
     private String proofType;
 
+    @NotNull(message = "Proof date is required")
     private LocalDateTime proofDate;
 }

@@ -9,9 +9,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -19,15 +20,25 @@ import java.time.LocalDateTime;
 public class PayrollOrderDTO extends BaseDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long payrollOrderId;
+    private UUID payrollOrderId;
 
     @FilterableId
-    private Long paymentOrderId;
+    @NotNull(message = "Payment order ID is required")
+    private UUID paymentOrderId;
 
+    @NotBlank(message = "Payroll reference is required")
+    @Size(max = 100, message = "Payroll reference must not exceed 100 characters")
     private String payrollReference;
+
+    @NotNull(message = "Payroll date is required")
     private LocalDateTime payrollDate;
+
+    @NotNull(message = "Total amount is required")
+    @DecimalMin(value = "0.01", message = "Total amount must be positive")
+    @Digits(integer = 16, fraction = 2, message = "Total amount must have at most 16 integer digits and 2 decimal places")
     private BigDecimal totalAmount;
 
     // e.g. "Initiated", "Processed", "Failed"
+    @NotNull(message = "Payroll status is required")
     private PayrollStatusEnum payrollStatus;
 }
