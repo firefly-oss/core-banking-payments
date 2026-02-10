@@ -17,8 +17,8 @@
 
 package com.firefly.core.banking.payments.web.controllers.compliance.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.banking.payments.core.services.compliance.v1.PaymentComplianceManagerServiceImpl;
 import com.firefly.core.banking.payments.interfaces.dtos.compliance.v1.PaymentComplianceDTO;
 import io.swagger.v3.oas.annotations.Operation;

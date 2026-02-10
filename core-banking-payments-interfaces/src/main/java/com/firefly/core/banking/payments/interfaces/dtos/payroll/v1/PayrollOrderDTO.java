@@ -19,7 +19,7 @@ package com.firefly.core.banking.payments.interfaces.dtos.payroll.v1;
 
 import com.firefly.core.banking.payments.interfaces.dtos.BaseDTO;
 import com.firefly.core.banking.payments.interfaces.enums.payroll.v1.PayrollStatusEnum;
-import com.firefly.core.utils.annotations.FilterableId;
+import org.fireflyframework.utils.annotations.FilterableId;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

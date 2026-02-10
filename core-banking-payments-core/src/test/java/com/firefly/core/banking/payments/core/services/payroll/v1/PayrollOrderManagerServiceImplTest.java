@@ -17,7 +17,7 @@
 
 package com.firefly.core.banking.payments.core.services.payroll.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterRequest;
 import com.firefly.core.banking.payments.core.mappers.payroll.v1.PayrollOrderMapper;
 import com.firefly.core.banking.payments.interfaces.dtos.payroll.v1.PayrollOrderDTO;
 import com.firefly.core.banking.payments.interfaces.enums.payroll.v1.PayrollStatusEnum;

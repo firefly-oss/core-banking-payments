@@ -17,9 +17,9 @@
 
 package com.firefly.core.banking.payments.core.services.beneficiary.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
-import com.firefly.common.core.filters.FilterUtils;
-import com.firefly.common.core.queries.PaginationResponse;
+import org.fireflyframework.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterUtils;
+import org.fireflyframework.core.queries.PaginationResponse;
 import com.firefly.core.banking.payments.core.mappers.beneficiary.v1.PaymentBeneficiaryMapper;
 import com.firefly.core.banking.payments.interfaces.dtos.beneficiary.v1.PaymentBeneficiaryDTO;
 import com.firefly.core.banking.payments.models.entities.beneficiary.v1.PaymentBeneficiary;

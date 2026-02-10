@@ -17,7 +17,7 @@
 
 package com.firefly.core.banking.payments.core.services.core.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterRequest;
 import com.firefly.core.banking.payments.core.mappers.core.v1.PaymentScheduleMapper;
 import com.firefly.core.banking.payments.interfaces.dtos.core.v1.PaymentScheduleDTO;
 import com.firefly.core.banking.payments.interfaces.enums.payment.v1.PaymentFrequencyEnum;

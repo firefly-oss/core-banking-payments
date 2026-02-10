@@ -17,7 +17,7 @@
 
 package com.firefly.core.banking.payments.core.services.instruction.v1;
 
-import com.firefly.common.core.filters.FilterRequest;
+import org.fireflyframework.core.filters.FilterRequest;
 import com.firefly.core.banking.payments.core.mappers.instruction.v1.PaymentInstructionMapper;
 import com.firefly.core.banking.payments.interfaces.dtos.instruction.v1.PaymentInstructionDTO;
 import com.firefly.core.banking.payments.interfaces.enums.instruction.v1.InstructionTypeEnum;
