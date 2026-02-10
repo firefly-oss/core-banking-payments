@@ -82,7 +82,7 @@ This modular approach ensures maintainability, testability, and enables independ
 
 ### Technical Stack
 
-- **Java 21** - Latest LTS version with virtual threads support
+- **Java 25** - Latest LTS version with virtual threads support
 - **Spring Boot 3.x** - Modern Spring framework with reactive programming
 - **Spring WebFlux** - Reactive web framework for high-performance APIs
 - **Spring Data R2DBC** - Reactive database access with PostgreSQL
@@ -105,7 +105,7 @@ As a core component of the Firefly OpenCore Banking Platform, this service integ
 
 ## Technical Stack
 
-- **Java 21**: Core programming language
+- **Java 25**: Core programming language
 - **Spring Boot**: Application framework
 - **Spring WebFlux**: Reactive web framework
 - **Spring Data R2DBC**: Reactive data access layer
