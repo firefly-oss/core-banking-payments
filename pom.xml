@@ -11,7 +11,6 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.firefly</groupId>
     <artifactId>core-banking-payments</artifactId>
     <packaging>pom</packaging>
     <modules>
@@ -21,8 +20,6 @@
         <module>core-banking-payments-web</module>
         <module>core-banking-payments-sdk</module>
     </modules>
-
-
     <properties>
         <java.version>25</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
