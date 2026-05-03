@@ -30,7 +30,7 @@ A comprehensive payment repository management microservice that serves as the ce
 
 ## Overview
 
-The **Firefly Core Banking Payments Service** is a critical microservice component of the Firefly OpenCore Banking Platform, developed by **Firefly Software Solutions Inc**. This service serves as the central repository manager for all payment-related entities, providing a robust and scalable API for managing payment orders, instructions, schedules, fees, and associated data in modern banking environments.
+The **Firefly Core Banking Payments Service** is a critical microservice component of the Firefly OpenCore Banking Platform, developed by **Firefly Software Foundation**. This service serves as the central repository manager for all payment-related entities, providing a robust and scalable API for managing payment orders, instructions, schedules, fees, and associated data in modern banking environments.
 
 ### Purpose
 
@@ -1020,7 +1020,7 @@ We welcome contributions to the Firefly Core Banking Payments Service! Please fo
 This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
 
 ```
-Copyright 2023 Firefly Software Solutions Inc
+Copyright 2023 Firefly Software Foundation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -1056,6 +1056,6 @@ For support with the Firefly Core Banking Payments Service:
 
 ---
 
-**Firefly Software Solutions Inc** | Building the future of banking technology
+**Firefly Software Foundation** | Building the future of banking technology
 - Website: [getfirefly.io](https://getfirefly.io)
 - GitHub: [github.com/firefly-oss](https://github.com/firefly-oss)
