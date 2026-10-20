@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>core-banking-payments-interfaces</artifactId>
+    <name>core-banking-payments-interfaces</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
