@@ -1041,13 +1041,13 @@ For support with the Firefly Core Banking Payments Service:
 
 ### Documentation
 - **API Documentation**: Available at `/swagger-ui.html` when running the service
-- **Platform Documentation**: [Firefly OpenCore Banking Platform Docs](https://docs.getfirefly.io)
-- **Developer Portal**: [Firefly Developer Portal](https://developers.getfirefly.io)
+- **Platform Documentation**: [Firefly OpenCore Banking Platform Docs](https://docs.fireflysoftware.io)
+- **Developer Portal**: [Firefly Developer Portal](https://developers.fireflysoftware.io)
 
 ### Community & Support
-- **Website**: [getfirefly.io](https://getfirefly.io)
+- **Website**: [fireflysoftware.io](https://fireflysoftware.io)
 - **GitHub Issues**: Report bugs and request features
-- **Support Email**: [support@getfirefly.io](mailto:support@getfirefly.io)
+- **Support Email**: [support@fireflysoftware.io](mailto:support@fireflysoftware.io)
 
 ### Professional Services
 - **Implementation Support**: Professional implementation and integration services
@@ -1057,5 +1057,5 @@ For support with the Firefly Core Banking Payments Service:
 ---
 
 **Firefly Software Foundation** | Building the future of banking technology
-- Website: [getfirefly.io](https://getfirefly.io)
+- Website: [fireflysoftware.io](https://fireflysoftware.io)
 - GitHub: [github.com/firefly-oss](https://github.com/firefly-oss)
