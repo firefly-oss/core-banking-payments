@@ -29,4 +29,6 @@ import java.util.UUID;
 public interface PaymentExchangeRateRepository extends BaseRepository<PaymentExchangeRate, UUID> {
     Flux<PaymentExchangeRate> findByPaymentOrderId(UUID paymentOrderId);
     Mono<PaymentExchangeRate> findFirstByPaymentOrderIdOrderByDateCreatedDesc(UUID paymentOrderId);
+    Mono<PaymentExchangeRate> findFirstBySourceCurrencyAndTargetCurrencyOrderByRateDateDesc(
+            String sourceCurrency, String targetCurrency);
 }

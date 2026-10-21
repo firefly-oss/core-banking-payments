@@ -168,6 +168,7 @@ public class PaymentExchangeRateManagerController {
             @RequestParam String targetCurrency
     ) {
         return service.getCurrentExchangeRate(sourceCurrency, targetCurrency)
-                .map(ResponseEntity::ok);
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

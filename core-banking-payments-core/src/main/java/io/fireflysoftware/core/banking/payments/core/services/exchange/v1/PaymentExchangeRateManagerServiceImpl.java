@@ -30,8 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -86,16 +84,7 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
 
     @Override
     public Mono<PaymentExchangeRateDTO> getCurrentExchangeRate(String sourceCurrency, String targetCurrency) {
-        // In a real implementation, this would call an external exchange rate service
-        // For now, we'll return a mock exchange rate
-        PaymentExchangeRateDTO mockRate = new PaymentExchangeRateDTO();
-        mockRate.setSourceCurrency(sourceCurrency);
-        mockRate.setTargetCurrency(targetCurrency);
-        mockRate.setRate(new BigDecimal("1.1234"));
-        mockRate.setRateDate(LocalDateTime.now());
-        mockRate.setRateProvider("MOCK_PROVIDER");
-        mockRate.setRateType("SPOT");
-        
-        return Mono.just(mockRate);
+        return repository.findFirstBySourceCurrencyAndTargetCurrencyOrderByRateDateDesc(sourceCurrency, targetCurrency)
+                .map(mapper::toDTO);
     }
 }
