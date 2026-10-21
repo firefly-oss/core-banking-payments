@@ -6,6 +6,8 @@ servers:
 - url: http://localhost:18080
   description: Generated server url
 tags:
+- name: DirectDebitMandate
+  description: Stored direct-debit mandate. Not a scheme clearing file.
 - name: Payment Compliance
   description: APIs for managing payment compliance information
 - name: Payment Exchange Rates
@@ -3137,8 +3139,142 @@ paths:
                 $ref: "#/components/schemas/PaymentAuditDTO"
         "404":
           description: Audit record not found
+  /api/v1/direct-debit-mandates:
+    post:
+      tags: [DirectDebitMandate]
+      summary: Store a direct-debit mandate
+      operationId: createDirectDebitMandate
+      parameters:
+      - name: X-Idempotency-Key
+        in: header
+        required: false
+        schema: {type: string}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/DirectDebitMandateDTO"}
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/DirectDebitMandateDTO"}
+  /api/v1/direct-debit-mandates/{mandateId}:
+    get:
+      tags: [DirectDebitMandate]
+      summary: Read a direct-debit mandate
+      operationId: getDirectDebitMandate
+      parameters:
+      - name: mandateId
+        in: path
+        required: true
+        schema: {type: string, format: uuid}
+      - name: X-Idempotency-Key
+        in: header
+        required: false
+        schema: {type: string}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/DirectDebitMandateDTO"}
+  /api/v1/direct-debit-collections:
+    post:
+      tags: [DirectDebitCollection]
+      summary: Store a direct-debit collection
+      operationId: collectDirectDebit
+      parameters:
+      - {name: X-Idempotency-Key, in: header, required: false, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/DirectDebitCollectionDTO"}
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/DirectDebitCollectionDTO"}
+  /api/v1/direct-debit-collections/{collectionId}:
+    get:
+      tags: [DirectDebitCollection]
+      summary: Read a direct-debit collection
+      operationId: getDirectDebitCollection
+      parameters:
+      - {name: collectionId, in: path, required: true, schema: {type: string, format: uuid}}
+      - {name: X-Idempotency-Key, in: header, required: false, schema: {type: string}}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/DirectDebitCollectionDTO"}
+  /api/v1/standing-order-runs:
+    post:
+      tags: [StandingOrderRun]
+      summary: Store a standing-order run
+      operationId: runStandingOrder
+      parameters:
+      - {name: X-Idempotency-Key, in: header, required: false, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: "#/components/schemas/StandingOrderRunDTO"}
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/StandingOrderRunDTO"}
+  /api/v1/standing-order-runs/{runId}:
+    get:
+      tags: [StandingOrderRun]
+      summary: Read a standing-order run
+      operationId: getStandingOrderRun
+      parameters:
+      - {name: runId, in: path, required: true, schema: {type: string, format: uuid}}
+      - {name: X-Idempotency-Key, in: header, required: false, schema: {type: string}}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: {$ref: "#/components/schemas/StandingOrderRunDTO"}
 components:
   schemas:
+    DirectDebitMandateDTO:
+      type: object
+      properties:
+        directDebitMandateId: {type: string, format: uuid}
+        debtorAccountId: {type: string, format: uuid}
+        creditorPartyId: {type: string, format: uuid}
+        status: {type: string, enum: [ACTIVE, SUSPENDED, CANCELLED]}
+        amountLimit: {type: number}
+        currency: {type: string, minLength: 3, maxLength: 3}
+        reference: {type: string}
+    DirectDebitCollectionDTO:
+      type: object
+      properties:
+        directDebitCollectionId: {type: string, format: uuid}
+        directDebitMandateId: {type: string, format: uuid}
+        amount: {type: number}
+        currency: {type: string, minLength: 3, maxLength: 3}
+        valueDate: {type: string, format: date}
+        status: {type: string}
+    StandingOrderRunDTO:
+      type: object
+      properties:
+        standingOrderRunId: {type: string, format: uuid}
+        paymentScheduleId: {type: string, format: uuid}
+        amount: {type: number}
+        currency: {type: string, minLength: 3, maxLength: 3}
+        valueDate: {type: string, format: date}
+        nextExecutionDate: {type: string, format: date}
+        executionCount: {type: integer}
     PaymentScheduleDTO:
       required:
       - amount
