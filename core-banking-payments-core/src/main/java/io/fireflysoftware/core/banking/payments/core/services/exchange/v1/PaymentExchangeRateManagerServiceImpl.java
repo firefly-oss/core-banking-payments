@@ -18,7 +18,7 @@
 package io.fireflysoftware.core.banking.payments.core.services.exchange.v1;
 
 import org.fireflyframework.core.filters.FilterRequest;
-import org.fireflyframework.core.filters.FilterUtils;
+import io.fireflysoftware.core.banking.payments.core.services.PaymentOrderChildFilter;
 import org.fireflyframework.core.queries.PaginationResponse;
 import io.fireflysoftware.core.banking.payments.core.mappers.exchange.v1.PaymentExchangeRateMapper;
 import io.fireflysoftware.core.banking.payments.interfaces.dtos.exchange.v1.PaymentExchangeRateDTO;
@@ -26,6 +26,8 @@ import io.fireflysoftware.core.banking.payments.models.entities.exchange.v1.Paym
 import io.fireflysoftware.core.banking.payments.models.repositories.exchange.v1.PaymentExchangeRateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
@@ -41,36 +43,36 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
     @Autowired
     private PaymentExchangeRateMapper mapper;
 
+    @Autowired
+    private PaymentOrderChildFilter childFilter;
+
     @Override
     public Mono<PaginationResponse<PaymentExchangeRateDTO>> getExchangeRatesByPaymentOrderId(UUID paymentOrderId, FilterRequest<PaymentExchangeRateDTO> filterRequest) {
-        return FilterUtils
-                .createFilter(
-                        PaymentExchangeRate.class,
-                        mapper::toDTO
-                )
-                .filter(filterRequest);
+        return childFilter.filter(paymentOrderId, filterRequest, PaymentExchangeRate.class, mapper::toDTO);
     }
 
     @Override
     public Mono<PaymentExchangeRateDTO> createExchangeRate(UUID paymentOrderId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
         paymentExchangeRateDTO.setPaymentOrderId(paymentOrderId);
         PaymentExchangeRate entity = mapper.toEntity(paymentExchangeRateDTO);
+        entity.setPaymentExchangeRateId(null);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<PaymentExchangeRateDTO> getExchangeRateById(UUID paymentExchangeRateId) {
-        return repository.findById(paymentExchangeRateId)
+    public Mono<PaymentExchangeRateDTO> getExchangeRateById(UUID paymentOrderId, UUID paymentExchangeRateId) {
+        return repository.findByPaymentExchangeRateIdAndPaymentOrderId(paymentExchangeRateId, paymentOrderId)
                 .map(mapper::toDTO);
     }
 
     @Override
     public Mono<PaymentExchangeRateDTO> updateExchangeRate(UUID paymentOrderId, UUID paymentExchangeRateId, PaymentExchangeRateDTO paymentExchangeRateDTO) {
-        return repository.findById(paymentExchangeRateId)
+        return repository.findScopedForUpdate(paymentOrderId, paymentExchangeRateId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Exchange rate not found")))
                 .flatMap(existingEntity -> {
                     PaymentExchangeRate updatedEntity = mapper.toEntity(paymentExchangeRateDTO);
                     updatedEntity.setPaymentExchangeRateId(existingEntity.getPaymentExchangeRateId());
-                    updatedEntity.setPaymentOrderId(paymentOrderId);
+                    updatedEntity.setPaymentOrderId(existingEntity.getPaymentOrderId());
                     updatedEntity.setDateCreated(existingEntity.getDateCreated());
                     return repository.save(updatedEntity);
                 })
@@ -78,8 +80,10 @@ public class PaymentExchangeRateManagerServiceImpl implements PaymentExchangeRat
     }
 
     @Override
-    public Mono<Void> deleteExchangeRate(UUID paymentExchangeRateId) {
-        return repository.deleteById(paymentExchangeRateId);
+    public Mono<Void> deleteExchangeRate(UUID paymentOrderId, UUID paymentExchangeRateId) {
+        return repository.findScopedForUpdate(paymentOrderId, paymentExchangeRateId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Exchange rate not found")))
+                .flatMap(repository::delete);
     }
 
     @Override

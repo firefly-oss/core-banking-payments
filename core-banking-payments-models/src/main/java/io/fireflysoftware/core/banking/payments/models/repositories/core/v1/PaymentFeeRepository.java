@@ -19,7 +19,12 @@ package io.fireflysoftware.core.banking.payments.models.repositories.core.v1;
 
 import io.fireflysoftware.core.banking.payments.models.entities.core.v1.PaymentFee;
 import io.fireflysoftware.core.banking.payments.models.repositories.BaseRepository;
+import org.springframework.data.r2dbc.repository.Query;
+import org.springframework.data.repository.query.Param;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 public interface PaymentFeeRepository extends BaseRepository<PaymentFee, UUID> {
+    @Query("SELECT * FROM payment_fee WHERE payment_order_id=:parent AND payment_fee_id=:id FOR UPDATE")
+    Mono<PaymentFee> findScopedForUpdate(@Param("parent") UUID paymentOrderId, @Param("id") UUID paymentFeeId);
 }

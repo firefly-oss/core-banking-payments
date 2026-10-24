@@ -44,6 +44,13 @@ public class PaymentExchangeRateManagerController {
     @Autowired
     private PaymentExchangeRateManagerServiceImpl service;
 
+    @ModelAttribute("filterRequest")
+    public FilterRequest<PaymentExchangeRateDTO> exchangeRateFilterRequest() {
+        FilterRequest<PaymentExchangeRateDTO> request = new FilterRequest<>();
+        request.setFilters(new PaymentExchangeRateDTO());
+        return request;
+    }
+
     @Operation(
             summary = "Retrieve Exchange Rates by Payment Order ID",
             description = "Retrieves a paginated list of exchange rates for a specific payment order."
@@ -59,7 +66,7 @@ public class PaymentExchangeRateManagerController {
             @Parameter(description = "Payment Order ID", required = true)
             @PathVariable UUID paymentOrderId,
             @ParameterObject
-            @ModelAttribute FilterRequest<PaymentExchangeRateDTO> filterRequest
+            @ModelAttribute("filterRequest") FilterRequest<PaymentExchangeRateDTO> filterRequest
     ) {
         return service.getExchangeRatesByPaymentOrderId(paymentOrderId, filterRequest)
                 .map(ResponseEntity::ok)
@@ -103,7 +110,7 @@ public class PaymentExchangeRateManagerController {
             @Parameter(description = "Payment Exchange Rate ID", required = true)
             @PathVariable UUID paymentExchangeRateId
     ) {
-        return service.getExchangeRateById(paymentExchangeRateId)
+        return service.getExchangeRateById(paymentOrderId, paymentExchangeRateId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
@@ -146,7 +153,7 @@ public class PaymentExchangeRateManagerController {
             @Parameter(description = "Payment Exchange Rate ID", required = true)
             @PathVariable UUID paymentExchangeRateId
     ) {
-        return service.deleteExchangeRate(paymentExchangeRateId)
+        return service.deleteExchangeRate(paymentOrderId, paymentExchangeRateId)
                 .then(Mono.just(ResponseEntity.noContent().build()));
     }
 

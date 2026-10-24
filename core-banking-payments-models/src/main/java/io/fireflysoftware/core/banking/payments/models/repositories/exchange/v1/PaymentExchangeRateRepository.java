@@ -20,6 +20,8 @@ package io.fireflysoftware.core.banking.payments.models.repositories.exchange.v1
 import io.fireflysoftware.core.banking.payments.models.entities.exchange.v1.PaymentExchangeRate;
 import io.fireflysoftware.core.banking.payments.models.repositories.BaseRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.r2dbc.repository.Query;
+import org.springframework.data.repository.query.Param;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,6 +29,11 @@ import java.util.UUID;
 
 @Repository
 public interface PaymentExchangeRateRepository extends BaseRepository<PaymentExchangeRate, UUID> {
+    Mono<PaymentExchangeRate> findByPaymentExchangeRateIdAndPaymentOrderId(UUID paymentExchangeRateId, UUID paymentOrderId);
+
+    @Query("SELECT * FROM payment_exchange_rate WHERE payment_order_id=:parent AND payment_exchange_rate_id=:id FOR UPDATE")
+    Mono<PaymentExchangeRate> findScopedForUpdate(@Param("parent") UUID paymentOrderId, @Param("id") UUID paymentExchangeRateId);
+
     Flux<PaymentExchangeRate> findByPaymentOrderId(UUID paymentOrderId);
     Mono<PaymentExchangeRate> findFirstByPaymentOrderIdOrderByDateCreatedDesc(UUID paymentOrderId);
     Mono<PaymentExchangeRate> findFirstBySourceCurrencyAndTargetCurrencyOrderByRateDateDesc(

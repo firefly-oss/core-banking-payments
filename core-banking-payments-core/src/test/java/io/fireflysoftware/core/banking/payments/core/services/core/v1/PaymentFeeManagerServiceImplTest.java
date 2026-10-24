@@ -30,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -135,7 +136,7 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void updatePaymentFee_Success() {
         // Arrange
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
+        when(repository.findScopedForUpdate(paymentOrderId, paymentFeeId)).thenReturn(Mono.just(paymentFee));
         when(mapper.toEntity(any(PaymentFeeDTO.class))).thenReturn(paymentFee);
         when(repository.save(any(PaymentFee.class))).thenReturn(Mono.just(paymentFee));
         when(mapper.toDTO(any(PaymentFee.class))).thenReturn(paymentFeeDTO);
@@ -145,7 +146,7 @@ public class PaymentFeeManagerServiceImplTest {
                 .expectNext(paymentFeeDTO)
                 .verifyComplete();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(paymentOrderId, paymentFeeId);
         verify(mapper).toEntity(paymentFeeDTO);
         verify(repository).save(paymentFee);
         verify(mapper).toDTO(paymentFee);
@@ -154,13 +155,15 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void updatePaymentFee_NotFound() {
         // Arrange
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.empty());
+        when(repository.findScopedForUpdate(paymentOrderId, paymentFeeId)).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(service.updatePaymentFee(paymentOrderId, paymentFeeId, paymentFeeDTO))
-                .verifyComplete(); // Should complete without emitting any value
+                .expectErrorMatches(error -> error instanceof ResponseStatusException response
+                        && response.getStatusCode().value() == 404)
+                .verify();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(paymentOrderId, paymentFeeId);
         verify(mapper, never()).toEntity(any(PaymentFeeDTO.class));
         verify(repository, never()).save(any(PaymentFee.class));
     }
@@ -169,13 +172,15 @@ public class PaymentFeeManagerServiceImplTest {
     void updatePaymentFee_WrongPaymentOrderId() {
         // Arrange
         UUID wrongPaymentOrderId = UUID.randomUUID();
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
+        when(repository.findScopedForUpdate(wrongPaymentOrderId, paymentFeeId)).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(service.updatePaymentFee(wrongPaymentOrderId, paymentFeeId, paymentFeeDTO))
-                .verifyComplete(); // Should complete without emitting any value
+                .expectErrorMatches(error -> error instanceof ResponseStatusException response
+                        && response.getStatusCode().value() == 404)
+                .verify();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(wrongPaymentOrderId, paymentFeeId);
         verify(mapper, never()).toEntity(any(PaymentFeeDTO.class));
         verify(repository, never()).save(any(PaymentFee.class));
     }
@@ -183,27 +188,29 @@ public class PaymentFeeManagerServiceImplTest {
     @Test
     void deletePaymentFee_Success() {
         // Arrange
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
+        when(repository.findScopedForUpdate(paymentOrderId, paymentFeeId)).thenReturn(Mono.just(paymentFee));
         when(repository.delete(paymentFee)).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(service.deletePaymentFee(paymentOrderId, paymentFeeId))
                 .verifyComplete();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(paymentOrderId, paymentFeeId);
         verify(repository).delete(paymentFee);
     }
 
     @Test
     void deletePaymentFee_NotFound() {
         // Arrange
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.empty());
+        when(repository.findScopedForUpdate(paymentOrderId, paymentFeeId)).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(service.deletePaymentFee(paymentOrderId, paymentFeeId))
-                .verifyComplete(); // Should complete without emitting any value
+                .expectErrorMatches(error -> error instanceof ResponseStatusException response
+                        && response.getStatusCode().value() == 404)
+                .verify();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(paymentOrderId, paymentFeeId);
         verify(repository, never()).delete(any(PaymentFee.class));
     }
 
@@ -211,13 +218,15 @@ public class PaymentFeeManagerServiceImplTest {
     void deletePaymentFee_WrongPaymentOrderId() {
         // Arrange
         UUID wrongPaymentOrderId = UUID.randomUUID();
-        when(repository.findById(paymentFeeId)).thenReturn(Mono.just(paymentFee));
+        when(repository.findScopedForUpdate(wrongPaymentOrderId, paymentFeeId)).thenReturn(Mono.empty());
 
         // Act & Assert
         StepVerifier.create(service.deletePaymentFee(wrongPaymentOrderId, paymentFeeId))
-                .verifyComplete(); // Should complete without emitting any value
+                .expectErrorMatches(error -> error instanceof ResponseStatusException response
+                        && response.getStatusCode().value() == 404)
+                .verify();
 
-        verify(repository).findById(paymentFeeId);
+        verify(repository).findScopedForUpdate(wrongPaymentOrderId, paymentFeeId);
         verify(repository, never()).delete(any(PaymentFee.class));
     }
 

@@ -18,7 +18,7 @@
 package io.fireflysoftware.core.banking.payments.core.services.core.v1;
 
 import org.fireflyframework.core.filters.FilterRequest;
-import org.fireflyframework.core.filters.FilterUtils;
+import io.fireflysoftware.core.banking.payments.core.services.PaymentOrderChildFilter;
 import org.fireflyframework.core.queries.PaginationResponse;
 import io.fireflysoftware.core.banking.payments.core.mappers.core.v1.PaymentFeeMapper;
 import io.fireflysoftware.core.banking.payments.interfaces.dtos.core.v1.PaymentFeeDTO;
@@ -26,6 +26,8 @@ import io.fireflysoftware.core.banking.payments.models.entities.core.v1.PaymentF
 import io.fireflysoftware.core.banking.payments.models.repositories.core.v1.PaymentFeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
@@ -40,20 +42,19 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
     @Autowired
     private PaymentFeeMapper mapper;
 
+    @Autowired
+    private PaymentOrderChildFilter childFilter;
+
     @Override
     public Mono<PaginationResponse<PaymentFeeDTO>> getAllPaymentFees(UUID paymentOrderId, FilterRequest<PaymentFeeDTO> filterRequest) {
-        return FilterUtils
-                .createFilter(
-                        PaymentFee.class,
-                        mapper::toDTO
-                )
-                .filter(filterRequest);
+        return childFilter.filter(paymentOrderId, filterRequest, PaymentFee.class, mapper::toDTO);
     }
 
     @Override
     public Mono<PaymentFeeDTO> createPaymentFee(UUID paymentOrderId, PaymentFeeDTO paymentFeeDTO) {
         paymentFeeDTO.setPaymentOrderId(paymentOrderId);
         PaymentFee entity = mapper.toEntity(paymentFeeDTO);
+        entity.setPaymentFeeId(null);
         return repository.save(entity).map(mapper::toDTO);
     }
 
@@ -66,12 +67,14 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
 
     @Override
     public Mono<PaymentFeeDTO> updatePaymentFee(UUID paymentOrderId, UUID paymentFeeId, PaymentFeeDTO paymentFeeDTO) {
-        return repository.findById(paymentFeeId)
-                .filter(paymentFee -> paymentFee.getPaymentOrderId().equals(paymentOrderId))
+        return repository.findScopedForUpdate(paymentOrderId, paymentFeeId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Payment fee not found")))
                 .flatMap(existingPaymentFee -> {
                     PaymentFee updatedEntity = mapper.toEntity(paymentFeeDTO);
-                    updatedEntity.setPaymentFeeId(paymentFeeId);
-                    updatedEntity.setPaymentOrderId(paymentOrderId);
+                    updatedEntity.setPaymentFeeId(existingPaymentFee.getPaymentFeeId());
+                    updatedEntity.setPaymentOrderId(existingPaymentFee.getPaymentOrderId());
+                    updatedEntity.setDateCreated(existingPaymentFee.getDateCreated());
                     return repository.save(updatedEntity);
                 })
                 .map(mapper::toDTO);
@@ -79,8 +82,9 @@ public class PaymentFeeManagerServiceImpl implements PaymentFeeManagerService {
 
     @Override
     public Mono<Void> deletePaymentFee(UUID paymentOrderId, UUID paymentFeeId) {
-        return repository.findById(paymentFeeId)
-                .filter(paymentFee -> paymentFee.getPaymentOrderId().equals(paymentOrderId))
+        return repository.findScopedForUpdate(paymentOrderId, paymentFeeId)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Payment fee not found")))
                 .flatMap(repository::delete);
     }
 }

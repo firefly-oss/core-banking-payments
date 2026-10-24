@@ -29,11 +29,11 @@ public interface PaymentExchangeRateManagerService {
     
     Mono<PaymentExchangeRateDTO> createExchangeRate(UUID paymentOrderId, PaymentExchangeRateDTO paymentExchangeRateDTO);
     
-    Mono<PaymentExchangeRateDTO> getExchangeRateById(UUID paymentExchangeRateId);
+    Mono<PaymentExchangeRateDTO> getExchangeRateById(UUID paymentOrderId, UUID paymentExchangeRateId);
     
     Mono<PaymentExchangeRateDTO> updateExchangeRate(UUID paymentOrderId, UUID paymentExchangeRateId, PaymentExchangeRateDTO paymentExchangeRateDTO);
     
-    Mono<Void> deleteExchangeRate(UUID paymentExchangeRateId);
+    Mono<Void> deleteExchangeRate(UUID paymentOrderId, UUID paymentExchangeRateId);
     
     Mono<PaymentExchangeRateDTO> getCurrentExchangeRate(String sourceCurrency, String targetCurrency);
 }

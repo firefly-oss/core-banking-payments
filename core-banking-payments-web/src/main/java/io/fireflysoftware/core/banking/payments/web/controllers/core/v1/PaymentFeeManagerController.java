@@ -46,6 +46,13 @@ public class PaymentFeeManagerController {
     @Autowired
     private PaymentFeeManagerServiceImpl service;
 
+    @ModelAttribute("filterRequest")
+    public FilterRequest<PaymentFeeDTO> paymentFeeFilterRequest() {
+        FilterRequest<PaymentFeeDTO> request = new FilterRequest<>();
+        request.setFilters(new PaymentFeeDTO());
+        return request;
+    }
+
     @Operation(
             summary = "Retrieve Payment Fees",
             description = "Retrieves a paginated list of payment fees for a specific payment order, with optional filtering."
@@ -62,7 +69,7 @@ public class PaymentFeeManagerController {
             @PathVariable UUID paymentOrderId,
 
             @ParameterObject
-            @ModelAttribute FilterRequest<PaymentFeeDTO> filterRequest
+            @ModelAttribute("filterRequest") FilterRequest<PaymentFeeDTO> filterRequest
     ) {
         return service.getAllPaymentFees(paymentOrderId, filterRequest)
                 .map(ResponseEntity::ok)

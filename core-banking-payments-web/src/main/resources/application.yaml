@@ -67,6 +67,20 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
+managed-payments:
+  security:
+    issuer: ${MANAGED_PAYMENTS_SECURITY_ISSUER:}
+    audience: ${MANAGED_PAYMENTS_SECURITY_AUDIENCE:}
+    jwk-set-uri: ${MANAGED_PAYMENTS_SECURITY_JWK_SET_URI:}
+  delegation:
+    mode: ${MANAGED_PAYMENTS_DELEGATION_MODE:unconfigured}
+  peers:
+    ledger:
+      base-url: ${MANAGED_PAYMENTS_PEERS_LEDGER_BASE_URL:}
+      audience: ${MANAGED_PAYMENTS_PEERS_LEDGER_AUDIENCE:}
+  allow-loopback-http: ${MANAGED_PAYMENTS_ALLOW_LOOPBACK_HTTP:false}
+  claim-lease-seconds: ${MANAGED_PAYMENTS_CLAIM_LEASE_SECONDS:30}
+
 payment:
   sample:
     base-url: "https://sample.url"
