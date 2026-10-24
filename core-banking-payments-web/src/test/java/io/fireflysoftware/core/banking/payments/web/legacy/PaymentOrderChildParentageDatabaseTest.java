@@ -21,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.dockerjava.api.model.*;
-import io.fireflysoftware.core.banking.payments.core.services.core.v1.PaymentFeeManagerService;
-import io.fireflysoftware.core.banking.payments.core.services.exchange.v1.PaymentExchangeRateManagerService;
-import io.fireflysoftware.core.banking.payments.interfaces.dtos.core.v1.PaymentFeeDTO;
-import io.fireflysoftware.core.banking.payments.interfaces.dtos.exchange.v1.PaymentExchangeRateDTO;
+import io.fireflysoftware.core.banking.payments.core.services.core.PaymentFeeManagerService;
+import io.fireflysoftware.core.banking.payments.core.services.exchange.PaymentExchangeRateManagerService;
+import io.fireflysoftware.core.banking.payments.interfaces.dtos.core.PaymentFeeDTO;
+import io.fireflysoftware.core.banking.payments.interfaces.dtos.exchange.PaymentExchangeRateDTO;
 import io.fireflysoftware.core.banking.payments.web.PaymentsApplication;
 import java.math.BigDecimal;
 import java.net.*;
